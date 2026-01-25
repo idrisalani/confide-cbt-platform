@@ -1,8 +1,8 @@
 /**
- * Confide CBT Platform - Complete Express Server
+ * Confide CBT Platform - Minimal Express Server
  * Features: Authentication, Assessments, Dashboard, PDFs, Completion Page
  * NEW: Auto-email certificate and report PDFs to instructor
- * Version: Production Ready with Instructor Reports
+ * Version: Production Ready with Minimal Session Logic
  */
 
 import express from 'express';
@@ -13,6 +13,7 @@ import nodemailer from 'nodemailer';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import { mkdirSync } from 'fs';
 import dotenv from 'dotenv';
 import PDFDocument from 'pdfkit';
 
@@ -29,6 +30,17 @@ const INSTRUCTOR_EMAIL = process.env.INSTRUCTOR_EMAIL || 'idris.alamutu@outlook.
 const GMAIL_USER = process.env.GMAIL_USER;
 const GMAIL_PASSWORD = process.env.GMAIL_PASSWORD;
 const DATABASE_PATH = process.env.DATABASE_PATH || './data/cbt_platform.db';
+
+// ✅ Ensure data directory exists
+try {
+  mkdirSync('./data', { recursive: true });
+  console.log('✅ Data directory ensured');
+} catch (err) {
+  if (err.code !== 'EEXIST') {
+    console.error('❌ Failed to create data directory:', err);
+    process.exit(1);
+  }
+}
 
 // Database setup
 const db = new sqlite3.Database(DATABASE_PATH, (err) => {
@@ -465,34 +477,13 @@ app.post('/api/login', async (req, res) => {
       req.session.user_id = user.id;
       req.session.full_name = user.full_name;
       req.session.user_email = user.email;
-      req.session.completed_courses = [];
-      req.session.current_course = 'html';
 
-      const today = new Date().toISOString().split('T')[0];
-      db.all(
-        'SELECT DISTINCT course FROM assessments WHERE user_id = ? AND DATE(completed_at) = ?',
-        [user.id, today],
-        (err, courses) => {
-          if (courses && courses.length > 0) {
-            req.session.completed_courses = courses.map(c => c.course);
-            if (req.session.completed_courses.length === 3) {
-              req.session.current_course = 'complete';
-            } else if (req.session.completed_courses.length === 2) {
-              req.session.current_course = 'javascript';
-            } else if (req.session.completed_courses.length === 1) {
-              const completed = req.session.completed_courses[0];
-              req.session.current_course = completed === 'html' ? 'css' : 'javascript';
-            }
-          }
-
-          req.session.save((err) => {
-            if (err) {
-              return res.status(500).json({ error: 'Session error' });
-            }
-            res.json({ success: true, redirect: '/assessment-session' });
-          });
+      req.session.save((err) => {
+        if (err) {
+          return res.status(500).json({ error: 'Session error' });
         }
-      );
+        res.json({ success: true, redirect: '/assessment-session' });
+      });
     } catch (error) {
       console.error('Login error:', error);
       res.status(500).json({ error: 'Server error' });
@@ -516,25 +507,6 @@ app.get('/assessment-session', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/assessment-session.html'));
 });
 
-app.get('/api/session-status', (req, res) => {
-  try {
-    if (!req.session.user_id) {
-      return res.status(401).json({ error: 'Not authenticated' });
-    }
-
-    res.json({
-      user_id: req.session.user_id,
-      full_name: req.session.full_name,
-      completed_courses: req.session.completed_courses || [],
-      current_course: req.session.current_course || 'html',
-      is_complete: (req.session.completed_courses || []).length === 3
-    });
-  } catch (error) {
-    console.error('Session status error:', error);
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
 // ═══════════════════════════════════════════════════════════════════════════
 // ASSESSMENT ROUTES
 // ═══════════════════════════════════════════════════════════════════════════
@@ -542,6 +514,11 @@ app.get('/api/session-status', (req, res) => {
 app.get('/assessment/:course', (req, res) => {
   if (!req.session.user_id) return res.redirect('/login');
   res.sendFile(path.join(__dirname, '../frontend/assessment.html'));
+});
+
+// Assessment Results Page
+app.get('/results', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'assessment-results.html'));
 });
 
 app.get('/api/questions/:course', (req, res) => {
@@ -560,83 +537,38 @@ app.get('/api/questions/:course', (req, res) => {
   }
 });
 
+// ✅ MINIMAL: Just save to database and respond with redirect
 app.post('/api/submit-assessment/:course', (req, res) => {
-  try {
-    if (!req.session.user_id) {
-      return res.status(401).json({ success: false, error: 'Not authenticated' });
-    }
-
-    const userId = req.session.user_id;
-    const course = req.params.course;
-    const { score, correct, total, time_remaining } = req.body;
-
-    if (score === undefined || correct === undefined || total === undefined) {
-      return res.status(400).json({ success: false, error: 'Invalid submission data' });
-    }
-
-    db.run(
-      'INSERT INTO assessments (user_id, course, score, correct_answers, total_questions, time_remaining) VALUES (?, ?, ?, ?, ?, ?)',
-      [userId, course, score, correct, total, time_remaining],
-      function(err) {
-        if (err) {
-          console.error('Assessment save error:', err);
-          return res.status(500).json({ success: false, error: 'Failed to save assessment' });
-        }
-
-        if (!req.session.completed_courses.includes(course)) {
-          req.session.completed_courses.push(course);
-        }
-
-        if (req.session.completed_courses.length === 3) {
-          req.session.current_course = 'complete';
-        } else if (req.session.completed_courses.length === 1) {
-          req.session.current_course = 'css';
-        } else if (req.session.completed_courses.length === 2) {
-          req.session.current_course = 'javascript';
-        }
-
-        req.session.save((err) => {
-          if (err) {
-            console.error('Session save error:', err);
-          }
-
-          // ✅ ALL COURSES COMPLETE - SEND EMAIL & REDIRECT
-          if (req.session.completed_courses.length === 3) {
-            db.all(
-              'SELECT course, score, correct_answers, total_questions FROM assessments WHERE user_id = ?',
-              [userId],
-              async (err, assessments) => {
-                if (assessments && assessments.length === 3) {
-                  // Send email to instructor with PDFs
-                  await sendInstructorEmail(
-                    req.session.full_name,
-                    req.session.user_email,
-                    assessments
-                  );
-                }
-
-                res.json({
-                  success: true,
-                  all_complete: true,
-                  redirect: '/completion'
-                });
-              }
-            );
-          } else {
-            // More courses to complete
-            res.json({
-              success: true,
-              all_complete: false,
-              next_course: req.session.current_course
-            });
-          }
-        });
-      }
-    );
-  } catch (error) {
-    console.error('Submit assessment error:', error);
-    res.status(500).json({ success: false, error: 'Server error' });
+  console.log('SUBMIT RECEIVED FOR:', req.params.course);
+  
+  if (!req.session.user_id) {
+    return res.status(401).json({ error: 'Not authenticated' });
   }
+
+  const userId = req.session.user_id;
+  const course = req.params.course;
+  const { score, correct, total, time_remaining } = req.body;
+
+  console.log(`SAVING: user=${userId}, course=${course}, score=${score}`);
+
+  // SAVE TO DATABASE
+  db.run(
+    'INSERT INTO assessments (user_id, course, score, correct_answers, total_questions, time_remaining) VALUES (?, ?, ?, ?, ?, ?)',
+    [userId, course, score, correct, total, time_remaining],
+    (err) => {
+      if (err) {
+        console.error('DATABASE ERROR:', err);
+        return res.status(500).json({ error: 'Save failed' });
+      }
+      
+      console.log('SAVED SUCCESSFULLY!');
+      
+      res.json({
+        success: true,
+        redirect: `/results?course=${course}&score=${score}&correct=${correct}&total=${total}&passed=${score >= 60}`
+      });
+    }
+  );
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -738,12 +670,14 @@ app.listen(PORT, () => {
 ║                                                                          ║
 ║  📚 FEATURES:                                                            ║
 ║     • Sequential Assessment System (HTML → CSS → JavaScript)             ║
-║     • Green/Red Button Interface for Course Progression                  ║
-║     • Dashboard with Assessment History & Real-time Scores               ║
+║     • Professional Results Page with Progress Tracking                   ║
+║     • Assessment Session with Real-time Data from Database               ║
+║     • Dashboard with Assessment History & Scores                         ║
 ║     • Professional Completion Page with Certificate & Report             ║
-║     • Auto-Email PDFs to Instructor on Completion ✨ NEW!                ║
+║     • Auto-Email PDFs to Instructor on Completion ✨                     ║
 ║     • Session Management & User Authentication                           ║
 ║     • SQLite Database with Automatic Table Creation                      ║
+║     • ✅ MINIMAL, FAST, STABLE IMPLEMENTATION                            ║
 ║                                                                          ║
 ║  📧 INSTRUCTOR EMAIL:                                                   ║
 ║     ${INSTRUCTOR_EMAIL}                                                  ║

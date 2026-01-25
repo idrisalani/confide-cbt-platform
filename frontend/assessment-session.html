@@ -214,6 +214,9 @@
             font-size: 18px;
             font-weight: 600;
             margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 10px 15px;
+            border-radius: 5px;
         }
 
         .course-status {
@@ -366,10 +369,10 @@
         <div class="error-message" id="errorMessage"></div>
 
         <div class="time-allocation-info">
-            <h4>📊 Time Allocation (40 Minutes Total)</h4>
-            <p>• HTML Fundamentals: <strong>14 minutes</strong></p>
-            <p>• CSS Styling: <strong>13 minutes</strong></p>
-            <p>• JavaScript Essentials: <strong>13 minutes</strong></p>
+            <h4>📊 Time Allocation (30 Minutes Total)</h4>
+            <p>• HTML Fundamentals: <strong>10 minutes</strong></p>
+            <p>• CSS Styling: <strong>10 minutes</strong></p>
+            <p>• JavaScript Essentials: <strong>10 minutes</strong></p>
         </div>
 
         <div class="progress-section">
@@ -394,18 +397,20 @@
             <p style="color: #666; margin-bottom: 20px;">
                 You have successfully completed all three assessments.
             </p>
-            <a href="/dashboard" class="completion-button">
-                📊 View Dashboard
+            <a href="/completion" class="completion-button">
+                📊 View Final Results & Certificate
             </a>
         </div>
     </div>
 
     <script>
         const courses = [
-            { name: 'HTML', id: 'html', questions: 34, minutes: 14 },
-            { name: 'CSS', id: 'css', questions: 34, minutes: 13 },
-            { name: 'JavaScript', id: 'javascript', questions: 34, minutes: 13 }
+            { name: 'HTML', id: 'html', questions: 34, minutes: 10 },
+            { name: 'CSS', id: 'css', questions: 34, minutes: 10 },
+            { name: 'JavaScript', id: 'javascript', questions: 34, minutes: 10 }
         ];
+
+        let assessmentScores = {};
 
         async function initializeSession() {
             try {
@@ -417,25 +422,55 @@
                     day: 'numeric'
                 });
 
-                // Fetch session status
-                const response = await fetch('/api/session-status');
-                if (!response.ok) {
-                    throw new Error('Failed to load session');
+                console.log('📡 Fetching assessment history from /api/assessment-history...');
+
+                // ✅ ONLY fetch from database (source of truth!)
+                const historyResponse = await fetch('/api/assessment-history');
+                if (!historyResponse.ok) {
+                    throw new Error('Failed to load assessment history');
                 }
 
-                const session = await response.json();
-                console.log('Session data:', session);
+                const history = await historyResponse.json();
+                console.log('✅ Assessment history received:', history);
+                console.log('   - Completed courses count:', history.courses_count);
+                console.log('   - Average score:', history.average_score);
 
-                // Update UI based on session status
-                updateProgressBar(session.completed_courses);
-                renderCourses(session);
+                // Map completed courses from database
+                const completedCourses = history.completed_courses ? history.completed_courses.map(c => c.course) : [];
+                console.log('   - Completed courses:', completedCourses);
+
+                // Map scores from database
+                assessmentScores = {};
+                if (history.completed_courses && history.completed_courses.length > 0) {
+                    history.completed_courses.forEach(assessment => {
+                        assessmentScores[assessment.course] = assessment.score;
+                        console.log(`   - ${assessment.course}: ${assessment.score}%`);
+                    });
+                }
+
+                // Determine current course based on database state
+                let currentCourse = 'html';
+                if (completedCourses.includes('html') && completedCourses.includes('css')) {
+                    currentCourse = 'javascript';
+                } else if (completedCourses.includes('html')) {
+                    currentCourse = 'css';
+                }
+
+                // Update UI
+                updateProgressBar(completedCourses);
+                renderCourses({
+                    completed_courses: completedCourses,
+                    current_course: currentCourse,
+                    is_complete: completedCourses.length === 3
+                });
 
                 // Check if all completed
-                if (session.is_complete) {
+                if (completedCourses.length === 3) {
+                    console.log('🎉 All courses complete!');
                     document.getElementById('completionSection').classList.add('show');
                 }
             } catch (error) {
-                console.error('Session error:', error);
+                console.error('❌ Session error:', error);
                 showError('Failed to load session. Please refresh the page.');
             }
         }
@@ -449,9 +484,9 @@
             document.getElementById('progressText').textContent = `${completed} of ${total} completed`;
         }
 
-        function renderCourses(session) {
-            const completedCourses = session.completed_courses || [];
-            const currentCourse = session.current_course || 'html';
+        function renderCourses(history) {
+            const completedCourses = history.completed_courses || [];
+            const currentCourse = history.current_course || 'html';
             const coursesGrid = document.getElementById('coursesGrid');
 
             coursesGrid.innerHTML = '';
@@ -485,8 +520,10 @@
                     <div class="course-time">${course.minutes} Minutes</div>
                 `;
 
+                // ✅ Display score for completed courses
                 if (isCompleted) {
-                    courseHTML += `<div class="course-score" id="score-${course.id}">Score: --</div>`;
+                    const score = assessmentScores[course.id] || 0;
+                    courseHTML += `<div class="course-score">Score: ${score}%</div>`;
                 }
 
                 courseHTML += `<div class="course-status ${isLocked ? 'status-locked' : (isCompleted ? 'status-completed' : 'status-available')}">${statusText}</div>`;
@@ -508,11 +545,14 @@
             errorDiv.classList.add('show');
         }
 
-        // Initialize on page load
-        window.addEventListener('load', initializeSession);
+        // ✅ Load on page load
+        window.addEventListener('load', () => {
+            console.log('🎯 Assessment session page loaded, fetching data from database...');
+            initializeSession();
+        });
 
-        // Refresh every 5 seconds
-        setInterval(initializeSession, 5000);
+        // ✅ Refresh every 2 seconds to stay in sync
+        setInterval(initializeSession, 2000);
     </script>
 </body>
 </html>
