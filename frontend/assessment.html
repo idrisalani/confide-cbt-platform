@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -82,8 +83,15 @@
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         .timer-label {
@@ -339,6 +347,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="main-content">
@@ -392,6 +401,7 @@
         let timeRemaining = 0;
         let timerInterval = null;
         let course = '';
+        let startTime; // Track when assessment starts - FIXED: Now declared globally
 
         // Time allocation per course in SECONDS - ALL 10 MINUTES
         const courseTimeAllocation = {
@@ -422,12 +432,12 @@
         async function loadQuestions() {
             try {
                 course = getCourseFromUrl();
-                
+
                 const response = await fetch(`/api/questions/${course}`);
                 if (!response.ok) {
                     throw new Error(`Failed to load questions: ${response.status}`);
                 }
-                
+
                 questions = await response.json();
                 console.log(`Loaded ${questions.length} questions for ${course}`);
 
@@ -438,6 +448,9 @@
 
                 // Initialize timer with COURSE-SPECIFIC 10-minute time
                 timeRemaining = courseTimeAllocation[course] || 10 * 60;
+
+                // FIXED: Set start time when assessment loads
+                startTime = Date.now();
 
                 // Update UI
                 updateCourseTitle();
@@ -456,16 +469,16 @@
             const courseUpper = course.charAt(0).toUpperCase() + course.slice(1);
             document.getElementById('courseTitle').textContent = title;
             document.getElementById('timerLabel').textContent = `Time Remaining (${courseUpper})`;
-            
+
             // Show course allocation in sidebar
             document.getElementById('courseAllocation').textContent = `${courseUpper}: 10 minutes`;
         }
 
         function renderQuestion() {
             const question = questions[currentQuestionIndex];
-            
+
             // Update question info
-            document.getElementById('questionNumber').textContent = 
+            document.getElementById('questionNumber').textContent =
                 `Question ${currentQuestionIndex + 1} of ${questions.length}`;
             document.getElementById('questionText').textContent = question.question;
 
@@ -477,13 +490,13 @@
             question.options.forEach((option, index) => {
                 const optionDiv = document.createElement('label');
                 optionDiv.className = 'option';
-                
+
                 const input = document.createElement('input');
                 input.type = 'radio';
                 input.name = 'answer';
                 input.value = letters[index];
                 input.checked = answers[currentQuestionIndex] === letters[index];
-                
+
                 const optionLabel = document.createElement('span');
                 optionLabel.className = 'option-label';
                 optionLabel.textContent = letters[index];
@@ -513,7 +526,7 @@
 
             // Update button states
             document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
-            
+
             const isLastQuestion = currentQuestionIndex === questions.length - 1;
             document.getElementById('nextBtn').style.display = isLastQuestion ? 'none' : 'block';
             document.getElementById('submitBtn').style.display = isLastQuestion ? 'block' : 'none';
@@ -544,7 +557,7 @@
         function updateQuestionsGrid() {
             document.querySelectorAll('.question-btn').forEach((btn, index) => {
                 btn.classList.remove('active', 'answered');
-                
+
                 if (index === currentQuestionIndex) {
                     btn.classList.add('active');
                 } else if (answers[index] !== undefined) {
@@ -601,7 +614,7 @@
 
             // Warning colors - updated timing
             timerEl.classList.remove('warning', 'danger');
-            
+
             if (timeRemaining <= 60) { // 1 minute
                 timerEl.classList.add('danger');
             } else if (timeRemaining <= 3 * 60) { // 3 minutes
@@ -611,7 +624,7 @@
 
         function submitAssessment() {
             clearInterval(timerInterval);
-            
+
             const answered = Object.keys(answers).length;
             const total = questions.length;
 
@@ -631,9 +644,37 @@
             const score = Math.round((correctCount / total) * 100);
             const passed = score >= 60;
 
-            // Redirect to results page with query parameters
-            const resultUrl = `/results?course=${course}&score=${score}&passed=${passed}&correct=${correctCount}&total=${total}`;
-            window.location.href = resultUrl;
+            // Calculate time taken (FIXED: startTime now accessible)
+            const timeTakenSeconds = Math.floor((Date.now() - startTime) / 1000);
+            const timeRemainingSeconds = Math.max(0, (600 - timeTakenSeconds));
+
+            // ✅ SAVE TO SERVER FIRST
+            console.log('📤 Sending to server...', { course, score, correctCount, total, timeTaken: timeTakenSeconds });
+
+            fetch(`/api/submit-assessment/${course}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    score: score,
+                    correct: correctCount,
+                    total: total,
+                    time_remaining: timeRemainingSeconds
+                })
+            })
+                .then(r => r.json())
+                .then(data => {
+                    console.log('✅ Server response:', data);
+                    if (data.success) {
+                        // ✅ THEN redirect to results
+                        window.location.href = `/results?course=${course}&score=${score}&passed=${passed}&correct=${correctCount}&total=${total}`;
+                    } else {
+                        alert('Error saving assessment: ' + data.error);
+                    }
+                })
+                .catch(err => {
+                    console.error('❌ Error:', err);
+                    alert('Failed to submit assessment');
+                });
         }
 
         // Load questions when page loads
@@ -647,4 +688,5 @@
         });
     </script>
 </body>
+
 </html>
