@@ -1,0 +1,44 @@
+{
+  "name": "confide-cbt-platform",
+  "version": "2.0.0",
+  "description": "Confide Computer Academy CBT Assessment Platform - Sequential Assessment with Green/Red Button System",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js"
+  },
+  "keywords": [
+    "cbt",
+    "assessment",
+    "education",
+    "certification",
+    "sequential",
+    "proctored"
+  ],
+  "author": "Confide Computer Academy",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "jsonwebtoken": "^9.0.0",
+    "nodemailer": "^6.9.3",
+    "pdfkit": "^0.13.0",
+    "sqlite3": "^5.1.6"
+  },
+  "optionalDependencies": {
+    "@sendgrid/mail": "^7.7.0"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/confide/cbt-platform"
+  }
+}

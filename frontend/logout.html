@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout - Confide CBT Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .logout-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 450px;
+            width: 100%;
+            padding: 60px 40px;
+            text-align: center;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logout-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .logout-message {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-confirm {
+            background: linear-gradient(135deg, #f44336 0%, #e53935 100%);
+            color: white;
+            min-width: 140px;
+        }
+
+        .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(244, 67, 54, 0.4);
+        }
+
+        .btn-cancel {
+            background: #f0f0f0;
+            color: #333;
+            min-width: 140px;
+            border: 2px solid #ddd;
+        }
+
+        .btn-cancel:hover {
+            background: #e8e8e8;
+            border-color: #bbb;
+        }
+
+        .logout-status {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .status-text {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .logout-info {
+            background: #f0f0f0;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .info-title {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .info-text {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .spinner {
+            display: none;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        .spinner.show {
+            display: block;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            .logout-container {
+                padding: 40px 25px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                min-width: unset;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-container">
+        <div class="logout-icon">🚪</div>
+
+        <h1>Confirm Logout</h1>
+
+        <p class="logout-message">
+            Are you sure you want to logout from Confide CBT Platform?
+        </p>
+
+        <div class="logout-info">
+            <div class="info-title">📌 Note:</div>
+            <div class="info-text">
+                Your assessment progress has been saved. You can resume your session anytime by logging back in.
+            </div>
+        </div>
+
+        <div class="spinner" id="spinner"></div>
+
+        <div class="button-group">
+            <button class="btn btn-confirm" id="confirmBtn" onclick="confirmLogout()">
+                Yes, Logout
+            </button>
+            <button class="btn btn-cancel" onclick="cancelLogout()">
+                Cancel
+            </button>
+        </div>
+
+        <div class="logout-status">
+            <p class="status-text" id="statusText">Ready to logout</p>
+        </div>
+    </div>
+
+    <script>
+        function confirmLogout() {
+            const spinner = document.getElementById('spinner');
+            const confirmBtn = document.getElementById('confirmBtn');
+            const statusText = document.getElementById('statusText');
+
+            // Show loading state
+            spinner.classList.add('show');
+            confirmBtn.disabled = true;
+            confirmBtn.textContent = 'Logging out...';
+            statusText.textContent = 'Processing logout...';
+
+            // Make logout request
+            fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    statusText.textContent = 'Redirecting to login...';
+                    // Redirect to login
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 500);
+                } else {
+                    throw new Error('Logout failed');
+                }
+            })
+            .catch(error => {
+                console.error('Logout error:', error);
+                spinner.classList.remove('show');
+                confirmBtn.disabled = false;
+                confirmBtn.textContent = 'Yes, Logout';
+                statusText.textContent = 'Error occurred. Please try again.';
+                statusText.style.color = '#f44336';
+            });
+        }
+
+        function cancelLogout() {
+            // Go back to previous page
+            window.history.back();
+        }
+
+        // Prevent accidental navigation
+        window.addEventListener('beforeunload', (e) => {
+            // Only show warning if we're still on logout page
+            if (document.getElementById('spinner').classList.contains('show')) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+    </script>
+</body>
+</html>

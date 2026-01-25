@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Confide CBT Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .register-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 50px 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #f0f0f0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            font-family: inherit;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        input[type="password"],
+        input[type="text"][data-password="true"] {
+            padding-right: 40px;
+        }
+
+        .password-requirements {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #666;
+            display: none;
+        }
+
+        .password-requirements.show {
+            display: block;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            cursor: pointer;
+            color: #999;
+            font-size: 18px;
+            background: none;
+            border: none;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s ease;
+        }
+
+        .password-toggle:hover {
+            color: #667eea;
+        }
+
+        .requirement {
+            margin: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .requirement::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #999;
+        }
+
+        .requirement.met::before {
+            content: '✓';
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            border-left: 4px solid #f5c6cb;
+            animation: shake 0.3s;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            border-left: 4px solid #c3e6cb;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            75% {
+                transform: translateX(10px);
+            }
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .form-footer a:hover {
+            color: #764ba2;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ffffff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .submit-btn.loading .loading-spinner {
+            display: inline-block;
+        }
+
+        .submit-btn.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .register-container {
+                padding: 40px 25px;
+            }
+
+            .logo h1 {
+                font-size: 24px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="register-container">
+        <div class="logo">
+            <h1>🎓 Confide CBT</h1>
+            <p>Create Your Account</p>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <form id="registerForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="first_name" placeholder="Idris" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="last_name" placeholder="Alamutu" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" name="password" placeholder="Create a strong password" required
+                        autocomplete="new-password">
+                    <button type="button" class="password-toggle" id="passwordToggle"
+                        onclick="togglePassword('password')">👁️</button>
+                </div>
+                <div class="password-requirements" id="passwordRequirements">
+                    <div class="requirement" id="req-length">At least 8 characters</div>
+                    <div class="requirement" id="req-uppercase">At least one uppercase letter</div>
+                    <div class="requirement" id="req-number">At least one number</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="confirmPassword" name="confirm_password"
+                        placeholder="Re-enter your password" required autocomplete="new-password">
+                    <button type="button" class="password-toggle" id="confirmPasswordToggle"
+                        onclick="togglePassword('confirmPassword')">👁️</button>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <span class="loading-spinner"></span>
+                <span class="btn-text">Create Account</span>
+            </button>
+        </form>
+
+        <div class="form-footer">
+            Already have an account? <a href="/login">Login here</a>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const toggleBtn = document.getElementById(fieldId + 'Toggle');
+
+            if (field.type === 'password') {
+                field.type = 'text';
+                toggleBtn.textContent = '🙈';
+            } else {
+                field.type = 'password';
+                toggleBtn.textContent = '👁️';
+            }
+        }
+
+        const form = document.getElementById('registerForm');
+        const firstNameInput = document.getElementById('firstName');
+        const lastNameInput = document.getElementById('lastName');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const submitBtn = document.getElementById('submitBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+        const passwordRequirements = document.getElementById('passwordRequirements');
+
+        // Password validation requirements
+        function validatePassword(password) {
+            const requirements = {
+                length: password.length >= 8,
+                uppercase: /[A-Z]/.test(password),
+                number: /[0-9]/.test(password)
+            };
+
+            // Update UI
+            document.getElementById('req-length').classList.toggle('met', requirements.length);
+            document.getElementById('req-uppercase').classList.toggle('met', requirements.uppercase);
+            document.getElementById('req-number').classList.toggle('met', requirements.number);
+
+            return Object.values(requirements).every(req => req);
+        }
+
+        // Show error message
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');
+            successMessage.classList.remove('show');
+            setTimeout(() => {
+                errorMessage.classList.remove('show');
+            }, 5000);
+        }
+
+        // Show success message
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.classList.add('show');
+            errorMessage.classList.remove('show');
+        }
+
+        // Password input listener
+        passwordInput.addEventListener('input', () => {
+            if (passwordInput.value) {
+                passwordRequirements.classList.add('show');
+                validatePassword(passwordInput.value);
+            } else {
+                passwordRequirements.classList.remove('show');
+            }
+            errorMessage.classList.remove('show');
+        });
+
+        // Clear error on input
+        [firstNameInput, lastNameInput, emailInput, confirmPasswordInput].forEach(input => {
+            input.addEventListener('input', () => {
+                errorMessage.classList.remove('show');
+            });
+        });
+
+        // Handle form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Validation
+            if (!firstNameInput.value.trim()) {
+                showError('Please enter your first name');
+                return;
+            }
+
+            if (!lastNameInput.value.trim()) {
+                showError('Please enter your last name');
+                return;
+            }
+
+            if (!emailInput.value.trim()) {
+                showError('Please enter your email');
+                return;
+            }
+
+            if (!passwordInput.value) {
+                showError('Please enter a password');
+                return;
+            }
+
+            if (!validatePassword(passwordInput.value)) {
+                showError('Password does not meet all requirements');
+                return;
+            }
+
+            if (passwordInput.value !== confirmPasswordInput.value) {
+                showError('Passwords do not match');
+                return;
+            }
+
+            // Disable button
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        first_name: firstNameInput.value.trim(),
+                        last_name: lastNameInput.value.trim(),
+                        email: emailInput.value.trim(),
+                        password: passwordInput.value,
+                        confirm_password: confirmPasswordInput.value
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showSuccess('Account created successfully! Redirecting to login...');
+
+                    // Redirect after short delay
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 2000);
+                } else {
+                    showError(data.error || 'Registration failed. Please try again.');
+                    submitBtn.classList.remove('loading');
+                    submitBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showError('Connection error. Please try again.');
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>

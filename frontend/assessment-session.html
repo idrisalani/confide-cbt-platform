@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Session - Confide CBT Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-icon {
+            font-size: 32px;
+        }
+
+        .header-content h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .date {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .progress-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-label {
+            color: #666;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: right;
+            color: #667eea;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .time-allocation-info {
+            background: #e8f4f8;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .time-allocation-info h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .time-allocation-info p {
+            color: #666;
+            font-size: 13px;
+            margin: 5px 0;
+        }
+
+        .courses-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .courses-title {
+            color: #333;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .course-card {
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card.locked {
+            background: #f0f0f0;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .course-card.available {
+            background: linear-gradient(135deg, #90EE90, #76D776);
+            color: white;
+            box-shadow: 0 5px 20px rgba(144, 238, 144, 0.4);
+        }
+
+        .course-card.available:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(144, 238, 144, 0.5);
+        }
+
+        .course-card.completed {
+            background: linear-gradient(135deg, #FFB347, #FF8C42);
+            color: white;
+            box-shadow: 0 5px 20px rgba(255, 179, 71, 0.4);
+        }
+
+        .course-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .course-questions {
+            font-size: 14px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .course-time {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 12px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .course-score {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .course-status {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-locked {
+            background: rgba(0, 0, 0, 0.2);
+            color: #666;
+        }
+
+        .status-available {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .status-completed {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .course-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 25px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .course-card.available .course-button {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.7);
+        }
+
+        .course-card.available .course-button:hover {
+            background: rgba(255, 255, 255, 0.5);
+            border-color: white;
+        }
+
+        .course-card.locked .course-button {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .completion-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: none;
+        }
+
+        .completion-section.show {
+            display: block;
+        }
+
+        .completion-message {
+            color: #28a745;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .completion-button {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .completion-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.4);
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+            border-left: 4px solid #f5c6cb;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .header-left {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-content h1 {
+                font-size: 24px;
+            }
+
+            .logout-btn {
+                width: 100%;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <div class="header-icon">🎯</div>
+                <div class="header-content">
+                    <h1>Assessment Session</h1>
+                    <div class="date" id="sessionDate">Loading...</div>
+                </div>
+            </div>
+            <a href="/logout" class="logout-btn">🚪 Logout</a>
+        </header>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <div class="time-allocation-info">
+            <h4>📊 Time Allocation (40 Minutes Total)</h4>
+            <p>• HTML Fundamentals: <strong>14 minutes</strong></p>
+            <p>• CSS Styling: <strong>13 minutes</strong></p>
+            <p>• JavaScript Essentials: <strong>13 minutes</strong></p>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-label">Session Progress</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">0 of 3 completed</div>
+        </div>
+
+        <div class="courses-section">
+            <div class="courses-title">📚 Assessment Courses</div>
+            <div class="courses-grid" id="coursesGrid">
+                <div style="text-align: center; padding: 40px; color: #999;">
+                    Loading courses...
+                </div>
+            </div>
+        </div>
+
+        <div class="completion-section" id="completionSection">
+            <div class="completion-message">✅ All Assessments Completed!</div>
+            <p style="color: #666; margin-bottom: 20px;">
+                You have successfully completed all three assessments.
+            </p>
+            <a href="/dashboard" class="completion-button">
+                📊 View Dashboard
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const courses = [
+            { name: 'HTML', id: 'html', questions: 34, minutes: 14 },
+            { name: 'CSS', id: 'css', questions: 34, minutes: 13 },
+            { name: 'JavaScript', id: 'javascript', questions: 34, minutes: 13 }
+        ];
+
+        async function initializeSession() {
+            try {
+                // Set date
+                const today = new Date();
+                document.getElementById('sessionDate').textContent = today.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
+                // Fetch session status
+                const response = await fetch('/api/session-status');
+                if (!response.ok) {
+                    throw new Error('Failed to load session');
+                }
+
+                const session = await response.json();
+                console.log('Session data:', session);
+
+                // Update UI based on session status
+                updateProgressBar(session.completed_courses);
+                renderCourses(session);
+
+                // Check if all completed
+                if (session.is_complete) {
+                    document.getElementById('completionSection').classList.add('show');
+                }
+            } catch (error) {
+                console.error('Session error:', error);
+                showError('Failed to load session. Please refresh the page.');
+            }
+        }
+
+        function updateProgressBar(completedCourses) {
+            const completed = completedCourses ? completedCourses.length : 0;
+            const total = 3;
+            const percentage = (completed / total) * 100;
+
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `${completed} of ${total} completed`;
+        }
+
+        function renderCourses(session) {
+            const completedCourses = session.completed_courses || [];
+            const currentCourse = session.current_course || 'html';
+            const coursesGrid = document.getElementById('coursesGrid');
+
+            coursesGrid.innerHTML = '';
+
+            courses.forEach(course => {
+                const isCompleted = completedCourses.includes(course.id);
+                const isCurrent = course.id === currentCourse && !isCompleted;
+                const isLocked = !isCompleted && !isCurrent;
+
+                const courseCard = document.createElement('div');
+                courseCard.className = 'course-card';
+
+                if (isLocked) {
+                    courseCard.classList.add('locked');
+                } else if (isCompleted) {
+                    courseCard.classList.add('completed');
+                } else {
+                    courseCard.classList.add('available');
+                }
+
+                let statusText = 'Locked';
+                if (isCompleted) {
+                    statusText = 'Completed ✓';
+                } else if (isCurrent) {
+                    statusText = 'Ready to Start';
+                }
+
+                let courseHTML = `
+                    <div class="course-name">${course.name}</div>
+                    <div class="course-questions">${course.questions} Questions</div>
+                    <div class="course-time">${course.minutes} Minutes</div>
+                `;
+
+                if (isCompleted) {
+                    courseHTML += `<div class="course-score" id="score-${course.id}">Score: --</div>`;
+                }
+
+                courseHTML += `<div class="course-status ${isLocked ? 'status-locked' : (isCompleted ? 'status-completed' : 'status-available')}">${statusText}</div>`;
+
+                if (!isLocked) {
+                    const linkClass = isCompleted ? 'style="opacity:0.5;cursor:not-allowed;" onclick="return false;"' : '';
+                    const href = isCompleted ? '#' : `/assessment/${course.id}`;
+                    courseHTML += `<a href="${href}" class="course-button" ${linkClass}>${isCompleted ? 'Completed' : 'Start Assessment'}</a>`;
+                }
+
+                courseCard.innerHTML = courseHTML;
+                coursesGrid.appendChild(courseCard);
+            });
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('show');
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', initializeSession);
+
+        // Refresh every 5 seconds
+        setInterval(initializeSession, 5000);
+    </script>
+</body>
+</html>

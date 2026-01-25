@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Completion Certificate - Confide Computer Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --primary-light: #764ba2;
+            --accent: #00d4d4;
+            --light: #f0f9f9;
+            --text: #1a1a1a;
+            --text-light: #666;
+            --success: #28a745;
+            --danger: #dc3545;
+            --gold: #f39c12;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        /* Celebration Section */
+        .celebration {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: slideDown 0.6s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .celebration-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .celebration h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .celebration p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        /* Certificate - Landscape */
+        .certificate {
+            background: white;
+            border-radius: 0;
+            padding: 40px 60px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            border: 8px solid var(--gold);
+            position: relative;
+            width: 100%;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .certificate::before,
+        .certificate::after {
+            content: '🏆';
+            position: absolute;
+            font-size: 60px;
+            top: 30px;
+        }
+
+        .certificate::before {
+            left: 40px;
+        }
+
+        .certificate::after {
+            right: 40px;
+        }
+
+        .certificate-header {
+            margin-bottom: 20px;
+        }
+
+        .certificate-ornament {
+            font-size: 24px;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            color: var(--gold);
+        }
+
+        .certificate-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .certificate-subtitle {
+            color: var(--text-light);
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .certificate-body {
+            margin: 30px 0;
+            line-height: 1.8;
+        }
+
+        .certificate-body p {
+            margin-bottom: 12px;
+            color: var(--text-light);
+            font-size: 16px;
+        }
+
+        .student-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            color: var(--primary);
+            font-weight: 700;
+            margin: 15px 0;
+        }
+
+        .certificate-accomplishment {
+            font-size: 16px;
+            color: var(--text);
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+
+        .certificate-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 30px 0;
+            background: linear-gradient(135deg, var(--light) 0%, rgba(102, 126, 234, 0.05) 100%);
+            padding: 25px;
+            border-radius: 8px;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .certificate-footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .signature-block {
+            text-align: center;
+        }
+
+        .signature-line {
+            border-top: 2px solid var(--primary);
+            width: 200px;
+            margin-bottom: 8px;
+        }
+
+        .signature-name {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        .signature-title {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .certificate-date {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* Performance Report - SINGLE PAGE COMPACT */
+        .performance-report {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .report-header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 15px;
+        }
+
+        .report-icon {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .report-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 3px;
+        }
+
+        .report-academy {
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        .report-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .report-left {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .report-right {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .student-info-box {
+            background: linear-gradient(135deg, var(--light) 0%, rgba(102, 126, 234, 0.05) 100%);
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid var(--primary);
+            font-size: 12px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 10px;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .info-value {
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        .stats-mini {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 11px;
+        }
+
+        .stat-box-value {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 3px;
+        }
+
+        .stat-box-label {
+            font-size: 10px;
+            opacity: 0.9;
+            text-transform: uppercase;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .course-mini {
+            background: var(--light);
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid var(--primary);
+            font-size: 11px;
+        }
+
+        .course-name {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .course-score {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+
+        .course-status {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 3px;
+            display: inline-block;
+            margin-top: 2px;
+        }
+
+        .status-passed {
+            background: var(--success);
+            color: white;
+        }
+
+        .status-failed {
+            background: var(--danger);
+            color: white;
+        }
+
+        .recommendation-mini {
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.1) 0%, rgba(102, 126, 234, 0.1) 100%);
+            border-left: 3px solid var(--success);
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .recommendation-title {
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 4px;
+            font-size: 11px;
+        }
+
+        .recommendation-text {
+            color: var(--text);
+            font-size: 11px;
+        }
+
+        .report-footer {
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px solid var(--light);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            text-align: center;
+            font-size: 10px;
+        }
+
+        .footer-item {
+            text-align: center;
+        }
+
+        .footer-line {
+            border-top: 1px solid var(--primary);
+            width: 80px;
+            margin: 0 auto 4px;
+        }
+
+        .footer-name {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 11px;
+        }
+
+        .footer-title {
+            color: var(--text-light);
+            font-size: 9px;
+        }
+
+        /* Actions */
+        .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .print-notice {
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        /* PRINT STYLES - CERTIFICATE LANDSCAPE, REPORT SINGLE PAGE PORTRAIT */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            .celebration,
+            .actions,
+            .print-notice {
+                display: none !important;
+            }
+
+            /* CERTIFICATE PAGE - LANDSCAPE */
+            .certificate {
+                page: landscape-page;
+                page-break-after: always;
+                box-shadow: none;
+                border: 1px solid #ccc;
+                margin: 0;
+                padding: 20px;
+                page-break-inside: avoid;
+            }
+
+            @page landscape-page {
+                margin: 0.5in;
+                size: A4 landscape;
+            }
+
+            /* REPORT PAGE - PORTRAIT (SINGLE PAGE) */
+            .performance-report {
+                page: portrait-page;
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ccc;
+                margin: 0;
+                padding: 20px;
+                page-break-before: always;
+            }
+
+            @page portrait-page {
+                margin: 0.3in;
+                size: A4 portrait;
+            }
+
+            @page {
+                margin: 0.3in;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .certificate {
+                padding: 20px 30px;
+                min-height: auto;
+            }
+
+            .certificate-title {
+                font-size: 32px;
+            }
+
+            .student-name {
+                font-size: 28px;
+            }
+
+            .certificate-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .celebration h1 {
+                font-size: 32px;
+            }
+
+            .performance-report {
+                padding: 15px;
+            }
+
+            .report-content {
+                grid-template-columns: 1fr;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Celebration -->
+        <div class="celebration">
+            <div class="celebration-icon">🎉</div>
+            <h1>Congratulations!</h1>
+            <p>You have successfully completed all three courses!</p>
+        </div>
+
+        <!-- Certificate (LANDSCAPE) -->
+        <div class="certificate">
+            <div class="certificate-ornament">✦ ✦ ✦</div>
+            
+            <div class="certificate-header">
+                <div class="certificate-title">Certificate of Completion</div>
+                <div class="certificate-subtitle">Confide Computer Academy</div>
+            </div>
+
+            <div class="certificate-body">
+                <p>This is to certify that</p>
+                <div class="student-name" id="certStudentName">Student Name</div>
+                <p>has successfully completed the</p>
+                <div class="certificate-accomplishment">
+                    <strong>Confide Computer Academy</strong><br>
+                    <strong>Web Development Program</strong><br>
+                    Comprising HTML, CSS, and JavaScript Courses
+                </div>
+            </div>
+
+            <div class="certificate-stats">
+                <div class="stat">
+                    <div class="stat-value" id="certScore">--</div>
+                    <div class="stat-label">Overall Score</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="certCorrect">--</div>
+                    <div class="stat-label">Correct Answers</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="certDate">--</div>
+                    <div class="stat-label">Date Issued</div>
+                </div>
+            </div>
+
+            <div class="certificate-footer">
+                <div class="signature-block">
+                    <div class="signature-line"></div>
+                    <div class="signature-name">Idris Alamutu</div>
+                    <div class="signature-title">Founder & Director</div>
+                </div>
+                <div class="certificate-date">
+                    Issued on<br><span id="certFullDate">--</span>
+                </div>
+                <div class="signature-block">
+                    <div class="signature-line"></div>
+                    <div class="signature-name">Academy Seal</div>
+                    <div class="signature-title">Confide Academy</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Report (PORTRAIT - SINGLE PAGE) -->
+        <div class="performance-report">
+            <div class="report-header">
+                <div class="report-icon">📊</div>
+                <div class="report-title">Performance Report</div>
+                <div class="report-academy">Confide Computer Academy</div>
+            </div>
+
+            <div class="report-content">
+                <!-- LEFT COLUMN -->
+                <div class="report-left">
+                    <!-- Student Info -->
+                    <div class="student-info-box">
+                        <div class="info-label">Student Name</div>
+                        <div class="info-value" id="reportStudentName">--</div>
+                    </div>
+
+                    <div class="student-info-box">
+                        <div class="info-label">Email</div>
+                        <div class="info-value" id="reportEmail">--</div>
+                    </div>
+
+                    <div class="student-info-box">
+                        <div class="info-label">Report Date</div>
+                        <div class="info-value" id="reportDate">--</div>
+                    </div>
+
+                    <!-- Summary Stats -->
+                    <div class="stats-mini">
+                        <div class="stat-box">
+                            <div class="stat-box-value" id="summaryScore">--</div>
+                            <div class="stat-box-label">Overall Score</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-box-value" id="summaryCorrect">--</div>
+                            <div class="stat-box-label">Correct</div>
+                        </div>
+                    </div>
+
+                    <div class="stats-mini">
+                        <div class="stat-box">
+                            <div class="stat-box-value" id="summaryQuestions">--</div>
+                            <div class="stat-box-label">Total Q's</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-box-value" id="summaryRate">--</div>
+                            <div class="stat-box-label">Pass Rate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="report-right">
+                    <!-- Courses -->
+                    <div>
+                        <div style="font-weight: 700; color: var(--primary); font-size: 12px; margin-bottom: 8px;">📚 Course Results</div>
+                        <div class="courses-grid" id="courseBreakdown">Loading...</div>
+                    </div>
+
+                    <!-- Recommendation -->
+                    <div class="recommendation-mini">
+                        <div class="recommendation-title">💡 Recommendation</div>
+                        <div class="recommendation-text" id="recommendation">
+                            Your performance demonstrates strong understanding of web development fundamentals.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="report-footer">
+                <div class="footer-item">
+                    <div class="footer-line"></div>
+                    <div class="footer-name">Idris Alamutu</div>
+                    <div class="footer-title">Founder & Director</div>
+                </div>
+                <div class="footer-item">
+                    <div style="text-align: center; font-size: 10px; color: var(--text-light);">
+                        Generated by Confide CBT Platform
+                    </div>
+                </div>
+                <div class="footer-item">
+                    <div class="footer-line"></div>
+                    <div class="footer-name" id="reportSigDate">--</div>
+                    <div class="footer-title">Date</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions">
+            <button class="btn btn-primary" onclick="printPage()">🖨️ Print / Save as PDF</button>
+            <button class="btn btn-secondary" onclick="goToDashboard()">📊 Back to Dashboard</button>
+        </div>
+
+        <div class="print-notice">
+            💡 Tip: The PDF will include certificate in landscape (page 1) and professional single-page report (page 2).
+        </div>
+    </div>
+
+    <script>
+        // Load assessment data
+        async function loadCompletionData() {
+            try {
+                const response = await fetch('/api/assessment-history', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    console.error('Failed to load data');
+                    return;
+                }
+
+                const data = await response.json();
+                console.log('Completion data:', data);
+
+                document.getElementById('certStudentName').textContent = data.student_name || 'Student';
+                document.getElementById('reportStudentName').textContent = data.student_name || 'Student';
+
+                const today = new Date();
+                const dateStr = today.toLocaleDateString('en-US', { 
+                    year: 'numeric', month: 'long', day: 'numeric' 
+                });
+                const shortDate = today.toLocaleDateString('en-US', {
+                    month: '2-digit', day: '2-digit', year: 'numeric'
+                });
+
+                document.getElementById('certDate').textContent = shortDate;
+                document.getElementById('certFullDate').textContent = dateStr;
+                document.getElementById('reportDate').textContent = dateStr;
+                document.getElementById('reportSigDate').textContent = shortDate;
+
+                let totalCorrect = 0;
+                let totalQuestions = 0;
+                const courseData = {};
+
+                if (data.completed_courses && Array.isArray(data.completed_courses)) {
+                    data.completed_courses.forEach(course => {
+                        totalCorrect += course.correct_answers || 0;
+                        totalQuestions += course.total_questions || 0;
+                        courseData[course.course] = course;
+                    });
+                }
+
+                const overallScore = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
+                const passRate = totalQuestions > 0 ? ((totalCorrect / totalQuestions) * 100).toFixed(1) : 0;
+
+                document.getElementById('certScore').textContent = overallScore + '%';
+                document.getElementById('certCorrect').textContent = totalCorrect;
+                document.getElementById('summaryScore').textContent = overallScore + '%';
+                document.getElementById('summaryQuestions').textContent = totalQuestions;
+                document.getElementById('summaryCorrect').textContent = totalCorrect;
+                document.getElementById('summaryRate').textContent = passRate + '%';
+
+                if (data.student_email) {
+                    document.getElementById('reportEmail').textContent = data.student_email;
+                }
+
+                // Course breakdown
+                const courseBreakdown = document.getElementById('courseBreakdown');
+                const courseNames = { 'html': 'HTML', 'css': 'CSS', 'javascript': 'JavaScript' };
+                const courseColors = { 'html': '#FFB84D', 'css': '#4A90E2', 'javascript': '#A4D965' };
+
+                let courseHtml = '';
+                ['html', 'css', 'javascript'].forEach(course => {
+                    if (courseData[course]) {
+                        const c = courseData[course];
+                        const accuracy = ((c.correct_answers / c.total_questions) * 100).toFixed(1);
+                        const status = c.score >= 60 ? 'PASSED' : 'FAILED';
+                        const statusClass = c.score >= 60 ? 'status-passed' : 'status-failed';
+                        
+                        courseHtml += `
+                            <div class="course-mini" style="border-left-color: ${courseColors[course]}">
+                                <div class="course-name">${courseNames[course]}</div>
+                                <div class="course-score">${c.score}%</div>
+                                <div style="font-size: 10px; color: var(--text-light); margin-bottom: 3px;">${accuracy}% accuracy</div>
+                                <span class="course-status ${statusClass}">${status}</span>
+                            </div>
+                        `;
+                    }
+                });
+                courseBreakdown.innerHTML = courseHtml;
+
+                // Recommendation
+                let recommendation = '';
+                if (overallScore >= 90) {
+                    recommendation = '🌟 Outstanding! Your exceptional score of ' + overallScore + '% demonstrates mastery of web development. You are well-prepared for advanced topics.';
+                } else if (overallScore >= 70) {
+                    recommendation = '👍 Great Job! Your score of ' + overallScore + '% shows good understanding. You have a solid foundation in web development.';
+                } else if (overallScore >= 60) {
+                    recommendation = '📚 Good Start! Your score of ' + overallScore + '% indicates you understand the fundamentals. Continue practicing to strengthen your skills.';
+                } else {
+                    recommendation = '💪 Keep Learning! We recommend reviewing the course material. Persistence is key to mastering web development!';
+                }
+                document.getElementById('recommendation').innerHTML = recommendation;
+
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        function printPage() {
+            window.print();
+        }
+
+        function goToDashboard() {
+            window.location.href = '/dashboard';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCompletionData();
+        });
+    </script>
+</body>
+</html>

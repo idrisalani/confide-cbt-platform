@@ -1,0 +1,716 @@
+[
+  {
+    "id": 1,
+    "course": "html",
+    "question": "What does HTML stand for?",
+    "options": ["HyperText Markup Language", "High Tech Modern Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language"],
+    "correct_answer": "A"
+  },
+  {
+    "id": 2,
+    "course": "html",
+    "question": "Which tag is used to define a paragraph?",
+    "options": ["<div>", "<para>", "<p>", "<text>"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 3,
+    "course": "html",
+    "question": "What is the correct HTML tag for the largest heading?",
+    "options": ["<h6>", "<h1>", "<heading>", "<head>"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 4,
+    "course": "html",
+    "question": "Which tag is used to create a line break?",
+    "options": ["<break>", "<lb>", "<br>", "<newline>"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 5,
+    "course": "html",
+    "question": "What is the purpose of the <meta> tag?",
+    "options": ["To create metadata storage", "To provide metadata about the HTML document", "To link external files", "To define the document title"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 6,
+    "course": "html",
+    "question": "Which attribute specifies the URL of an image in the <img> tag?",
+    "options": ["url", "href", "src", "link"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 7,
+    "course": "html",
+    "question": "What does the <head> tag contain?",
+    "options": ["Content visible on the page", "Navigation links", "Metadata, title, links to stylesheets and scripts", "Main content of the page"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 8,
+    "course": "html",
+    "question": "Which tag is used to create a hyperlink?",
+    "options": ["<link>", "<href>", "<a>", "<url>"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 9,
+    "course": "html",
+    "question": "What is the correct syntax for an HTML comment?",
+    "options": ["// Comment", "<!-- Comment -->", "/* Comment */", "# Comment"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 10,
+    "course": "html",
+    "question": "Which tag is used to define an unordered list?",
+    "options": ["<ol>", "<li>", "<ul>", "<list>"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 11,
+    "course": "html",
+    "question": "What is the <body> tag used for?",
+    "options": ["To define the page structure", "To store metadata", "To contain the visible content of the page", "To create the page header"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 12,
+    "course": "html",
+    "question": "Which tag is used to create a button?",
+    "options": ["<btn>", "<click>", "<button>", "<input>"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 13,
+    "course": "html",
+    "question": "What is the purpose of the alt attribute in the <img> tag?",
+    "options": ["To set the alternate image", "To provide alternative text if the image cannot be displayed", "To define the image size", "To add a caption"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 14,
+    "course": "html",
+    "question": "Which tag is used to create a form?",
+    "options": ["<input>", "<field>", "<form>", "<submit>"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 15,
+    "course": "html",
+    "question": "What does the <title> tag define?",
+    "options": ["The main heading of the page", "A subtitle for the page", "The title shown in the browser tab", "The document type"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 16,
+    "course": "html",
+    "question": "Which tag is used to create a table row?",
+    "options": ["<table>", "<td>", "<tr>", "<th>"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 17,
+    "course": "html",
+    "question": "What is the <div> tag used for?",
+    "options": ["To create a division of text", "To divide the page into columns", "To define a division or section in an HTML document", "To create a divider line"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 18,
+    "course": "html",
+    "question": "Which tag is used for the largest heading?",
+    "options": ["<header>", "<heading>", "<h1>", "<title>"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 19,
+    "course": "html",
+    "question": "What is the correct way to link to an external CSS file?",
+    "options": ["<style src=\"style.css\">", "<css href=\"style.css\">", "<link rel=\"stylesheet\" href=\"style.css\">", "<stylesheet href=\"style.css\">"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 20,
+    "course": "html",
+    "question": "Which element is used to define important text?",
+    "options": ["<b>", "<em>", "<strong>", "<important>"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 21,
+    "course": "html",
+    "question": "What is the purpose of the <span> tag?",
+    "options": ["To create a line break", "To create a division", "To style a small part of text or inline element", "To group block-level elements"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 22,
+    "course": "html",
+    "question": "Which tag is used to create a dropdown list?",
+    "options": ["<dropdown>", "<option>", "<select>", "<list>"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 23,
+    "course": "html",
+    "question": "What does HTML5 stand for?",
+    "options": ["High Tech Markup Language 5", "Home Tool Markup Language 5", "HyperText Markup Language version 5", "Hypertext Modern Language 5"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 24,
+    "course": "html",
+    "question": "Which tag is used to define a list item?",
+    "options": ["<item>", "<list>", "<li>", "<element>"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 25,
+    "course": "html",
+    "question": "What is the <nav> tag used for?",
+    "options": ["To create a navigation bar", "To define the page navigation structure", "To define a section with navigation links", "To create a menu"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 26,
+    "course": "html",
+    "question": "Which tag is used to create a table cell?",
+    "options": ["<cell>", "<tr>", "<td>", "<table>"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 27,
+    "course": "html",
+    "question": "What does the <footer> tag represent?",
+    "options": ["The bottom of the page", "A page footer", "Footer section of a page or document", "The end of a section"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 28,
+    "course": "html",
+    "question": "Which attribute specifies a unique identifier for an HTML element?",
+    "options": ["class", "name", "id", "identifier"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 29,
+    "course": "html",
+    "question": "What is the <article> tag used for?",
+    "options": ["To create an article section", "To define a blog post", "To define independent, self-contained content", "To create a main content area"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 30,
+    "course": "html",
+    "question": "Which tag is used to define an ordered list?",
+    "options": ["<ul>", "<list>", "<ol>", "<dl>"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 31,
+    "course": "html",
+    "question": "What is the purpose of the <section> tag?",
+    "options": ["To create a division", "To separate content", "To define a section in a document", "To group related elements"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 32,
+    "course": "html",
+    "question": "Which tag is used to define emphasized text?",
+    "options": ["<i>", "<emphasis>", "<em>", "<e>"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 33,
+    "course": "html",
+    "question": "What is the <header> tag used for?",
+    "options": ["To create the page title", "To define the top of the page", "To define the header section of a page or document", "To store page metadata"],
+    "correct_answer": "C"
+  },
+  {
+    "id": 34,
+    "course": "html",
+    "question": "Which attribute specifies CSS classes for styling?",
+    "options": ["style", "name", "id", "class"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 35,
+    "course": "css",
+    "question": "What does CSS stand for?",
+    "options": ["Computer Style Sheets", "Creative Style Sheets", "Coded Style Sheets", "Cascading Style Sheets"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 36,
+    "course": "css",
+    "question": "How do you select an element by its ID in CSS?",
+    "options": [".id", "id", "@id", "#id"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 37,
+    "course": "css",
+    "question": "How do you select elements with a specific class?",
+    "options": ["#classname", "classname", "@classname", ".classname"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 38,
+    "course": "css",
+    "question": "What property is used to change the text color?",
+    "options": ["text-color", "font-color", "foreground-color", "color"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 39,
+    "course": "css",
+    "question": "Which property controls the space outside an element?",
+    "options": ["padding", "border", "spacing", "margin"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 40,
+    "course": "css",
+    "question": "What property controls the space inside an element?",
+    "options": ["margin", "border", "spacing", "padding"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 41,
+    "course": "css",
+    "question": "How do you make text bold in CSS?",
+    "options": ["text-weight: bold;", "font-style: bold;", "text-style: bold;", "font-weight: bold;"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 42,
+    "course": "css",
+    "question": "What property controls the size of text?",
+    "options": ["text-size", "font-height", "size", "font-size"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 43,
+    "course": "css",
+    "question": "How do you center text horizontally?",
+    "options": ["align: center;", "text-center: true;", "horizontal-align: center;", "text-align: center;"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 44,
+    "course": "css",
+    "question": "What property sets the background color?",
+    "options": ["bg-color", "back-color", "color-background", "background-color"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 45,
+    "course": "css",
+    "question": "How do you add a border to an element?",
+    "options": ["border-style: solid;", "border-width: 1px;", "add-border: true;", "border: 1px solid black;"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 46,
+    "course": "css",
+    "question": "What does the box model consist of?",
+    "options": ["Content, border, margin", "Padding, border, margin", "Content, padding, border", "Content, padding, border, margin"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 47,
+    "course": "css",
+    "question": "How do you select all elements in CSS?",
+    "options": ["all", "every", "element", "*"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 48,
+    "course": "css",
+    "question": "What property controls the width of an element?",
+    "options": ["w", "element-width", "size-width", "width"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 49,
+    "course": "css",
+    "question": "What property controls the height of an element?",
+    "options": ["h", "element-height", "size-height", "height"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 50,
+    "course": "css",
+    "question": "How do you change the font family?",
+    "options": ["font: Arial;", "text-font: Arial;", "font-type: Arial;", "font-family: Arial;"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 51,
+    "course": "css",
+    "question": "What property makes text italic?",
+    "options": ["text-style: italic;", "italic: true;", "font-italic: true;", "font-style: italic;"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 52,
+    "course": "css",
+    "question": "How do you add a shadow to text?",
+    "options": ["shadow", "text-shadow-effect", "add-shadow", "text-shadow"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 53,
+    "course": "css",
+    "question": "What property controls the opacity of an element?",
+    "options": ["alpha", "transparency", "visible", "opacity"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 54,
+    "course": "css",
+    "question": "How do you create a gradient background?",
+    "options": ["gradient: linear;", "background-gradient: linear;", "color-gradient: linear;", "background: linear-gradient();"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 55,
+    "course": "css",
+    "question": "What property controls the display type of an element?",
+    "options": ["type", "show", "visibility", "display"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 56,
+    "course": "css",
+    "question": "How do you make an element invisible but keep its space?",
+    "options": ["display: none;", "opacity: 0;", "hidden: true;", "visibility: hidden;"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 57,
+    "course": "css",
+    "question": "What property aligns items in a flex container?",
+    "options": ["align-items", "flex-align", "content-align", "justify-content"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 58,
+    "course": "css",
+    "question": "How do you create a flexbox container?",
+    "options": ["flex: true;", "flexbox: true;", "type: flexbox;", "display: flex;"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 59,
+    "course": "css",
+    "question": "What does the 'z-index' property control?",
+    "options": ["Element size", "Element position", "Element rotation", "Stacking order of elements"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 60,
+    "course": "css",
+    "question": "How do you create rounded corners?",
+    "options": ["border-round: 10px;", "corner-radius: 10px;", "rounded-border: 10px;", "border-radius: 10px;"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 61,
+    "course": "css",
+    "question": "What is the default value of position?",
+    "options": ["relative", "absolute", "fixed", "static"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 62,
+    "course": "css",
+    "question": "How do you add a transformation to rotate an element?",
+    "options": ["rotate: 45deg;", "transform-rotate: 45deg;", "animation-rotate: 45deg;", "transform: rotate(45deg);"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 63,
+    "course": "css",
+    "question": "What property controls line spacing?",
+    "options": ["line-spacing", "text-spacing", "spacing", "line-height"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 64,
+    "course": "css",
+    "question": "How do you create a CSS animation?",
+    "options": ["@animation", "@animate", "@motion", "@keyframes"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 65,
+    "course": "css",
+    "question": "What property controls word spacing?",
+    "options": ["word-gap", "text-spacing", "spacing", "word-spacing"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 66,
+    "course": "css",
+    "question": "How do you add a box shadow?",
+    "options": ["shadow: 0 0 10px gray;", "box-effect: shadow;", "effect-shadow: 10px;", "box-shadow: 0 0 10px gray;"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 67,
+    "course": "css",
+    "question": "What is the overflow property used for?",
+    "options": ["To add space around content", "To create overflow effects", "To handle element overflow", "To control what happens when content overflows"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 68,
+    "course": "javascript",
+    "question": "What does JavaScript stand for?",
+    "options": ["Java Source Code", "JSON Script", "Java Script", "JavaScript"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 69,
+    "course": "javascript",
+    "question": "How do you declare a variable in JavaScript?",
+    "options": ["variable name = 'value';", "declare name = 'value';", "set name = 'value';", "var name = 'value';"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 70,
+    "course": "javascript",
+    "question": "Which operator is used for equality?",
+    "options": ["=", "===", "!==", "=="],
+    "correct_answer": "B"
+  },
+  {
+    "id": 71,
+    "course": "javascript",
+    "question": "How do you create a function in JavaScript?",
+    "options": ["def myFunc() {}", "function: myFunc() {}", "func myFunc() {}", "function myFunc() {}"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 72,
+    "course": "javascript",
+    "question": "What is an array in JavaScript?",
+    "options": ["A variable", "A type of object", "A string of values", "A collection of elements"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 73,
+    "course": "javascript",
+    "question": "How do you add an element to an array?",
+    "options": ["array.add(element);", "array.append(element);", "array[array.length] = element;", "array.push(element);"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 74,
+    "course": "javascript",
+    "question": "What is the correct syntax for a for loop?",
+    "options": ["for i = 0 to 5 {}", "for (i : 0 to 5) {}", "for i in range(5) {}", "for (i = 0; i < 5; i++) {}"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 75,
+    "course": "javascript",
+    "question": "How do you write an if statement?",
+    "options": ["if condition {}", "if (condition)", "if {condition}", "if (condition) {}"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 76,
+    "course": "javascript",
+    "question": "What does 'null' represent?",
+    "options": ["Zero", "False", "An undefined variable", "No value or empty value"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 77,
+    "course": "javascript",
+    "question": "How do you get the length of a string?",
+    "options": ["length(string)", "string.size()", "getLength(string)", "string.length"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 78,
+    "course": "javascript",
+    "question": "What is a callback function?",
+    "options": ["A function that returns a value", "A function that calls itself", "A function defined in a callback", "A function passed as an argument to another function"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 79,
+    "course": "javascript",
+    "question": "How do you convert a string to a number?",
+    "options": ["parseInt(string)", "string.toNumber()", "convert(string)", "Number(string)"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 80,
+    "course": "javascript",
+    "question": "What is the DOM?",
+    "options": ["Data Object Method", "Dynamic Object Model", "Document Oriented Markup", "Document Object Model"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 81,
+    "course": "javascript",
+    "question": "How do you select an element by ID?",
+    "options": ["document.select('#id')", "document.querySelector.id", "document.getElement('id')", "document.getElementById('id')"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 82,
+    "course": "javascript",
+    "question": "What is JSON?",
+    "options": ["Java Source Object Notation", "JavaScript Object Name", "Java Script Object", "JavaScript Object Notation"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 83,
+    "course": "javascript",
+    "question": "How do you parse JSON?",
+    "options": ["parse(JSON)", "string.parseJSON()", "JSON.stringify(string)", "JSON.parse(string)"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 84,
+    "course": "javascript",
+    "question": "What is the 'this' keyword?",
+    "options": ["Reference to the parent object", "Reference to the window object", "Reference to the function", "Reference to the current object"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 85,
+    "course": "javascript",
+    "question": "How do you create an object?",
+    "options": ["var obj = new Object;", "var obj = object();", "new obj = {};", "var obj = {};"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 86,
+    "course": "javascript",
+    "question": "What is the ternary operator?",
+    "options": ["condition ? false : true", "if condition then true else false", "condition && true || false", "condition ? true : false"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 87,
+    "course": "javascript",
+    "question": "How do you add an event listener?",
+    "options": ["element.onEvent(function)", "element.addListener('event')", "element.listen('event')", "element.addEventListener('event', function)"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 88,
+    "course": "javascript",
+    "question": "What is destructuring in JavaScript?",
+    "options": ["Breaking down code", "Removing properties", "Deleting values", "Extracting values from objects or arrays"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 89,
+    "course": "javascript",
+    "question": "How do you use the spread operator?",
+    "options": ["array...", ".array", "array.spread", "...array"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 90,
+    "course": "javascript",
+    "question": "What is a Promise in JavaScript?",
+    "options": ["A commitment to finish a task", "An object that stores values", "A function that executes later", "An object representing eventual completion of async operation"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 91,
+    "course": "javascript",
+    "question": "How do you use async/await?",
+    "options": ["function async() with await", "await async() function", "async keyword with await", "async function with await keyword"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 92,
+    "course": "javascript",
+    "question": "What is a template literal?",
+    "options": ["String using quotes", "String using double quotes", "String using single quotes", "String using backticks with ${expression}"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 93,
+    "course": "javascript",
+    "question": "How do you clone an object?",
+    "options": ["object.clone()", "clone(object)", "new object", "{...object}"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 94,
+    "course": "javascript",
+    "question": "What is the filter method used for?",
+    "options": ["To remove elements", "To sort an array", "To count elements", "To create a new array with elements that pass a test"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 95,
+    "course": "javascript",
+    "question": "How do you map over an array?",
+    "options": ["array.forEach(function)", "array.loop(function)", "map(array)", "array.map(function)"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 96,
+    "course": "javascript",
+    "question": "What is reduce in JavaScript?",
+    "options": ["Reduces array size", "Removes elements", "Reorders elements", "Reduces an array to a single value"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 97,
+    "course": "javascript",
+    "question": "How do you handle errors?",
+    "options": ["try...except...finally", "try...error...finally", "catch...try...finally", "try...catch...finally"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 98,
+    "course": "javascript",
+    "question": "What is localStorage?",
+    "options": ["Local variables", "Session storage", "Temporary memory", "Browser storage that persists across sessions"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 99,
+    "course": "javascript",
+    "question": "How do you make an HTTP request?",
+    "options": ["http.request(url)", "request(url)", "ajax(url)", "fetch(url)"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 100,
+    "course": "javascript",
+    "question": "What is a module in JavaScript?",
+    "options": ["A function", "A variable", "A library", "A reusable block of code"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 101,
+    "course": "javascript",
+    "question": "How do you export a module?",
+    "options": ["export name", "module.export = name", "export name;", "export { name }"],
+    "correct_answer": "D"
+  },
+  {
+    "id": 102,
+    "course": "javascript",
+    "question": "How do you import a module?",
+    "options": ["import name from 'module'", "require('module')", "import 'module'", "import { name } from 'module'"],
+    "correct_answer": "D"
+  }
+]
