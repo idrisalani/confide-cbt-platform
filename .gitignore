@@ -31,3 +31,5 @@
   # Build
   dist/
   build/
+
+  API.txt
