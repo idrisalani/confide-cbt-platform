@@ -130,17 +130,18 @@ function initializeTables() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// HELPER FUNCTION: Generate Certificate PDF as Buffer (LANDSCAPE)
+// HELPER FUNCTION: Generate Certificate PDF as Buffer (LANDSCAPE - SINGLE PAGE)
+// Professional design WITHOUT emojis (PDFKit doesn't support them)
 // ═══════════════════════════════════════════════════════════════════════════
 
 function generateCertificatePDF(studentName, assessments) {
   return new Promise((resolve, reject) => {
     try {
-      // LANDSCAPE LAYOUT
+      // LANDSCAPE LAYOUT - A4 = 842 x 595 points
       const doc = new PDFDocument({ 
         size: 'A4',
         layout: 'landscape',
-        margins: { top: 40, bottom: 40, left: 60, right: 60 }
+        margins: { top: 40, bottom: 40, left: 50, right: 50 }
       });
       
       let buffers = [];
@@ -151,85 +152,90 @@ function generateCertificatePDF(studentName, assessments) {
       });
       doc.on('error', reject);
 
-      const pageWidth = doc.page.width;
+      const pageWidth = 842;
+      const pageHeight = 595;
       const centerX = pageWidth / 2;
 
-      // GOLD BORDER
-      doc.lineWidth(8)
+      // DECORATIVE BORDER (gold)
+      doc.lineWidth(6)
          .strokeColor('#f39c12')
-         .rect(30, 30, pageWidth - 60, doc.page.height - 60)
+         .rect(25, 25, pageWidth - 50, pageHeight - 50)
          .stroke();
 
-      // TROPHY ICONS
-      doc.fontSize(40).fillColor('#f39c12')
-         .text('🏆', 50, 50, { width: 50 });
-      doc.fontSize(40).fillColor('#f39c12')
-         .text('🏆', pageWidth - 100, 50, { width: 50 });
+      // INNER BORDER (subtle)
+      doc.lineWidth(1)
+         .strokeColor('#daa520')
+         .rect(35, 35, pageWidth - 70, pageHeight - 70)
+         .stroke();
 
-      // ORNAMENTAL DIVIDER
-      doc.fontSize(20).fillColor('#f39c12')
-         .text('✦ ✦ ✦', centerX - 50, 80, { width: 100, align: 'center' });
+      // ORNAMENTAL TOP
+      doc.fontSize(14).fillColor('#f39c12').font('Helvetica')
+         .text('* * *', centerX - 30, 60, { width: 60, align: 'center' });
 
       // CERTIFICATE TITLE
-      doc.fontSize(42).fillColor('#667eea').font('Helvetica-Bold')
-         .text('Certificate of Completion', centerX - 250, 120, { 
-           width: 500, 
+      doc.fontSize(40).fillColor('#667eea').font('Helvetica-Bold')
+         .text('Certificate of Completion', centerX - 280, 100, { 
+           width: 560, 
            align: 'center' 
          });
 
       // SUBTITLE
       doc.fontSize(11).fillColor('#666666').font('Helvetica')
-         .text('CONFIDE COMPUTER ACADEMY', centerX - 200, 170, { 
-           width: 400, 
+         .text('CONFIDE COMPUTER ACADEMY', centerX - 180, 150, { 
+           width: 360, 
            align: 'center' 
          });
 
+      // DECORATIVE LINE
+      doc.moveTo(centerX - 100, 170).lineTo(centerX + 100, 170)
+         .strokeColor('#f39c12').lineWidth(2).stroke();
+
       // CERTIFICATE BODY
-      doc.fontSize(14).fillColor('#666666')
-         .text('This is to certify that', centerX - 150, 210, { 
+      doc.fontSize(14).fillColor('#666666').font('Helvetica')
+         .text('This is to certify that', centerX - 150, 195, { 
            width: 300, 
            align: 'center' 
          });
 
-      // STUDENT NAME (LARGE & BOLD)
-      doc.fontSize(36).fillColor('#667eea').font('Helvetica-Bold')
-         .text(studentName, centerX - 300, 240, { 
+      // STUDENT NAME (large, prominent)
+      doc.fontSize(34).fillColor('#667eea').font('Helvetica-Bold')
+         .text(studentName, centerX - 300, 225, { 
            width: 600, 
            align: 'center' 
          });
 
       // ACCOMPLISHMENT TEXT
       doc.fontSize(14).fillColor('#666666').font('Helvetica')
-         .text('has successfully completed the', centerX - 200, 290, { 
+         .text('has successfully completed the', centerX - 200, 270, { 
            width: 400, 
            align: 'center' 
          });
 
       doc.fontSize(16).fillColor('#1a1a1a').font('Helvetica-Bold')
-         .text('Confide Computer Academy', centerX - 200, 315, { 
+         .text('Confide Computer Academy', centerX - 200, 293, { 
            width: 400, 
            align: 'center' 
          });
 
       doc.fontSize(16).fillColor('#764ba2').font('Helvetica-Bold')
-         .text('Web Development Program', centerX - 200, 340, { 
+         .text('Web Development Program', centerX - 200, 315, { 
            width: 400, 
            align: 'center' 
          });
 
       doc.fontSize(13).fillColor('#666666').font('Helvetica')
-         .text('Comprising HTML, CSS, and JavaScript Courses', centerX - 200, 365, { 
+         .text('Comprising HTML, CSS, and JavaScript Courses', centerX - 200, 340, { 
            width: 400, 
            align: 'center' 
          });
 
-      // STATISTICS BOX
-      const boxY = 400;
-      const boxHeight = 70;
+      // STATISTICS BOX (professional)
+      const boxY = 370;
+      const boxHeight = 60;
       
-      // Background box
-      doc.roundedRect(centerX - 300, boxY, 600, boxHeight, 5)
-         .fillAndStroke('#f0f9f9', '#667eea');
+      // Background with gradient effect (using rectangles)
+      doc.roundedRect(centerX - 280, boxY, 560, boxHeight, 5)
+         .fillAndStroke('#f7f9fc', '#667eea');
 
       // Calculate stats
       const avgScore = Math.round(assessments.reduce((sum, a) => sum + a.score, 0) / assessments.length);
@@ -240,48 +246,65 @@ function generateCertificatePDF(studentName, assessments) {
       });
 
       // Stat 1: Overall Score
-      doc.fontSize(28).fillColor('#667eea').font('Helvetica-Bold')
-         .text(`${avgScore}%`, centerX - 250, boxY + 15, { width: 150, align: 'center' });
-      doc.fontSize(10).fillColor('#666666').font('Helvetica')
-         .text('OVERALL SCORE', centerX - 250, boxY + 50, { width: 150, align: 'center' });
+      doc.fontSize(26).fillColor('#667eea').font('Helvetica-Bold')
+         .text(`${avgScore}%`, centerX - 230, boxY + 10, { width: 140, align: 'center' });
+      doc.fontSize(9).fillColor('#666666').font('Helvetica')
+         .text('OVERALL SCORE', centerX - 230, boxY + 42, { width: 140, align: 'center' });
+
+      // Vertical separator
+      doc.moveTo(centerX - 70, boxY + 10).lineTo(centerX - 70, boxY + 50)
+         .strokeColor('#e0e0e0').lineWidth(1).stroke();
 
       // Stat 2: Correct Answers
-      doc.fontSize(28).fillColor('#667eea').font('Helvetica-Bold')
-         .text(`${totalCorrect}/${totalQuestions}`, centerX - 75, boxY + 15, { width: 150, align: 'center' });
-      doc.fontSize(10).fillColor('#666666').font('Helvetica')
-         .text('CORRECT ANSWERS', centerX - 75, boxY + 50, { width: 150, align: 'center' });
+      doc.fontSize(26).fillColor('#667eea').font('Helvetica-Bold')
+         .text(`${totalCorrect}/${totalQuestions}`, centerX - 70, boxY + 10, { width: 140, align: 'center' });
+      doc.fontSize(9).fillColor('#666666').font('Helvetica')
+         .text('CORRECT ANSWERS', centerX - 70, boxY + 42, { width: 140, align: 'center' });
+
+      // Vertical separator
+      doc.moveTo(centerX + 90, boxY + 10).lineTo(centerX + 90, boxY + 50)
+         .strokeColor('#e0e0e0').lineWidth(1).stroke();
 
       // Stat 3: Date Issued
       doc.fontSize(22).fillColor('#667eea').font('Helvetica-Bold')
-         .text(completionDate, centerX + 100, boxY + 18, { width: 150, align: 'center' });
-      doc.fontSize(10).fillColor('#666666').font('Helvetica')
-         .text('DATE ISSUED', centerX + 100, boxY + 50, { width: 150, align: 'center' });
+         .text(completionDate, centerX + 90, boxY + 13, { width: 140, align: 'center' });
+      doc.fontSize(9).fillColor('#666666').font('Helvetica')
+         .text('DATE ISSUED', centerX + 90, boxY + 42, { width: 140, align: 'center' });
 
-      // FOOTER SECTION
-      const footerY = doc.page.height - 100;
+      // SPACE BEFORE SIGNATURES (60 points of space)
+      const footerY = 470;
       const fullDate = new Date().toLocaleDateString('en-US', {
         year: 'numeric', month: 'long', day: 'numeric'
       });
 
-      // Left Signature
-      doc.moveTo(100, footerY).lineTo(250, footerY).strokeColor('#667eea').stroke();
+      // Left Signature Block
+      doc.moveTo(90, footerY).lineTo(230, footerY)
+         .strokeColor('#667eea').lineWidth(1.5).stroke();
       doc.fontSize(12).fillColor('#667eea').font('Helvetica-Bold')
-         .text('Idris Alamutu', 100, footerY + 8, { width: 150, align: 'center' });
+         .text('Idris Alamutu', 90, footerY + 8, { width: 140, align: 'center' });
       doc.fontSize(9).fillColor('#666666').font('Helvetica')
-         .text('Founder & Director', 100, footerY + 25, { width: 150, align: 'center' });
+         .text('Founder & Director', 90, footerY + 24, { width: 140, align: 'center' });
 
-      // Center Date
+      // Center Date Block
       doc.fontSize(11).fillColor('#666666').font('Helvetica')
-         .text('Issued on', centerX - 75, footerY, { width: 150, align: 'center' });
-      doc.fontSize(10).fillColor('#666666')
-         .text(fullDate, centerX - 75, footerY + 15, { width: 150, align: 'center' });
+         .text('Issued on', centerX - 70, footerY - 5, { width: 140, align: 'center' });
+      doc.fontSize(10).fillColor('#1a1a1a').font('Helvetica-Bold')
+         .text(fullDate, centerX - 70, footerY + 10, { width: 140, align: 'center' });
 
-      // Right Signature
-      doc.moveTo(pageWidth - 250, footerY).lineTo(pageWidth - 100, footerY).strokeColor('#667eea').stroke();
+      // Right Signature Block
+      doc.moveTo(pageWidth - 230, footerY).lineTo(pageWidth - 90, footerY)
+         .strokeColor('#667eea').lineWidth(1.5).stroke();
       doc.fontSize(12).fillColor('#667eea').font('Helvetica-Bold')
-         .text('Academy Seal', pageWidth - 250, footerY + 8, { width: 150, align: 'center' });
+         .text('Academy Seal', pageWidth - 230, footerY + 8, { width: 140, align: 'center' });
       doc.fontSize(9).fillColor('#666666').font('Helvetica')
-         .text('Confide Academy', pageWidth - 250, footerY + 25, { width: 150, align: 'center' });
+         .text('Confide Academy', pageWidth - 230, footerY + 24, { width: 140, align: 'center' });
+
+      // Footer URL (small)
+      doc.fontSize(7).fillColor('#999999').font('Helvetica')
+         .text('confide-cbt-platform.onrender.com', centerX - 100, footerY + 60, { 
+           width: 200, 
+           align: 'center' 
+         });
 
       doc.end();
     } catch (error) {
@@ -291,17 +314,18 @@ function generateCertificatePDF(studentName, assessments) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// HELPER FUNCTION: Generate Performance Report PDF as Buffer (PORTRAIT)
+// HELPER FUNCTION: Generate Performance Report PDF as Buffer (PORTRAIT - SINGLE PAGE)
+// Professional design WITHOUT emojis, proper spacing, signatures at bottom
 // ═══════════════════════════════════════════════════════════════════════════
 
 function generateReportPDF(studentName, studentEmail, assessments) {
   return new Promise((resolve, reject) => {
     try {
-      // PORTRAIT LAYOUT
+      // PORTRAIT LAYOUT - A4 = 595 x 842 points
       const doc = new PDFDocument({ 
         size: 'A4',
         layout: 'portrait',
-        margins: { top: 30, bottom: 30, left: 30, right: 30 }
+        margins: { top: 35, bottom: 35, left: 40, right: 40 }
       });
       
       let buffers = [];
@@ -312,211 +336,218 @@ function generateReportPDF(studentName, studentEmail, assessments) {
       });
       doc.on('error', reject);
 
-      const pageWidth = doc.page.width - 60;
-      const startX = 30;
-      let currentY = 30;
+      const pageWidth = 515; // 595 - 80 (margins)
+      const startX = 40;
+      let y = 40; // Current Y position
 
-      // HEADER
-      doc.fontSize(30).fillColor('#667eea').font('Helvetica-Bold')
-         .text('📊 Performance Report', startX, currentY, { width: pageWidth, align: 'center' });
+      // HEADER (professional, no emoji)
+      doc.fontSize(26).fillColor('#667eea').font('Helvetica-Bold')
+         .text('Performance Report', startX, y, { width: pageWidth, align: 'center' });
       
-      currentY += 35;
+      y += 32;
       doc.fontSize(10).fillColor('#999999').font('Helvetica')
-         .text('Confide Computer Academy', startX, currentY, { width: pageWidth, align: 'center' });
+         .text('Confide Computer Academy', startX, y, { width: pageWidth, align: 'center' });
       
-      currentY += 25;
-      doc.moveTo(startX, currentY).lineTo(startX + pageWidth, currentY).strokeColor('#667eea').lineWidth(2).stroke();
-      currentY += 15;
+      y += 22;
+      doc.moveTo(startX, y).lineTo(startX + pageWidth, y).strokeColor('#667eea').lineWidth(2).stroke();
+      y += 18;
 
-      // STUDENT INFORMATION BOXES
-      const boxWidth = (pageWidth - 20) / 2;
-      
-      // Left Column Start
-      let leftY = currentY;
-      
-      // Student Name Box
-      doc.roundedRect(startX, leftY, boxWidth, 30, 3)
-         .fillAndStroke('#f0f9f9', '#667eea');
-      doc.fontSize(8).fillColor('#667eea').font('Helvetica-Bold')
-         .text('STUDENT NAME', startX + 10, leftY + 5, { width: boxWidth - 20 });
-      doc.fontSize(11).fillColor('#1a1a1a').font('Helvetica')
-         .text(studentName, startX + 10, leftY + 16, { width: boxWidth - 20 });
-      
-      leftY += 35;
-      
-      // Email Box
-      doc.roundedRect(startX, leftY, boxWidth, 30, 3)
-         .fillAndStroke('#f0f9f9', '#667eea');
-      doc.fontSize(8).fillColor('#667eea').font('Helvetica-Bold')
-         .text('EMAIL', startX + 10, leftY + 5, { width: boxWidth - 20 });
-      doc.fontSize(10).fillColor('#1a1a1a').font('Helvetica')
-         .text(studentEmail, startX + 10, leftY + 16, { width: boxWidth - 20 });
-      
-      leftY += 35;
-      
-      // Report Date Box
-      const reportDate = new Date().toLocaleDateString('en-US', {
-        year: 'numeric', month: 'long', day: 'numeric'
-      });
-      doc.roundedRect(startX, leftY, boxWidth, 30, 3)
-         .fillAndStroke('#f0f9f9', '#667eea');
-      doc.fontSize(8).fillColor('#667eea').font('Helvetica-Bold')
-         .text('REPORT DATE', startX + 10, leftY + 5, { width: boxWidth - 20 });
-      doc.fontSize(11).fillColor('#1a1a1a').font('Helvetica')
-         .text(reportDate, startX + 10, leftY + 16, { width: boxWidth - 20 });
-      
-      leftY += 35;
-
-      // Calculate Statistics
+      // Calculate statistics
       const avgScore = Math.round(assessments.reduce((sum, a) => sum + a.score, 0) / assessments.length);
       const totalCorrect = assessments.reduce((sum, a) => sum + a.correct_answers, 0);
       const totalQuestions = assessments.reduce((sum, a) => sum + a.total_questions, 0);
       const passRate = ((totalCorrect / totalQuestions) * 100).toFixed(1);
+      const reportDate = new Date().toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
 
-      // SUMMARY STATISTICS (2x2 Grid in Left Column)
-      const statBoxWidth = (boxWidth - 10) / 2;
-      const statBoxHeight = 40;
+      // STUDENT INFORMATION (side-by-side with proper spacing)
+      const col1Width = (pageWidth - 15) / 2;
+      const col2X = startX + col1Width + 15;
 
+      // Name
+      doc.roundedRect(startX, y, col1Width, 28, 3)
+         .fillAndStroke('#f7f9fc', '#667eea');
+      doc.fontSize(8).fillColor('#667eea').font('Helvetica-Bold')
+         .text('STUDENT NAME', startX + 10, y + 5, { width: col1Width - 20 });
+      doc.fontSize(11).fillColor('#1a1a1a').font('Helvetica')
+         .text(studentName, startX + 10, y + 16, { width: col1Width - 20 });
+
+      // Email
+      doc.roundedRect(col2X, y, col1Width, 28, 3)
+         .fillAndStroke('#f7f9fc', '#667eea');
+      doc.fontSize(8).fillColor('#667eea').font('Helvetica-Bold')
+         .text('EMAIL ADDRESS', col2X + 10, y + 5, { width: col1Width - 20 });
+      doc.fontSize(10).fillColor('#1a1a1a').font('Helvetica')
+         .text(studentEmail, col2X + 10, y + 16, { width: col1Width - 20 });
+
+      y += 33;
+
+      // Date (full width with spacing)
+      doc.roundedRect(startX, y, pageWidth, 22, 3)
+         .fillAndStroke('#f7f9fc', '#667eea');
+      doc.fontSize(8).fillColor('#667eea').font('Helvetica-Bold')
+         .text('REPORT DATE', startX + 10, y + 4, { width: pageWidth - 20 });
+      doc.fontSize(10).fillColor('#1a1a1a').font('Helvetica')
+         .text(reportDate, startX + 10, y + 14, { width: pageWidth - 20 });
+
+      y += 30;
+
+      // SUMMARY STATISTICS (4 boxes, 2x2 grid, proper spacing)
+      const statBoxWidth = (pageWidth - 15) / 2;
+      const statBoxHeight = 38;
+
+      // Row 1
       // Overall Score
-      doc.roundedRect(startX, leftY, statBoxWidth, statBoxHeight, 3)
+      doc.roundedRect(startX, y, statBoxWidth, statBoxHeight, 4)
          .fillAndStroke('#667eea', '#667eea');
       doc.fontSize(18).fillColor('#ffffff').font('Helvetica-Bold')
-         .text(`${avgScore}%`, startX + 5, leftY + 8, { width: statBoxWidth - 10, align: 'center' });
+         .text(`${avgScore}%`, startX + 10, y + 7, { width: statBoxWidth - 20, align: 'center' });
       doc.fontSize(8).fillColor('#ffffff').font('Helvetica')
-         .text('OVERALL SCORE', startX + 5, leftY + 28, { width: statBoxWidth - 10, align: 'center' });
+         .text('OVERALL SCORE', startX + 10, y + 27, { width: statBoxWidth - 20, align: 'center' });
 
       // Correct Answers
-      doc.roundedRect(startX + statBoxWidth + 10, leftY, statBoxWidth, statBoxHeight, 3)
+      doc.roundedRect(col2X, y, statBoxWidth, statBoxHeight, 4)
          .fillAndStroke('#764ba2', '#764ba2');
       doc.fontSize(18).fillColor('#ffffff').font('Helvetica-Bold')
-         .text(`${totalCorrect}/${totalQuestions}`, startX + statBoxWidth + 15, leftY + 8, { width: statBoxWidth - 10, align: 'center' });
+         .text(`${totalCorrect}/${totalQuestions}`, col2X + 10, y + 7, { width: statBoxWidth - 20, align: 'center' });
       doc.fontSize(8).fillColor('#ffffff').font('Helvetica')
-         .text('CORRECT', startX + statBoxWidth + 15, leftY + 28, { width: statBoxWidth - 10, align: 'center' });
+         .text('CORRECT ANSWERS', col2X + 10, y + 27, { width: statBoxWidth - 20, align: 'center' });
 
-      leftY += statBoxHeight + 5;
+      y += statBoxHeight + 5;
 
+      // Row 2
       // Total Questions
-      doc.roundedRect(startX, leftY, statBoxWidth, statBoxHeight, 3)
+      doc.roundedRect(startX, y, statBoxWidth, statBoxHeight, 4)
          .fillAndStroke('#667eea', '#667eea');
       doc.fontSize(18).fillColor('#ffffff').font('Helvetica-Bold')
-         .text(`${totalQuestions}`, startX + 5, leftY + 8, { width: statBoxWidth - 10, align: 'center' });
+         .text(`${totalQuestions}`, startX + 10, y + 7, { width: statBoxWidth - 20, align: 'center' });
       doc.fontSize(8).fillColor('#ffffff').font('Helvetica')
-         .text('TOTAL Q\'S', startX + 5, leftY + 28, { width: statBoxWidth - 10, align: 'center' });
+         .text('TOTAL QUESTIONS', startX + 10, y + 27, { width: statBoxWidth - 20, align: 'center' });
 
       // Pass Rate
-      doc.roundedRect(startX + statBoxWidth + 10, leftY, statBoxWidth, statBoxHeight, 3)
+      doc.roundedRect(col2X, y, statBoxWidth, statBoxHeight, 4)
          .fillAndStroke('#764ba2', '#764ba2');
       doc.fontSize(18).fillColor('#ffffff').font('Helvetica-Bold')
-         .text(`${passRate}%`, startX + statBoxWidth + 15, leftY + 8, { width: statBoxWidth - 10, align: 'center' });
+         .text(`${passRate}%`, col2X + 10, y + 7, { width: statBoxWidth - 20, align: 'center' });
       doc.fontSize(8).fillColor('#ffffff').font('Helvetica')
-         .text('PASS RATE', startX + statBoxWidth + 15, leftY + 28, { width: statBoxWidth - 10, align: 'center' });
+         .text('PASS RATE', col2X + 10, y + 27, { width: statBoxWidth - 20, align: 'center' });
 
-      // RIGHT COLUMN - Course Results
-      const rightX = startX + boxWidth + 20;
-      let rightY = currentY;
+      y += statBoxHeight + 20;
 
-      doc.fontSize(10).fillColor('#667eea').font('Helvetica-Bold')
-         .text('📚 Course Results', rightX, rightY, { width: boxWidth });
+      // COURSE RESULTS TITLE (no emoji)
+      doc.fontSize(11).fillColor('#667eea').font('Helvetica-Bold')
+         .text('COURSE RESULTS', startX, y, { width: pageWidth });
       
-      rightY += 20;
+      y += 18;
 
-      // Course breakdown
+      // Course breakdown (side-by-side, proper spacing)
       const courseNames = { 'html': 'HTML', 'css': 'CSS', 'javascript': 'JavaScript' };
       const courseColors = { 'html': '#FFB84D', 'css': '#4A90E2', 'javascript': '#A4D965' };
       
-      assessments.forEach((assessment) => {
+      const courseBoxWidth = (pageWidth - 30) / 3;
+      
+      assessments.forEach((assessment, index) => {
         const courseName = courseNames[assessment.course] || assessment.course.toUpperCase();
         const courseColor = courseColors[assessment.course] || '#667eea';
         const accuracy = ((assessment.correct_answers / assessment.total_questions) * 100).toFixed(1);
-        const status = assessment.score >= 60 ? 'PASSED ✓' : 'FAILED ✗';
+        const status = assessment.score >= 60 ? 'PASSED' : 'FAILED';
         const statusColor = assessment.score >= 60 ? '#28a745' : '#dc3545';
         
-        const courseBoxHeight = 55;
+        const courseX = startX + (index * (courseBoxWidth + 15));
+        const courseBoxHeight = 62;
         
         // Course Box
-        doc.roundedRect(rightX, rightY, boxWidth, courseBoxHeight, 3)
-           .fillAndStroke('#f0f9f9', courseColor);
+        doc.roundedRect(courseX, y, courseBoxWidth, courseBoxHeight, 4)
+           .fillAndStroke('#f7f9fc', courseColor);
         
         // Course Name
         doc.fontSize(10).fillColor(courseColor).font('Helvetica-Bold')
-           .text(courseName, rightX + 10, rightY + 8, { width: boxWidth - 20 });
+           .text(courseName, courseX + 8, y + 7, { width: courseBoxWidth - 16 });
         
         // Score
-        doc.fontSize(14).fillColor('#1a1a1a').font('Helvetica-Bold')
-           .text(`${assessment.score}%`, rightX + 10, rightY + 22, { width: boxWidth - 20 });
+        doc.fontSize(15).fillColor('#1a1a1a').font('Helvetica-Bold')
+           .text(`${assessment.score}%`, courseX + 8, y + 22, { width: courseBoxWidth - 16 });
         
         // Accuracy
-        doc.fontSize(9).fillColor('#666666').font('Helvetica')
-           .text(`${accuracy}% accuracy`, rightX + 10, rightY + 38, { width: boxWidth - 80 });
+        doc.fontSize(8).fillColor('#666666').font('Helvetica')
+           .text(`${accuracy}% accuracy`, courseX + 8, y + 40, { width: courseBoxWidth - 50 });
         
         // Status Badge
-        doc.roundedRect(rightX + boxWidth - 70, rightY + 35, 60, 15, 3)
+        doc.roundedRect(courseX + courseBoxWidth - 50, y + 46, 42, 13, 2)
            .fillAndStroke(statusColor, statusColor);
-        doc.fontSize(8).fillColor('#ffffff').font('Helvetica-Bold')
-           .text(status, rightX + boxWidth - 70, rightY + 39, { width: 60, align: 'center' });
-        
-        rightY += courseBoxHeight + 8;
+        doc.fontSize(7).fillColor('#ffffff').font('Helvetica-Bold')
+           .text(status, courseX + courseBoxWidth - 50, y + 49, { width: 42, align: 'center' });
       });
 
-      // RECOMMENDATION BOX
-      rightY += 10;
-      
+      y += 68;
+
+      // RECOMMENDATION BOX (no emoji, proper spacing)
       let recommendationTitle = '';
       let recommendationText = '';
       let recommendationColor = '';
       
       if (avgScore >= 90) {
-        recommendationTitle = '🌟 OUTSTANDING PERFORMANCE';
-        recommendationText = `Exceptional score of ${avgScore}%! You demonstrate mastery of web development fundamentals. You are well-prepared for advanced topics and real-world projects.`;
+        recommendationTitle = 'OUTSTANDING PERFORMANCE';
+        recommendationText = `Exceptional score of ${avgScore}%! Demonstrates mastery of web development. Well-prepared for advanced topics.`;
         recommendationColor = '#28a745';
       } else if (avgScore >= 80) {
-        recommendationTitle = '🎯 EXCELLENT WORK';
-        recommendationText = `Great score of ${avgScore}%! You show strong understanding of web development concepts. Continue building projects to solidify your expertise.`;
+        recommendationTitle = 'EXCELLENT WORK';
+        recommendationText = `Great score of ${avgScore}%! Strong understanding shown. Continue building projects to solidify expertise.`;
         recommendationColor = '#28a745';
       } else if (avgScore >= 70) {
-        recommendationTitle = '👍 GOOD JOB';
-        recommendationText = `Solid score of ${avgScore}%. You have a good foundation in web development. Practice more complex projects to enhance your skills further.`;
+        recommendationTitle = 'GOOD JOB';
+        recommendationText = `Solid score of ${avgScore}%. Good foundation established. Practice complex projects to enhance skills further.`;
         recommendationColor = '#667eea';
       } else if (avgScore >= 60) {
-        recommendationTitle = '📚 PASSED - KEEP LEARNING';
-        recommendationText = `You passed with ${avgScore}%. Review challenging topics and practice more to strengthen your understanding of web development concepts.`;
+        recommendationTitle = 'PASSED - KEEP LEARNING';
+        recommendationText = `Passed with ${avgScore}%. Review challenging topics and practice more to strengthen understanding.`;
         recommendationColor = '#f39c12';
       } else {
-        recommendationTitle = '💪 NEEDS IMPROVEMENT';
-        recommendationText = `Score of ${avgScore}% indicates need for review. We recommend revisiting course materials and practicing fundamentals before advancing.`;
+        recommendationTitle = 'NEEDS IMPROVEMENT';
+        recommendationText = `Score of ${avgScore}% indicates need for review. Revisit course materials and practice fundamentals.`;
         recommendationColor = '#dc3545';
       }
       
-      const recBoxHeight = 70;
-      doc.roundedRect(rightX, rightY, boxWidth, recBoxHeight, 3)
-         .fillAndStroke('#f0fff4', recommendationColor);
+      const recBoxHeight = 55;
+      doc.roundedRect(startX, y, pageWidth, recBoxHeight, 4)
+         .fillAndStroke('#f9fff9', recommendationColor);
       
       doc.fontSize(9).fillColor(recommendationColor).font('Helvetica-Bold')
-         .text(recommendationTitle, rightX + 10, rightY + 8, { width: boxWidth - 20 });
+         .text(recommendationTitle, startX + 12, y + 8, { width: pageWidth - 24 });
       
       doc.fontSize(9).fillColor('#1a1a1a').font('Helvetica')
-         .text(recommendationText, rightX + 10, rightY + 22, { 
-           width: boxWidth - 20, 
+         .text(recommendationText, startX + 12, y + 22, { 
+           width: pageWidth - 24, 
            lineGap: 2 
          });
 
-      // FOOTER
-      const footerY = doc.page.height - 80;
+      y += recBoxHeight + 25;
+
+      // FOOTER WITH SIGNATURES (at bottom with proper spacing)
+      const footerY = 730; // Fixed position near bottom
       
-      doc.moveTo(startX, footerY).lineTo(startX + pageWidth, footerY).strokeColor('#f0f0f0').lineWidth(1).stroke();
+      doc.moveTo(startX, footerY).lineTo(startX + pageWidth, footerY)
+         .strokeColor('#e0e0e0').lineWidth(1).stroke();
       
       const footerBoxWidth = (pageWidth - 40) / 3;
       
       // Left Signature
-      doc.moveTo(startX + 10, footerY + 15).lineTo(startX + footerBoxWidth - 10, footerY + 15).strokeColor('#667eea').stroke();
+      doc.moveTo(startX + 15, footerY + 12).lineTo(startX + footerBoxWidth - 15, footerY + 12)
+         .strokeColor('#667eea').lineWidth(1.5).stroke();
       doc.fontSize(10).fillColor('#667eea').font('Helvetica-Bold')
-         .text('Idris Alamutu', startX, footerY + 20, { width: footerBoxWidth, align: 'center' });
+         .text('Idris Alamutu', startX, footerY + 17, { width: footerBoxWidth, align: 'center' });
       doc.fontSize(8).fillColor('#666666').font('Helvetica')
-         .text('Founder & Director', startX, footerY + 32, { width: footerBoxWidth, align: 'center' });
+         .text('Founder & Director', startX, footerY + 30, { width: footerBoxWidth, align: 'center' });
       
       // Center
-      doc.fontSize(9).fillColor('#666666').font('Helvetica')
-         .text('Generated by Confide CBT Platform', startX + footerBoxWidth, footerY + 20, { 
+      doc.fontSize(8).fillColor('#666666').font('Helvetica')
+         .text('Generated by', startX + footerBoxWidth, footerY + 17, { 
+           width: footerBoxWidth, 
+           align: 'center' 
+         });
+      doc.fontSize(7).fillColor('#999999')
+         .text('Confide CBT Platform', startX + footerBoxWidth, footerY + 28, { 
            width: footerBoxWidth, 
            align: 'center' 
          });
@@ -525,11 +556,19 @@ function generateReportPDF(studentName, studentEmail, assessments) {
       const shortDate = new Date().toLocaleDateString('en-US', {
         month: '2-digit', day: '2-digit', year: 'numeric'
       });
-      doc.moveTo(startX + 2 * footerBoxWidth + 10, footerY + 15).lineTo(startX + pageWidth - 10, footerY + 15).strokeColor('#667eea').stroke();
+      doc.moveTo(startX + 2 * footerBoxWidth + 15, footerY + 12)
+         .lineTo(startX + pageWidth - 15, footerY + 12)
+         .strokeColor('#667eea').lineWidth(1.5).stroke();
       doc.fontSize(10).fillColor('#667eea').font('Helvetica-Bold')
-         .text(shortDate, startX + 2 * footerBoxWidth, footerY + 20, { width: footerBoxWidth, align: 'center' });
+         .text(shortDate, startX + 2 * footerBoxWidth, footerY + 17, { 
+           width: footerBoxWidth, 
+           align: 'center' 
+         });
       doc.fontSize(8).fillColor('#666666').font('Helvetica')
-         .text('Date', startX + 2 * footerBoxWidth, footerY + 32, { width: footerBoxWidth, align: 'center' });
+         .text('Date', startX + 2 * footerBoxWidth, footerY + 30, { 
+           width: footerBoxWidth, 
+           align: 'center' 
+         });
 
       doc.end();
     } catch (error) {
@@ -863,21 +902,36 @@ app.post('/api/submit-assessment/:course', (req, res) => {
         (err, assessments) => {
           if (err) {
             console.error('❌ Error checking completion:', err);
-          } else {
-            // Get unique courses
-            const uniqueCourses = [...new Set(assessments.map(a => a.course))];
+            return res.json({
+              success: true,
+              redirect: `/results?course=${course}&score=${score}&correct=${correct}&total=${total}&passed=${score >= 60}`
+            });
+          }
+
+          // Get unique courses
+          const uniqueCourses = [...new Set(assessments.map(a => a.course))];
+          
+          console.log(`📊 Student has completed ${uniqueCourses.length}/3 unique courses:`, uniqueCourses);
+          
+          // ✅ If all 3 courses complete, send instructor email
+          if (uniqueCourses.length === 3 && uniqueCourses.includes('html') && uniqueCourses.includes('css') && uniqueCourses.includes('javascript')) {
+            console.log('🎉 ALL 3 COURSES COMPLETE! Checking email configuration...');
             
-            console.log(`📊 Student has completed ${uniqueCourses.length}/3 courses:`, uniqueCourses);
-            
-            // ✅ If all 3 courses complete, send instructor email
-            if (uniqueCourses.length === 3 && uniqueCourses.includes('html') && uniqueCourses.includes('css') && uniqueCourses.includes('javascript')) {
-              console.log('🎉 ALL 3 COURSES COMPLETE! Sending instructor email...');
+            if (!transporter) {
+              console.error('❌ EMAIL SERVICE NOT CONFIGURED!');
+              console.error('   Please set GMAIL_USER and GMAIL_PASSWORD in .env file');
+              console.error('   Current GMAIL_USER:', GMAIL_USER || 'NOT SET');
+              console.error('   Current GMAIL_PASSWORD:', GMAIL_PASSWORD ? 'SET (hidden)' : 'NOT SET');
+            } else {
+              console.log('✅ Email service configured. Proceeding to send email...');
               
               // Get student info
               db.get('SELECT full_name, email FROM users WHERE id = ?', [userId], (err, user) => {
                 if (err || !user) {
                   console.error('❌ Error getting user info:', err);
                 } else {
+                  console.log(`📧 Preparing to email instructor about: ${user.full_name} (${user.email})`);
+                  
                   // Get latest score for each course
                   const latestAssessments = {};
                   assessments.forEach(a => {
@@ -888,25 +942,35 @@ app.post('/api/submit-assessment/:course', (req, res) => {
                   
                   const assessmentArray = Object.values(latestAssessments);
                   
+                  console.log('📊 Assessment data to send:', assessmentArray);
+                  console.log(`📧 Sending to instructor: ${INSTRUCTOR_EMAIL}`);
+                  
                   // 📧 Send email asynchronously (don't wait for it)
                   sendInstructorEmail(user.full_name, user.email, assessmentArray)
                     .then(() => {
-                      console.log('✅ Instructor email sent successfully!');
+                      console.log('✅✅✅ INSTRUCTOR EMAIL SENT SUCCESSFULLY! ✅✅✅');
                     })
                     .catch(error => {
-                      console.error('❌ Instructor email failed:', error);
+                      console.error('❌❌❌ INSTRUCTOR EMAIL FAILED! ❌❌❌');
+                      console.error('Error details:', error);
+                      if (error.response) {
+                        console.error('SMTP Response:', error.response);
+                      }
                     });
                 }
               });
             }
+          } else {
+            console.log('ℹ️ Not all courses complete yet. Waiting for more assessments.');
           }
+          
+          // Always send response
+          res.json({
+            success: true,
+            redirect: `/results?course=${course}&score=${score}&correct=${correct}&total=${total}&passed=${score >= 60}`
+          });
         }
       );
-      
-      res.json({
-        success: true,
-        redirect: `/results?course=${course}&score=${score}&correct=${correct}&total=${total}&passed=${score >= 60}`
-      });
     }
   );
 });
@@ -966,6 +1030,49 @@ app.get('/api/assessment-history', (req, res) => {
   } catch (error) {
     console.error('Assessment history error:', error);
     res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// EMAIL TEST ENDPOINT (for debugging)
+// ═══════════════════════════════════════════════════════════════════════════
+
+app.get('/test-email', async (req, res) => {
+  if (!transporter) {
+    return res.status(500).json({
+      error: 'Email service not configured',
+      details: {
+        GMAIL_USER: GMAIL_USER || 'NOT SET',
+        GMAIL_PASSWORD: GMAIL_PASSWORD ? 'SET' : 'NOT SET',
+        INSTRUCTOR_EMAIL: INSTRUCTOR_EMAIL
+      }
+    });
+  }
+
+  try {
+    console.log('🧪 Testing email configuration...');
+    
+    const testMail = {
+      from: GMAIL_USER,
+      to: INSTRUCTOR_EMAIL,
+      subject: '🧪 Test Email - Confide CBT Platform',
+      html: '<h2>Test Successful!</h2><p>Your email configuration is working correctly.</p>'
+    };
+
+    await transporter.sendMail(testMail);
+    
+    console.log('✅ Test email sent successfully!');
+    res.json({
+      success: true,
+      message: 'Test email sent successfully',
+      sentTo: INSTRUCTOR_EMAIL
+    });
+  } catch (error) {
+    console.error('❌ Test email failed:', error);
+    res.status(500).json({
+      error: 'Email send failed',
+      details: error.message
+    });
   }
 });
 
