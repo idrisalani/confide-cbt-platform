@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional CBT Assessment Platform - Turn-Key Solution for Educational Institutions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero .subtitle {
+            font-size: 24px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .hero .cta-primary {
+            background: white;
+            color: #667eea;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .hero .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .hero .cta-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .hero .cta-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        /* Trust Badges */
+        .trust-section {
+            background: #f8f9fa;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .trust-badge .icon {
+            font-size: 24px;
+        }
+
+        /* Problem Section */
+        .problem-section {
+            padding: 80px 20px;
+            background: white;
+            text-align: center;
+        }
+
+        .problem-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+
+        .problem-section .subtitle {
+            font-size: 20px;
+            color: #718096;
+            margin-bottom: 50px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .problem-card {
+            background: #fff5f5;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 4px solid #fc8181;
+        }
+
+        .problem-card .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .problem-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #c53030;
+        }
+
+        /* Solution Section */
+        .solution-section {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
+            text-align: center;
+        }
+
+        .solution-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 50px auto 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card .icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+
+        .feature-card p {
+            color: #718096;
+            font-size: 16px;
+        }
+
+        /* Benefits Section */
+        .benefits-section {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .benefits-section h2 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #2d3748;
+        }
+
+        .benefits-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .benefits-list {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 20px;
+        }
+
+        .benefit-item .icon {
+            font-size: 30px;
+            color: #48bb78;
+            flex-shrink: 0;
+        }
+
+        .benefit-item h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+
+        .benefit-item p {
+            color: #718096;
+        }
+
+        .benefits-image {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            text-align: center;
+        }
+
+        .benefits-image h3 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            padding: 80px 20px;
+            background: #f8f9fa;
+            text-align: center;
+        }
+
+        .pricing-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+
+        .pricing-section .subtitle {
+            font-size: 20px;
+            color: #718096;
+            margin-bottom: 50px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-card.popular {
+            border: 3px solid #667eea;
+            transform: scale(1.05);
+        }
+
+        .pricing-card.popular .badge {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .pricing-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+
+        .pricing-card .price {
+            font-size: 48px;
+            font-weight: 700;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .pricing-card .price span {
+            font-size: 20px;
+            color: #718096;
+        }
+
+        .pricing-card .features {
+            text-align: left;
+            margin: 30px 0;
+        }
+
+        .pricing-card .features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pricing-card .features li:before {
+            content: "✓";
+            color: #48bb78;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .pricing-card .cta-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .pricing-card .cta-button:hover {
+            background: #5568d3;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .testimonials-section h2 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #2d3748;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .testimonial-card .quote-icon {
+            font-size: 40px;
+            color: #667eea;
+            opacity: 0.3;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .testimonial-card .content {
+            margin-top: 30px;
+            font-style: italic;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card .author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .testimonial-card .author-info h4 {
+            font-size: 16px;
+            color: #2d3748;
+        }
+
+        .testimonial-card .author-info p {
+            font-size: 14px;
+            color: #718096;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 80px 20px;
+            background: #f8f9fa;
+        }
+
+        .faq-section h2 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #2d3748;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .faq-item h3 {
+            font-size: 18px;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .faq-item p {
+            color: #718096;
+            line-height: 1.8;
+        }
+
+        /* CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 100px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .final-cta h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .final-cta p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .final-cta .cta-button {
+            background: white;
+            color: #667eea;
+            padding: 20px 50px;
+            border: none;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .final-cta .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: #2d3748;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero .subtitle {
+                font-size: 18px;
+            }
+
+            .benefits-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>🎓 Professional CBT Assessment Platform</h1>
+        <p class="subtitle">Turn-Key Computer-Based Testing Solution for Educational Institutions</p>
+        <p style="max-width: 700px; margin: 0 auto 40px; font-size: 18px;">
+            Launch your own branded assessment platform in 24 hours. No coding required. 
+            Perfect for academies, training centers, and certification programs.
+        </p>
+        <a href="#pricing" class="cta-primary">View Pricing Plans</a>
+        <a href="https://confide-cbt-platform.onrender.com/" target="_blank" class="cta-secondary">Try Live Demo →</a>
+    </section>
+
+    <!-- Trust Badges -->
+    <section class="trust-section">
+        <div class="trust-badges">
+            <div class="trust-badge">
+                <span class="icon">✓</span>
+                <span><strong>Ready in 24 Hours</strong></span>
+            </div>
+            <div class="trust-badge">
+                <span class="icon">🔒</span>
+                <span><strong>Secure & Reliable</strong></span>
+            </div>
+            <div class="trust-badge">
+                <span class="icon">💰</span>
+                <span><strong>One-Time Payment</strong></span>
+            </div>
+            <div class="trust-badge">
+                <span class="icon">🎨</span>
+                <span><strong>Fully Customizable</strong></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section">
+        <h2>Running Assessments Shouldn't Be This Hard</h2>
+        <p class="subtitle">Are these challenges holding your institution back?</p>
+        
+        <div class="problems-grid">
+            <div class="problem-card">
+                <div class="icon">😫</div>
+                <h3>Manual Grading Takes Forever</h3>
+                <p>Spending hours grading papers instead of teaching? Automatic scoring gives you instant results.</p>
+            </div>
+            <div class="problem-card">
+                <div class="icon">📊</div>
+                <h3>No Progress Tracking</h3>
+                <p>Struggling to track student progress across multiple courses? Get real-time dashboards.</p>
+            </div>
+            <div class="problem-card">
+                <div class="icon">💸</div>
+                <h3>Expensive Subscription Platforms</h3>
+                <p>Paying $99-299/month for assessment platforms? Own your system with one-time payment.</p>
+            </div>
+            <div class="problem-card">
+                <div class="icon">🕐</div>
+                <h3>Complex Setup & Maintenance</h3>
+                <p>Don't want to hire developers? We deploy and configure everything for you.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution-section">
+        <h2>A Complete Assessment Platform, Ready to Go</h2>
+        <p style="max-width: 800px; margin: 0 auto 40px; font-size: 18px; color: #555;">
+            Everything you need to run professional computer-based assessments, certificate generation, 
+            and student tracking—all in one beautiful, easy-to-use platform.
+        </p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon">⏱️</div>
+                <h3>Timed Assessments</h3>
+                <p>Configurable time limits with visual countdown timers and auto-submission when time expires.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🔐</div>
+                <h3>Secure Authentication</h3>
+                <p>Student registration, login system with session management, and password encryption.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📈</div>
+                <h3>Sequential Course Unlocking</h3>
+                <p>Courses unlock automatically as students complete prerequisites, ensuring proper learning progression.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">✅</div>
+                <h3>Automatic Grading</h3>
+                <p>Instant scoring with pass/fail determination (customizable threshold). No manual grading needed.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🎓</div>
+                <h3>Certificate Generation</h3>
+                <p>Professional PDF certificates generated automatically upon completion. Downloadable and shareable.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📧</div>
+                <h3>Instructor Email Notifications</h3>
+                <p>Get instant email alerts when students complete all assessments, with certificate and report attached.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📊</div>
+                <h3>Performance Reports</h3>
+                <p>Detailed PDF reports showing individual scores, pass rates, and personalized recommendations.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📱</div>
+                <h3>Mobile Responsive</h3>
+                <p>Works perfectly on all devices—desktop, tablet, and mobile. Test anywhere, anytime.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🎨</div>
+                <h3>Branded Interface</h3>
+                <p>Customize with your academy logo, colors, and branding. Make it truly yours.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits-section">
+        <h2>Why Educational Institutions Choose Our Platform</h2>
+
+        <div class="benefits-container">
+            <div class="benefits-list">
+                <div class="benefit-item">
+                    <div class="icon">💰</div>
+                    <div>
+                        <h3>Save Thousands per Year</h3>
+                        <p>Stop paying $1,200-3,600 annually for subscription platforms. One-time payment, lifetime use. Break even in month 1.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="icon">⚡</div>
+                    <div>
+                        <h3>Launch in 24 Hours</h3>
+                        <p>We handle deployment, setup, and configuration. You focus on your students. No technical skills required.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="icon">🎯</div>
+                    <div>
+                        <h3>Purpose-Built for Education</h3>
+                        <p>Not a generic quiz tool. Designed specifically for academies, training centers, and certification programs.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="icon">🔧</div>
+                    <div>
+                        <h3>Full Customization</h3>
+                        <p>Add your questions, courses, branding, and passing criteria. Or use our expert question bank creation service.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="icon">👥</div>
+                    <div>
+                        <h3>White-Label Ready</h3>
+                        <p>Sell to other institutions or use internally. No "Powered by" branding. 100% yours.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="benefits-image">
+                <h3>Built for Scale</h3>
+                <p style="margin-bottom: 30px;">Handle thousands of students with enterprise-grade infrastructure</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">10 min</div>
+                        <div class="stat-label">Average Setup Time</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Automated Grading</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Unlimited Students</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Always Available</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section" id="pricing">
+        <h2>Simple, Transparent Pricing</h2>
+        <p class="subtitle">Choose the package that fits your needs. One-time payment, no recurring fees.</p>
+
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Starter</h3>
+                <div class="price">$497<span>/one-time</span></div>
+                <p style="color: #718096; margin-bottom: 20px;">Perfect for small academies</p>
+                
+                <ul class="features">
+                    <li>Complete CBT Platform</li>
+                    <li>Up to 3 Courses</li>
+                    <li>Automatic Certificate Generation</li>
+                    <li>Email Notifications</li>
+                    <li>Student Dashboard</li>
+                    <li>Progress Tracking</li>
+                    <li>Basic Customization</li>
+                    <li>Deployment & Setup</li>
+                    <li>1 Month Support</li>
+                </ul>
+
+                <button class="cta-button">Get Started</button>
+            </div>
+
+            <div class="pricing-card popular">
+                <div class="badge">MOST POPULAR</div>
+                <h3>Professional</h3>
+                <div class="price">$997<span>/one-time</span></div>
+                <p style="color: #718096; margin-bottom: 20px;">Best value for growing institutions</p>
+                
+                <ul class="features">
+                    <li>Everything in Starter</li>
+                    <li>Up to 10 Courses</li>
+                    <li>Full Branding Customization</li>
+                    <li>Custom Question Bank (100 questions)</li>
+                    <li>Performance Analytics</li>
+                    <li>Priority Deployment</li>
+                    <li>Custom Domain Setup</li>
+                    <li>3 Months Support</li>
+                    <li>Free Updates (1 Year)</li>
+                </ul>
+
+                <button class="cta-button">Get Started</button>
+            </div>
+
+            <div class="pricing-card">
+                <h3>Enterprise</h3>
+                <div class="price">$2,497<span>/one-time</span></div>
+                <p style="color: #718096; margin-bottom: 20px;">For large institutions</p>
+                
+                <ul class="features">
+                    <li>Everything in Professional</li>
+                    <li>Unlimited Courses</li>
+                    <li>Custom Question Bank (Unlimited)</li>
+                    <li>Multi-Academy Support</li>
+                    <li>Advanced Analytics Dashboard</li>
+                    <li>White-Label Rights</li>
+                    <li>Source Code Access</li>
+                    <li>Priority Support (12 Months)</li>
+                    <li>Free Updates (Lifetime)</li>
+                    <li>Reseller License Available</li>
+                </ul>
+
+                <button class="cta-button">Contact Sales</button>
+            </div>
+        </div>
+
+        <div style="margin-top: 50px; text-align: center; color: #718096;">
+            <p>💳 Secure payment via PayPal, Stripe, or Bank Transfer</p>
+            <p>✓ 30-Day Money-Back Guarantee • ✓ No Hidden Fees • ✓ One-Time Payment</p>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials-section">
+        <h2>What Academy Owners Are Saying</h2>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="quote-icon">"</div>
+                <div class="content">
+                    "We were paying $199/month for an assessment platform. This paid for itself in 3 months and does everything we need. The automatic certificate generation is a game-changer!"
+                </div>
+                <div class="author">
+                    <div class="author-info">
+                        <h4>Sarah Johnson</h4>
+                        <p>Director, TechSkills Academy</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="quote-icon">"</div>
+                <div class="content">
+                    "Setup took literally 1 hour. The email notifications keep me updated on every student completion. My students love the professional certificates. Best investment we made this year."
+                </div>
+                <div class="author">
+                    <div class="author-info">
+                        <h4>Michael Chen</h4>
+                        <p>Founder, CodeMaster Institute</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="quote-icon">"</div>
+                <div class="content">
+                    "We run 5 different academies. The white-label option lets us deploy this for each one with different branding. Saved us from hiring a developer. Phenomenal ROI."
+                </div>
+                <div class="author">
+                    <div class="author-info">
+                        <h4>David Okafor</h4>
+                        <p>CEO, Digital Skills Group</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <h3>Do I need technical skills to use this?</h3>
+                <p>No! We handle all the technical setup, deployment, and configuration. You just add your questions and students can start taking assessments immediately.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Can I customize the questions and courses?</h3>
+                <p>Absolutely! The platform comes with a simple question management system. You can add, edit, or remove questions at any time. We also offer a question bank creation service if you need help.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How many students can use the platform?</h3>
+                <p>Unlimited! There are no per-student fees. Whether you have 10 or 10,000 students, the price stays the same.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What's included in the setup service?</h3>
+                <p>We deploy the platform to your server (or ours), configure your domain, add your branding, upload your initial questions, set up email notifications, and provide training on how to manage the system.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Can students access this on mobile devices?</h3>
+                <p>Yes! The platform is fully responsive and works perfectly on smartphones, tablets, and desktops.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What happens after the support period ends?</h3>
+                <p>The platform continues to work perfectly. You own it forever. Support periods cover questions, minor fixes, and guidance. Extended support packages are available if needed.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Can I resell this to other institutions?</h3>
+                <p>Yes, with the Enterprise package! You get white-label rights and can resell the platform to other academies or training centers.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What if I'm not satisfied?</h3>
+                <p>We offer a 30-day money-back guarantee. If you're not completely satisfied, we'll refund your payment in full, no questions asked.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <h2>Ready to Transform Your Assessment Process?</h2>
+        <p>Join hundreds of institutions using our platform to deliver professional assessments</p>
+        <a href="https://confide-cbt-platform.onrender.com/" target="_blank" class="cta-button">Try Live Demo Free →</a>
+        <p style="margin-top: 20px; font-size: 14px; opacity: 0.9;">
+            No credit card required • Full platform access • Test all features
+        </p>
+        <p style="margin-top: 30px; font-size: 16px;">
+            Questions? Email us at sales@confideacademy.com or call +234-XXX-XXX-XXXX
+        </p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Confide Computer Academy - Professional CBT Platform. All rights reserved.</p>
+        <p>
+            <a href="#privacy">Privacy Policy</a> | 
+            <a href="#terms">Terms of Service</a> | 
+            <a href="mailto:sales@confideacademy.com">Contact Us</a>
+        </p>
+        <p style="margin-top: 20px; font-size: 14px;">
+            🌐 Live Demo: <a href="https://confide-cbt-platform.onrender.com/" target="_blank" style="color: #667eea; text-decoration: underline;">confide-cbt-platform.onrender.com</a>
+        </p>
+        <p style="margin-top: 10px; font-size: 14px;">
+            Confide Computer Academy® | Lagos, Nigeria
+        </p>
+    </footer>
+</body>
+</html>
