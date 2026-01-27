@@ -305,7 +305,20 @@ function generateCertificatePDF(studentName, assessments) {
       doc.fontSize(10).fillColor('#1a1a1a').font('Helvetica-Bold')
          .text(fullDate, centerX - 70, footerY + 10, { width: 140, align: 'center' });
 
-      // Right Signature Block
+      // Right Signature Block with Academy Seal Image
+      const sealPath = path.join(__dirname, '../user-data/uploads/academy-seal.png');
+      if (fs.existsSync(sealPath)) {
+        try {
+          doc.image(sealPath, pageWidth - 205, footerY - 50, {
+            width: 90,
+            height: 90,
+            align: 'center'
+          });
+        } catch (err) {
+          console.log('Could not load academy seal image:', err);
+        }
+      }
+      
       doc.moveTo(pageWidth - 230, footerY).lineTo(pageWidth - 90, footerY)
          .strokeColor('#667eea').lineWidth(1.5).stroke();
       doc.fontSize(12).fillColor('#667eea').font('Helvetica-Bold')
