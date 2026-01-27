@@ -277,7 +277,21 @@ function generateCertificatePDF(studentName, assessments) {
         year: 'numeric', month: 'long', day: 'numeric'
       });
 
-      // Left Signature Block
+      // Left Signature Block with Electronic Signature
+      // Add signature image ABOVE the name
+      const signaturePath = path.join(__dirname, '../user-data/uploads/eSignature-27012026.png');
+      if (fs.existsSync(signaturePath)) {
+        try {
+          doc.image(signaturePath, 105, footerY - 40, {
+            width: 110,
+            height: 35,
+            align: 'center'
+          });
+        } catch (err) {
+          console.log('Could not load signature image:', err);
+        }
+      }
+      
       doc.moveTo(90, footerY).lineTo(230, footerY)
          .strokeColor('#667eea').lineWidth(1.5).stroke();
       doc.fontSize(12).fillColor('#667eea').font('Helvetica-Bold')
@@ -522,7 +536,43 @@ function generateReportPDF(studentName, studentEmail, assessments) {
            lineGap: 2 
          });
 
-      y += recBoxHeight + 25;
+      y += recBoxHeight + 15;
+
+      // CONGRATULATIONS MESSAGE BOX (score-based with Backend Web Development recommendations)
+      let congratsTitle = '';
+      let congratsMessage = '';
+      let congratsColor = '';
+      
+      if (avgScore >= 85) {
+        congratsTitle = 'CONGRATULATIONS - EXCELLENT PERFORMANCE!';
+        congratsMessage = 'Your outstanding achievement demonstrates exceptional mastery of web development fundamentals. We encourage you to pursue advanced training in Backend Web Development.';
+        congratsColor = '#28a745';
+      } else if (avgScore >= 75) {
+        congratsTitle = 'CONGRATULATIONS - GOOD PERFORMANCE!';
+        congratsMessage = 'Your solid performance shows strong understanding of web development concepts. Consider advancing to our Backend Web Development course.';
+        congratsColor = '#667eea';
+      } else if (avgScore >= 60) {
+        congratsTitle = 'CONGRATULATIONS - YOU PASSED!';
+        congratsMessage = 'You have demonstrated competency in web development fundamentals. Keep practicing and revisit challenging topics. You can still consider to pursue our Backend Web Development course.';
+        congratsColor = '#f39c12';
+      }
+      
+      if (congratsMessage) {
+        const congratsBoxHeight = 60;
+        doc.roundedRect(startX, y, pageWidth, congratsBoxHeight, 4)
+           .fillAndStroke('#fff8e1', congratsColor);
+        
+        doc.fontSize(9).fillColor(congratsColor).font('Helvetica-Bold')
+           .text(congratsTitle, startX + 12, y + 8, { width: pageWidth - 24 });
+        
+        doc.fontSize(9).fillColor('#1a1a1a').font('Helvetica')
+           .text(congratsMessage, startX + 12, y + 22, { 
+             width: pageWidth - 24, 
+             lineGap: 2 
+           });
+        
+        y += congratsBoxHeight + 10;
+      }
 
       // FOOTER WITH SIGNATURES (at bottom with proper spacing)
       const footerY = 730; // Fixed position near bottom
@@ -532,7 +582,21 @@ function generateReportPDF(studentName, studentEmail, assessments) {
       
       const footerBoxWidth = (pageWidth - 40) / 3;
       
-      // Left Signature
+      // Left Signature with Electronic Signature Image
+      // Add signature image ABOVE the name
+      const signaturePath = path.join(__dirname, '../user-data/uploads/eSignature-27012026.png');
+      if (fs.existsSync(signaturePath)) {
+        try {
+          doc.image(signaturePath, startX + 25, footerY - 30, {
+            width: 100,
+            height: 32,
+            align: 'center'
+          });
+        } catch (err) {
+          console.log('Could not load signature image:', err);
+        }
+      }
+      
       doc.moveTo(startX + 15, footerY + 12).lineTo(startX + footerBoxWidth - 15, footerY + 12)
          .strokeColor('#667eea').lineWidth(1.5).stroke();
       doc.fontSize(10).fillColor('#667eea').font('Helvetica-Bold')
