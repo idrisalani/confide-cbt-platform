@@ -1,15 +1,15 @@
 /**
- * Confide CBT Platform - Express Server with Email Notifications
+ * Confide CBT Platform - Express Server with SendGrid Email Notifications
  * Features: Authentication, Assessments, Dashboard, PDFs, Email to Instructor
- * ✅ INSTRUCTOR EMAIL: Sends certificate + report when student completes all 3 courses
- * Version: Production Ready with Email Trigger
+ * ✅ INSTRUCTOR EMAIL: Sends certificate + report via SendGrid when student completes all 3 courses
+ * Version: Production Ready with SendGrid (NO NODEMAILER)
  */
 
 import express from 'express';
 import session from 'express-session';
 import sqlite3 from 'sqlite3';
 import bcrypt from 'bcryptjs';
-import nodemailer from 'nodemailer';
+import sgMail from '@sendgrid/mail';  // ✅ SendGrid ONLY
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
@@ -27,9 +27,16 @@ const PORT = process.env.PORT || 5000;
 
 const SESSION_SECRET = process.env.SESSION_SECRET || 'your-secret-key-12345';
 const INSTRUCTOR_EMAIL = process.env.INSTRUCTOR_EMAIL || 'idris.alamutu@outlook.com';
-const GMAIL_USER = process.env.GMAIL_USER;
-const GMAIL_PASSWORD = process.env.GMAIL_PASSWORD;
 const DATABASE_PATH = process.env.DATABASE_PATH || './data/cbt_platform.db';
+
+// ✅ Configure SendGrid
+if (process.env.SENDGRID_API_KEY) {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  console.log('✅ SendGrid configured successfully');
+  console.log(`📧 Instructor email: ${INSTRUCTOR_EMAIL}`);
+} else {
+  console.log('⚠️ SENDGRID_API_KEY not set - emails will not send');
+}
 
 // ✅ Ensure data directory exists
 try {
@@ -51,19 +58,6 @@ const db = new sqlite3.Database(DATABASE_PATH, (err) => {
     initializeTables();
   }
 });
-
-// Email transporter
-// Email transporter
-const sgMail = require('@sendgrid/mail');
-
-// Configure SendGrid
-if (process.env.SENDGRID_API_KEY) {
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  console.log('✅ Email service ready (SendGrid)');
-  console.log('📧 Instructor email configured:', process.env.INSTRUCTOR_EMAIL);
-} else {
-  console.log('⚠️ Email service not configured. Add SENDGRID_API_KEY to .env file');
-}
 
 // Load questions
 let questions = [];
@@ -111,12 +105,11 @@ function initializeTables() {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL,
         course TEXT NOT NULL,
-        score INTEGER,
-        correct_answers INTEGER,
-        total_questions INTEGER,
-        completed_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        score INTEGER NOT NULL,
+        correct_answers INTEGER NOT NULL,
+        total_questions INTEGER NOT NULL,
         time_remaining INTEGER,
-        certificate_sent INTEGER DEFAULT 0,
+        completed_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users(id)
       )
     `, (err) => {
@@ -127,18 +120,16 @@ function initializeTables() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// HELPER FUNCTION: Generate Certificate PDF as Buffer (LANDSCAPE - SINGLE PAGE)
-// Professional design WITHOUT emojis (PDFKit doesn't support them)
+// HELPER FUNCTION: Generate Certificate PDF as Buffer (LANDSCAPE)
 // ═══════════════════════════════════════════════════════════════════════════
 
 function generateCertificatePDF(studentName, assessments) {
   return new Promise((resolve, reject) => {
     try {
-      // LANDSCAPE LAYOUT - A4 = 842 x 595 points
       const doc = new PDFDocument({ 
         size: 'A4',
         layout: 'landscape',
-        margins: { top: 40, bottom: 40, left: 50, right: 50 }
+        margins: { top: 50, bottom: 50, left: 50, right: 50 }
       });
       
       let buffers = [];
@@ -215,7 +206,7 @@ function generateCertificatePDF(studentName, assessments) {
          });
 
       doc.fontSize(16).fillColor('#764ba2').font('Helvetica-Bold')
-         .text('Frontend Web Development Program', centerX - 200, 315, { 
+         .text('Web Development Program', centerX - 200, 315, { 
            width: 400, 
            align: 'center' 
          });
@@ -339,8 +330,7 @@ function generateCertificatePDF(studentName, assessments) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// HELPER FUNCTION: Generate Performance Report PDF as Buffer (PORTRAIT - SINGLE PAGE)
-// Professional design WITHOUT emojis, proper spacing, signatures at bottom
+// HELPER FUNCTION: Generate Performance Report PDF as Buffer (PORTRAIT)
 // ═══════════════════════════════════════════════════════════════════════════
 
 function generateReportPDF(studentName, studentEmail, assessments) {
@@ -365,7 +355,7 @@ function generateReportPDF(studentName, studentEmail, assessments) {
       const startX = 40;
       let y = 40; // Current Y position
 
-      // HEADER (professional, no emoji)
+      // HEADER (professional)
       doc.fontSize(26).fillColor('#667eea').font('Helvetica-Bold')
          .text('Performance Report', startX, y, { width: pageWidth, align: 'center' });
       
@@ -386,7 +376,7 @@ function generateReportPDF(studentName, studentEmail, assessments) {
         year: 'numeric', month: 'long', day: 'numeric'
       });
 
-      // STUDENT INFORMATION (side-by-side with proper spacing)
+      // STUDENT INFORMATION (side-by-side)
       const col1Width = (pageWidth - 15) / 2;
       const col2X = startX + col1Width + 15;
 
@@ -408,7 +398,7 @@ function generateReportPDF(studentName, studentEmail, assessments) {
 
       y += 33;
 
-      // Date (full width with spacing)
+      // Date (full width)
       doc.roundedRect(startX, y, pageWidth, 22, 3)
          .fillAndStroke('#f7f9fc', '#667eea');
       doc.fontSize(8).fillColor('#667eea').font('Helvetica-Bold')
@@ -418,7 +408,7 @@ function generateReportPDF(studentName, studentEmail, assessments) {
 
       y += 30;
 
-      // SUMMARY STATISTICS (4 boxes, 2x2 grid, proper spacing)
+      // SUMMARY STATISTICS (4 boxes, 2x2 grid)
       const statBoxWidth = (pageWidth - 15) / 2;
       const statBoxHeight = 38;
 
@@ -460,13 +450,13 @@ function generateReportPDF(studentName, studentEmail, assessments) {
 
       y += statBoxHeight + 20;
 
-      // COURSE RESULTS TITLE (no emoji)
+      // COURSE RESULTS
       doc.fontSize(11).fillColor('#667eea').font('Helvetica-Bold')
          .text('COURSE RESULTS', startX, y, { width: pageWidth });
       
       y += 18;
 
-      // Course breakdown (side-by-side, proper spacing)
+      // Course breakdown
       const courseNames = { 'html': 'HTML', 'css': 'CSS', 'javascript': 'JavaScript' };
       const courseColors = { 'html': '#FFB84D', 'css': '#4A90E2', 'javascript': '#A4D965' };
       
@@ -477,7 +467,6 @@ function generateReportPDF(studentName, studentEmail, assessments) {
         const courseColor = courseColors[assessment.course] || '#667eea';
         const accuracy = ((assessment.correct_answers / assessment.total_questions) * 100).toFixed(1);
         const status = assessment.score >= 60 ? 'PASSED' : 'FAILED';
-        const statusColor = assessment.score >= 60 ? '#28a745' : '#dc3545';
         
         const courseX = startX + (index * (courseBoxWidth + 15));
         const courseBoxHeight = 62;
@@ -496,309 +485,72 @@ function generateReportPDF(studentName, studentEmail, assessments) {
         
         // Accuracy
         doc.fontSize(8).fillColor('#666666').font('Helvetica')
-           .text(`${accuracy}% accuracy`, courseX + 8, y + 40, { width: courseBoxWidth - 50 });
+           .text(`${accuracy}% Accuracy`, courseX + 8, y + 41, { width: courseBoxWidth - 16 });
         
-        // Status Badge
-        doc.roundedRect(courseX + courseBoxWidth - 50, y + 46, 42, 13, 2)
-           .fillAndStroke(statusColor, statusColor);
-        doc.fontSize(7).fillColor('#ffffff').font('Helvetica-Bold')
-           .text(status, courseX + courseBoxWidth - 50, y + 49, { width: 42, align: 'center' });
+        // Status
+        const statusColor = assessment.score >= 60 ? '#28a745' : '#dc3545';
+        doc.fontSize(7).fillColor(statusColor).font('Helvetica-Bold')
+           .text(status, courseX + 8, y + 52, { width: courseBoxWidth - 16 });
       });
 
-      y += 68;
+      y += 80;
 
-      // RECOMMENDATION BOX (no emoji, proper spacing)
-      let recommendationTitle = '';
-      let recommendationText = '';
-      let recommendationColor = '';
-      
-      if (avgScore >= 90) {
-        recommendationTitle = 'OUTSTANDING PERFORMANCE';
-        recommendationText = `Exceptional score of ${avgScore}%! Demonstrates mastery of web development. Well-prepared for advanced topics.`;
-        recommendationColor = '#28a745';
-      } else if (avgScore >= 80) {
-        recommendationTitle = 'EXCELLENT WORK';
-        recommendationText = `Great score of ${avgScore}%! Strong understanding shown. Continue building projects to solidify expertise.`;
-        recommendationColor = '#28a745';
-      } else if (avgScore >= 70) {
-        recommendationTitle = 'GOOD JOB';
-        recommendationText = `Solid score of ${avgScore}%. Good foundation established. Practice complex projects to enhance skills further.`;
-        recommendationColor = '#667eea';
-      } else if (avgScore >= 60) {
-        recommendationTitle = 'PASSED - KEEP LEARNING';
-        recommendationText = `Passed with ${avgScore}%. Review challenging topics and practice more to strengthen understanding.`;
-        recommendationColor = '#f39c12';
-      } else {
-        recommendationTitle = 'NEEDS IMPROVEMENT';
-        recommendationText = `Score of ${avgScore}% indicates need for review. Revisit course materials and practice fundamentals.`;
-        recommendationColor = '#dc3545';
-      }
-      
-      const recBoxHeight = 55;
-      doc.roundedRect(startX, y, pageWidth, recBoxHeight, 4)
-         .fillAndStroke('#f9fff9', recommendationColor);
-      
-      doc.fontSize(9).fillColor(recommendationColor).font('Helvetica-Bold')
-         .text(recommendationTitle, startX + 12, y + 8, { width: pageWidth - 24 });
-      
-      doc.fontSize(9).fillColor('#1a1a1a').font('Helvetica')
-         .text(recommendationText, startX + 12, y + 22, { 
-           width: pageWidth - 24, 
-           lineGap: 2 
-         });
-
-      y += recBoxHeight + 15;
-
-      // CONGRATULATIONS MESSAGE BOX (score-based with Backend Web Development recommendations)
-      let congratsTitle = '';
+      // Congratulations Message based on score
       let congratsMessage = '';
-      let congratsColor = '';
+      let congratsColor = '#28a745';
+      let congratsBgColor = '#d4edda';
       
       if (avgScore >= 85) {
-        congratsTitle = 'CONGRATULATIONS - EXCELLENT PERFORMANCE!';
-        congratsMessage = 'Your outstanding achievement demonstrates exceptional mastery of web development fundamentals. We encourage you to pursue advanced training in Backend Web Development.';
+        congratsMessage = `CONGRATULATIONS - EXCELLENT PERFORMANCE!
+
+Your outstanding achievement demonstrates exceptional mastery of Web Development fundamentals. Your ${avgScore}% overall score places you among the top performers. This level of excellence shows both dedication and natural aptitude for programming.
+
+We encourage you to pursue advanced training in Backend Web Development to complement your frontend skills. Our Backend course covers server-side technologies, databases, and APIs - essential skills for full-stack development.`;
         congratsColor = '#28a745';
+        congratsBgColor = '#d4edda';
       } else if (avgScore >= 75) {
-        congratsTitle = 'CONGRATULATIONS - GOOD PERFORMANCE!';
-        congratsMessage = 'Your solid performance shows strong understanding of web development concepts. Consider advancing to our Backend Web Development course.';
+        congratsMessage = `CONGRATULATIONS - GOOD PERFORMANCE!
+
+Your solid performance shows strong understanding of Web Development concepts. A ${avgScore}% overall score demonstrates you have built a good foundation in HTML, CSS, and JavaScript.
+
+Consider advancing to our Backend Web Development course to expand your skill set. Learning server-side programming will make you a more versatile developer and open up more career opportunities.`;
         congratsColor = '#667eea';
+        congratsBgColor = '#e8f0fe';
       } else if (avgScore >= 60) {
-        congratsTitle = 'CONGRATULATIONS - YOU PASSED!';
-        congratsMessage = 'You have demonstrated competency in web development fundamentals. Keep practicing and revisit challenging topics. You can still consider to pursue our Backend Web Development course.';
+        congratsMessage = `CONGRATULATIONS - YOU PASSED!
+
+You have demonstrated competency in Web Development fundamentals with a ${avgScore}% overall score. This is a solid start to your programming journey. Keep practicing and revisit challenging topics to strengthen your skills.
+
+You can still consider to pursue our Backend Web Development course when you're ready to expand your capabilities. Building on this foundation with backend skills will enhance your career prospects.`;
         congratsColor = '#f39c12';
-      }
-      
-      if (congratsMessage) {
-        const congratsBoxHeight = 60;
-        doc.roundedRect(startX, y, pageWidth, congratsBoxHeight, 4)
-           .fillAndStroke('#fff8e1', congratsColor);
-        
-        doc.fontSize(9).fillColor(congratsColor).font('Helvetica-Bold')
-           .text(congratsTitle, startX + 12, y + 8, { width: pageWidth - 24 });
-        
-        doc.fontSize(9).fillColor('#1a1a1a').font('Helvetica')
-           .text(congratsMessage, startX + 12, y + 22, { 
-             width: pageWidth - 24, 
-             lineGap: 2 
-           });
-        
-        y += congratsBoxHeight + 10;
+        congratsBgColor = '#fff8e1';
       }
 
-      // FOOTER WITH SIGNATURES (at bottom with proper spacing)
-      const footerY = 730; // Fixed position near bottom
-      
-      doc.moveTo(startX, footerY).lineTo(startX + pageWidth, footerY)
-         .strokeColor('#e0e0e0').lineWidth(1).stroke();
-      
-      const footerBoxWidth = (pageWidth - 40) / 3;
-      
-      // Left Signature with Electronic Signature Image
-      // Add signature image ABOVE the name
-      const signaturePath = path.join(__dirname, '../user-data/uploads/eSignature-27012026.png');
-      if (fs.existsSync(signaturePath)) {
-        try {
-          doc.image(signaturePath, startX + 25, footerY - 30, {
-            width: 100,
-            height: 32,
-            align: 'center'
-          });
-        } catch (err) {
-          console.log('Could not load signature image:', err);
-        }
+      if (congratsMessage) {
+        // Congratulations box
+        const boxHeight = 90;
+        doc.roundedRect(startX, y, pageWidth, boxHeight, 5)
+           .fillAndStroke(congratsBgColor, congratsColor);
+        
+        doc.fontSize(9).fillColor(congratsColor).font('Helvetica')
+           .text(congratsMessage, startX + 15, y + 10, { 
+             width: pageWidth - 30,
+             lineGap: 3
+           });
+        
+        y += boxHeight + 15;
       }
-      
-      doc.moveTo(startX + 15, footerY + 12).lineTo(startX + footerBoxWidth - 15, footerY + 12)
-         .strokeColor('#667eea').lineWidth(1.5).stroke();
-      doc.fontSize(10).fillColor('#667eea').font('Helvetica-Bold')
-         .text('Idris Alamutu', startX, footerY + 17, { width: footerBoxWidth, align: 'center' });
-      doc.fontSize(8).fillColor('#666666').font('Helvetica')
-         .text('Founder & Director', startX, footerY + 30, { width: footerBoxWidth, align: 'center' });
-      
-      // Center
-      doc.fontSize(8).fillColor('#666666').font('Helvetica')
-         .text('Generated by', startX + footerBoxWidth, footerY + 17, { 
-           width: footerBoxWidth, 
-           align: 'center' 
-         });
-      doc.fontSize(7).fillColor('#999999')
-         .text('Confide CBT Platform', startX + footerBoxWidth, footerY + 28, { 
-           width: footerBoxWidth, 
-           align: 'center' 
-         });
-      
-      // Right Date
-      const shortDate = new Date().toLocaleDateString('en-US', {
-        month: '2-digit', day: '2-digit', year: 'numeric'
-      });
-      doc.moveTo(startX + 2 * footerBoxWidth + 15, footerY + 12)
-         .lineTo(startX + pageWidth - 15, footerY + 12)
-         .strokeColor('#667eea').lineWidth(1.5).stroke();
-      doc.fontSize(10).fillColor('#667eea').font('Helvetica-Bold')
-         .text(shortDate, startX + 2 * footerBoxWidth, footerY + 17, { 
-           width: footerBoxWidth, 
-           align: 'center' 
-         });
-      doc.fontSize(8).fillColor('#666666').font('Helvetica')
-         .text('Date', startX + 2 * footerBoxWidth, footerY + 30, { 
-           width: footerBoxWidth, 
-           align: 'center' 
-         });
+
+      // Footer
+      doc.fontSize(8).fillColor('#999999').font('Helvetica')
+         .text('This report was generated by Confide Computer Academy CBT Platform', 
+               startX, y, { width: pageWidth, align: 'center' });
 
       doc.end();
     } catch (error) {
       reject(error);
     }
   });
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// HELPER FUNCTION: Send Completion Email to Instructor
-// ═══════════════════════════════════════════════════════════════════════════
-
-async function sendInstructorEmail(studentName, studentEmail, assessments) {
-  if (!transporter) {
-    console.log('⚠️ Email service not configured. Skipping instructor email.');
-    return;
-  }
-
-  try {
-    console.log(`📧 Generating PDFs for ${studentName}...`);
-    
-    const certificatePDF = await generateCertificatePDF(studentName, assessments);
-    const reportPDF = await generateReportPDF(studentName, studentEmail, assessments);
-
-    const avgScore = Math.round(assessments.reduce((sum, a) => sum + a.score, 0) / assessments.length);
-    const totalCorrect = assessments.reduce((sum, a) => sum + a.correct_answers, 0);
-    const totalQuestions = assessments.reduce((sum, a) => sum + a.total_questions, 0);
-
-    const completionDate = new Date().toLocaleDateString('en-US', {
-      year: 'numeric', month: 'long', day: 'numeric'
-    });
-
-    const htmlEmail = `
-      <html>
-        <head>
-          <style>
-            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
-            .container { max-width: 700px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-            .header { border-bottom: 3px solid #667eea; padding-bottom: 20px; margin-bottom: 20px; }
-            .title { color: #667eea; font-size: 24px; font-weight: bold; }
-            .subtitle { color: #999; font-size: 14px; }
-            .section { margin-bottom: 25px; }
-            .section-title { color: #333; font-size: 16px; font-weight: bold; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; margin-bottom: 15px; }
-            .info-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
-            .info-label { font-weight: 600; color: #667eea; }
-            .info-value { color: #333; }
-            .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-            .stat-box { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 8px; text-align: center; }
-            .stat-value { font-size: 24px; font-weight: bold; }
-            .stat-label { font-size: 12px; opacity: 0.9; }
-            .course-item { background: #f9f9f9; padding: 12px; border-radius: 6px; margin-bottom: 10px; border-left: 4px solid #667eea; }
-            .course-name { font-weight: 600; color: #333; }
-            .course-details { font-size: 12px; color: #666; margin-top: 5px; }
-            .footer { text-align: center; color: #999; font-size: 12px; margin-top: 30px; border-top: 1px solid #f0f0f0; padding-top: 15px; }
-            .highlight { color: #28a745; font-weight: bold; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <div class="title">🎓 Student Assessment Completed</div>
-              <div class="subtitle">Confide Computer Academy CBT Platform</div>
-            </div>
-
-            <div class="section">
-              <div class="section-title">📋 Student Information</div>
-              <div class="info-row">
-                <span class="info-label">Name:</span>
-                <span class="info-value">${studentName}</span>
-              </div>
-              <div class="info-row">
-                <span class="info-label">Email:</span>
-                <span class="info-value">${studentEmail}</span>
-              </div>
-              <div class="info-row">
-                <span class="info-label">Completion Date:</span>
-                <span class="info-value">${completionDate}</span>
-              </div>
-            </div>
-
-            <div class="section">
-              <div class="section-title">📊 Performance Summary</div>
-              <div class="stats">
-                <div class="stat-box">
-                  <div class="stat-value">${avgScore}%</div>
-                  <div class="stat-label">Overall Score</div>
-                </div>
-                <div class="stat-box">
-                  <div class="stat-value">${totalCorrect}/${totalQuestions}</div>
-                  <div class="stat-label">Correct Answers</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="section">
-              <div class="section-title">📚 Course Results</div>
-              ${assessments.map(a => {
-                const courseName = a.course.charAt(0).toUpperCase() + a.course.slice(1);
-                const status = a.score >= 60 ? '<span class="highlight">✓ PASSED</span>' : '<span style="color: #dc3545;">✗ FAILED</span>';
-                const accuracy = ((a.correct_answers / a.total_questions) * 100).toFixed(1);
-                return `
-                  <div class="course-item">
-                    <div class="course-name">${courseName} - ${a.score}% ${status}</div>
-                    <div class="course-details">
-                      Correct Answers: ${a.correct_answers}/${a.total_questions} (${accuracy}% Accuracy)
-                    </div>
-                  </div>
-                `;
-              }).join('')}
-            </div>
-
-            <div class="section">
-              <div class="section-title">📎 Attachments</div>
-              <p style="color: #333; font-size: 13px;">
-                Two PDF documents are attached to this email:
-              </p>
-              <ul style="font-size: 13px; color: #666;">
-                <li><strong>Certificate.pdf</strong> - Official completion certificate</li>
-                <li><strong>Performance-Report.pdf</strong> - Detailed performance analysis</li>
-              </ul>
-            </div>
-
-            <div class="footer">
-              <p>This is an automated notification from the Confide Computer Academy CBT Platform.</p>
-              <p>If you have any questions, please contact the administrator.</p>
-            </div>
-          </div>
-        </body>
-      </html>
-    `;
-
-    const mailOptions = {
-      from: GMAIL_USER,
-      to: INSTRUCTOR_EMAIL,
-      subject: `🎓 Student Assessment Complete - ${studentName}`,
-      html: htmlEmail,
-      attachments: [
-        {
-          filename: `certificate-${studentName.replace(/\s+/g, '_')}.pdf`,
-          content: certificatePDF,
-          contentType: 'application/pdf'
-        },
-        {
-          filename: `performance-report-${studentName.replace(/\s+/g, '_')}.pdf`,
-          content: reportPDF,
-          contentType: 'application/pdf'
-        }
-      ]
-    };
-
-    await transporter.sendMail(mailOptions);
-    console.log(`✅ Instructor email sent to ${INSTRUCTOR_EMAIL} for student ${studentName}`);
-  } catch (error) {
-    console.error(`❌ Failed to send instructor email for ${studentName}:`, error);
-  }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -840,18 +592,6 @@ app.post('/api/register', async (req, res) => {
             return res.status(400).json({ error: 'Email already registered' });
           }
           return res.status(500).json({ error: 'Registration failed' });
-        }
-
-        if (transporter) {
-          const mailOptions = {
-            from: GMAIL_USER,
-            to: email,
-            subject: 'Welcome to Confide Computer Academy',
-            html: `<h2>Welcome ${first_name}!</h2><p>Your account has been created successfully. You can now login and start your assessments.</p>`
-          };
-          transporter.sendMail(mailOptions, (error) => {
-            if (error) console.error('Email error:', error);
-          });
         }
 
         res.json({ success: true, redirect: '/login' });
@@ -923,7 +663,6 @@ app.get('/assessment/:course', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/assessment.html'));
 });
 
-// Assessment Results Page
 app.get('/results', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'frontend', 'assessment-results.html'));
 });
@@ -944,7 +683,7 @@ app.get('/api/questions/:course', (req, res) => {
   }
 });
 
-// ✅ SAVE TO DATABASE AND CHECK FOR COMPLETION → TRIGGER EMAIL
+// ✅ SAVE TO DATABASE AND CHECK FOR COMPLETION → TRIGGER SENDGRID EMAIL
 app.post('/api/submit-assessment/:course', (req, res) => {
   console.log('📝 SUBMIT RECEIVED FOR:', req.params.course);
   
@@ -988,18 +727,15 @@ app.post('/api/submit-assessment/:course', (req, res) => {
           
           console.log(`📊 Student has completed ${uniqueCourses.length}/3 unique courses:`, uniqueCourses);
           
-          // ✅ If all 3 courses complete, send instructor email
+          // ✅ If all 3 courses complete, send instructor email via SendGrid
           if (uniqueCourses.length === 3 && uniqueCourses.includes('html') && uniqueCourses.includes('css') && uniqueCourses.includes('javascript')) {
-            console.log('🎉 ALL 3 COURSES COMPLETE! Checking email configuration...');
+            console.log('🎉 ALL 3 COURSES COMPLETE! Sending email via SendGrid...');
             
-            // ✅ CHECK FOR SENDGRID (not transporter!)
+            // ✅ CHECK FOR SENDGRID API KEY
             if (!process.env.SENDGRID_API_KEY) {
-              console.error('❌ EMAIL SERVICE NOT CONFIGURED!');
-              console.error('   Please set SENDGRID_API_KEY in .env file');
-              console.error('   Current SENDGRID_API_KEY:', process.env.SENDGRID_API_KEY ? 'SET (hidden)' : 'NOT SET');
+              console.error('❌ SENDGRID_API_KEY not configured!');
+              console.error('   Set SENDGRID_API_KEY in environment variables');
             } else {
-              console.log('✅ Email service configured. Proceeding to send email...');
-              
               // Get student info
               db.get('SELECT full_name, email FROM users WHERE id = ?', [userId], async (err, user) => {
                 if (err || !user) {
@@ -1007,106 +743,116 @@ app.post('/api/submit-assessment/:course', (req, res) => {
                 } else {
                   console.log(`📧 Preparing to email instructor about: ${user.full_name} (${user.email})`);
                   
-                  // Get latest score for each course
-                  const latestAssessments = {};
-                  assessments.forEach(a => {
-                    if (!latestAssessments[a.course]) {
-                      latestAssessments[a.course] = a;
-                    }
-                  });
-                  
-                  const assessmentArray = Object.values(latestAssessments);
-                  
-                  console.log('📊 Assessment data to send:', assessmentArray);
-                  console.log(`📧 Sending to instructor: ${process.env.INSTRUCTOR_EMAIL}`);
-                  
                   try {
-                    // 📧 Generate PDFs
-                    console.log('📄 Generating certificate PDF...');
-                    const certificatePdf = await new Promise((resolve, reject) => {
-                      generateCertificate(
-                        user.full_name,
-                        user.email,
-                        latestAssessments['html'].score,
-                        latestAssessments['css'].score,
-                        latestAssessments['javascript'].score,
-                        (err, pdfDoc) => {
-                          if (err) return reject(err);
-                          const chunks = [];
-                          pdfDoc.on('data', chunk => chunks.push(chunk));
-                          pdfDoc.on('end', () => resolve(Buffer.concat(chunks)));
-                          pdfDoc.on('error', reject);
-                        }
-                      );
+                    // Get latest score for each course
+                    const latestAssessments = {};
+                    assessments.forEach(a => {
+                      if (!latestAssessments[a.course]) {
+                        latestAssessments[a.course] = a;
+                      }
                     });
+                    
+                    const assessmentArray = Object.values(latestAssessments);
+                    console.log('📊 Assessment data:', assessmentArray);
+                    
+                    // Generate PDFs
+                    console.log('📄 Generating certificate PDF...');
+                    const certificatePDF = await generateCertificatePDF(user.full_name, assessmentArray);
                     
                     console.log('📄 Generating performance report PDF...');
-                    const reportPdf = await new Promise((resolve, reject) => {
-                      generatePerformanceReport(
-                        user.full_name,
-                        user.email,
-                        latestAssessments['html'].score,
-                        latestAssessments['css'].score,
-                        latestAssessments['javascript'].score,
-                        (err, pdfDoc) => {
-                          if (err) return reject(err);
-                          const chunks = [];
-                          pdfDoc.on('data', chunk => chunks.push(chunk));
-                          pdfDoc.on('end', () => resolve(Buffer.concat(chunks)));
-                          pdfDoc.on('error', reject);
-                        }
-                      );
+                    const reportPDF = await generateReportPDF(user.full_name, user.email, assessmentArray);
+                    
+                    // Convert to base64 for SendGrid
+                    const certificateBase64 = certificatePDF.toString('base64');
+                    const reportBase64 = reportPDF.toString('base64');
+                    
+                    // Calculate stats for email
+                    const avgScore = Math.round(assessmentArray.reduce((sum, a) => sum + a.score, 0) / assessmentArray.length);
+                    const totalCorrect = assessmentArray.reduce((sum, a) => sum + a.correct_answers, 0);
+                    const totalQuestions = assessmentArray.reduce((sum, a) => sum + a.total_questions, 0);
+                    const completionDate = new Date().toLocaleDateString('en-US', {
+                      year: 'numeric', month: 'long', day: 'numeric'
                     });
                     
-                    // Convert to base64
-                    const certificatePdfBase64 = certificatePdf.toString('base64');
-                    const reportPdfBase64 = reportPdf.toString('base64');
+                    // Create email HTML
+                    const emailHtml = `
+                      <div style="font-family: Arial, sans-serif; max-width: 700px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px;">
+                        <div style="border-bottom: 3px solid #667eea; padding-bottom: 20px; margin-bottom: 20px;">
+                          <h1 style="color: #667eea; margin: 0;">🎓 Student Assessment Completed</h1>
+                          <p style="color: #999; margin: 5px 0 0 0;">Confide Computer Academy CBT Platform</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                          <h2 style="color: #333; font-size: 16px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">📋 Student Information</h2>
+                          <p style="margin: 8px 0;"><strong style="color: #667eea;">Name:</strong> ${user.full_name}</p>
+                          <p style="margin: 8px 0;"><strong style="color: #667eea;">Email:</strong> ${user.email}</p>
+                          <p style="margin: 8px 0;"><strong style="color: #667eea;">Completion Date:</strong> ${completionDate}</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                          <h2 style="color: #333; font-size: 16px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">📊 Performance Summary</h2>
+                          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;">
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                              <div style="font-size: 24px; font-weight: bold;">${avgScore}%</div>
+                              <div style="font-size: 12px; opacity: 0.9;">Overall Score</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 8px; text-align: center;">
+                              <div style="font-size: 24px; font-weight: bold;">${totalCorrect}/${totalQuestions}</div>
+                              <div style="font-size: 12px; opacity: 0.9;">Correct Answers</div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                          <h2 style="color: #333; font-size: 16px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">📚 Course Results</h2>
+                          ${assessmentArray.map(a => {
+                            const courseName = a.course.charAt(0).toUpperCase() + a.course.slice(1);
+                            const status = a.score >= 60 ? '<span style="color: #28a745; font-weight: bold;">✓ PASSED</span>' : '<span style="color: #dc3545; font-weight: bold;">✗ FAILED</span>';
+                            const accuracy = ((a.correct_answers / a.total_questions) * 100).toFixed(1);
+                            return `
+                              <div style="background: #f9f9f9; padding: 12px; border-radius: 6px; margin-bottom: 10px; border-left: 4px solid #667eea;">
+                                <div style="font-weight: 600; color: #333;">${courseName} - ${a.score}% ${status}</div>
+                                <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                                  Correct Answers: ${a.correct_answers}/${a.total_questions} (${accuracy}% Accuracy)
+                                </div>
+                              </div>
+                            `;
+                          }).join('')}
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                          <h2 style="color: #333; font-size: 16px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px;">📎 Attachments</h2>
+                          <p style="color: #333; font-size: 13px;">Two PDF documents are attached to this email:</p>
+                          <ul style="font-size: 13px; color: #666;">
+                            <li><strong>Certificate.pdf</strong> - Official completion certificate</li>
+                            <li><strong>Performance-Report.pdf</strong> - Detailed performance analysis</li>
+                          </ul>
+                        </div>
+                        
+                        <div style="text-align: center; color: #999; font-size: 12px; margin-top: 30px; border-top: 1px solid #f0f0f0; padding-top: 15px;">
+                          <p style="margin: 5px 0;">This is an automated notification from the Confide Computer Academy CBT Platform.</p>
+                          <p style="margin: 5px 0;">confide-cbt-platform.onrender.com</p>
+                        </div>
+                      </div>
+                    `;
                     
-                    console.log('📧 Sending email via SendGrid...');
+                    // Send via SendGrid
+                    console.log(`📧 Sending to instructor: ${process.env.INSTRUCTOR_EMAIL}`);
                     
-                    // Create email message
                     const msg = {
                       to: process.env.INSTRUCTOR_EMAIL,
                       from: 'idris.alamutu@outlook.com', // Must be verified in SendGrid
-                      subject: `Student Assessment Complete - ${user.full_name}`,
-                      html: `
-                        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                          <h2 style="color: #667eea;">🎓 Student Assessment Completed</h2>
-                          <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
-                            <p><strong>Student:</strong> ${user.full_name}</p>
-                            <p><strong>Email:</strong> ${user.email}</p>
-                          </div>
-                          <h3 style="color: #667eea;">📊 Final Scores:</h3>
-                          <ul style="list-style: none; padding: 0;">
-                            <li style="padding: 10px; background: #e8f0fe; margin: 5px 0; border-radius: 5px;">
-                              📝 <strong>HTML:</strong> ${latestAssessments['html'].score}% (${latestAssessments['html'].correct_answers}/${latestAssessments['html'].total_questions})
-                            </li>
-                            <li style="padding: 10px; background: #e8f0fe; margin: 5px 0; border-radius: 5px;">
-                              🎨 <strong>CSS:</strong> ${latestAssessments['css'].score}% (${latestAssessments['css'].correct_answers}/${latestAssessments['css'].total_questions})
-                            </li>
-                            <li style="padding: 10px; background: #e8f0fe; margin: 5px 0; border-radius: 5px;">
-                              ⚡ <strong>JavaScript:</strong> ${latestAssessments['javascript'].score}% (${latestAssessments['javascript'].correct_answers}/${latestAssessments['javascript'].total_questions})
-                            </li>
-                          </ul>
-                          <p style="margin-top: 20px; color: #666;">
-                            The student's certificate and detailed performance report are attached to this email.
-                          </p>
-                          <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-                          <p style="color: #999; font-size: 12px; text-align: center;">
-                            Confide Computer Academy - CBT Platform<br>
-                            📧 ${process.env.INSTRUCTOR_EMAIL}
-                          </p>
-                        </div>
-                      `,
+                      subject: `🎓 Student Assessment Complete - ${user.full_name}`,
+                      html: emailHtml,
                       attachments: [
                         {
-                          content: certificatePdfBase64,
+                          content: certificateBase64,
                           filename: `certificate-${user.full_name.replace(/\s+/g, '_')}.pdf`,
                           type: 'application/pdf',
                           disposition: 'attachment'
                         },
                         {
-                          content: reportPdfBase64,
+                          content: reportBase64,
                           filename: `performance-report-${user.full_name.replace(/\s+/g, '_')}.pdf`,
                           type: 'application/pdf',
                           disposition: 'attachment'
@@ -1114,18 +860,16 @@ app.post('/api/submit-assessment/:course', (req, res) => {
                       ]
                     };
                     
-                    // Send via SendGrid
                     await sgMail.send(msg);
                     
-                    console.log('✅✅✅ INSTRUCTOR EMAIL SENT SUCCESSFULLY! ✅✅✅');
-                    console.log('📧 Sent to:', process.env.INSTRUCTOR_EMAIL);
+                    console.log('✅✅✅ EMAIL SENT VIA SENDGRID! ✅✅✅');
+                    console.log(`📧 Sent to: ${process.env.INSTRUCTOR_EMAIL}`);
                     console.log('📎 Attachments: certificate.pdf, performance-report.pdf');
                     
                   } catch (error) {
-                    console.error('❌❌❌ INSTRUCTOR EMAIL FAILED! ❌❌❌');
-                    console.error('Error:', error.message);
-                    if (error.response) {
-                      console.error('SendGrid Response:', error.response.body);
+                    console.error('❌ Email failed:', error.message);
+                    if (error.response && error.response.body) {
+                      console.error('SendGrid error details:', error.response.body);
                     }
                   }
                 }
@@ -1205,49 +949,6 @@ app.get('/api/assessment-history', (req, res) => {
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
-// EMAIL TEST ENDPOINT (for debugging)
-// ═══════════════════════════════════════════════════════════════════════════
-
-app.get('/test-email', async (req, res) => {
-  if (!transporter) {
-    return res.status(500).json({
-      error: 'Email service not configured',
-      details: {
-        GMAIL_USER: GMAIL_USER || 'NOT SET',
-        GMAIL_PASSWORD: GMAIL_PASSWORD ? 'SET' : 'NOT SET',
-        INSTRUCTOR_EMAIL: INSTRUCTOR_EMAIL
-      }
-    });
-  }
-
-  try {
-    console.log('🧪 Testing email configuration...');
-    
-    const testMail = {
-      from: GMAIL_USER,
-      to: INSTRUCTOR_EMAIL,
-      subject: '🧪 Test Email - Confide CBT Platform',
-      html: '<h2>Test Successful!</h2><p>Your email configuration is working correctly.</p>'
-    };
-
-    await transporter.sendMail(testMail);
-    
-    console.log('✅ Test email sent successfully!');
-    res.json({
-      success: true,
-      message: 'Test email sent successfully',
-      sentTo: INSTRUCTOR_EMAIL
-    });
-  } catch (error) {
-    console.error('❌ Test email failed:', error);
-    res.status(500).json({
-      error: 'Email send failed',
-      details: error.message
-    });
-  }
-});
-
-// ═══════════════════════════════════════════════════════════════════════════
 // COMPLETION PAGE ROUTE
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -1293,13 +994,13 @@ app.listen(PORT, () => {
 ║     • Assessment Session with Real-time Data from Database               ║
 ║     • Dashboard with Assessment History & Scores                         ║
 ║     • Professional Completion Page with Certificate & Report             ║
-║     • ✅ AUTO-EMAIL PDFs TO INSTRUCTOR ON COMPLETION ✨                  ║
+║     • ✅ SENDGRID EMAIL TO INSTRUCTOR ON COMPLETION ✨                  ║
 ║     • Session Management & User Authentication                           ║
 ║     • SQLite Database with Automatic Table Creation                      ║
 ║                                                                          ║
-║  📧 EMAIL NOTIFICATION SYSTEM:                                          ║
+║  📧 EMAIL NOTIFICATION SYSTEM (SendGrid):                               ║
 ║     Instructor Email: ${INSTRUCTOR_EMAIL}                                ║
-║     Status: ${transporter ? '✅ CONFIGURED' : '⚠️ NOT CONFIGURED'}      ║
+║     Status: ${process.env.SENDGRID_API_KEY ? '✅ CONFIGURED' : '⚠️ NOT CONFIGURED'}      ║
 ║     Trigger: When student completes all 3 courses                        ║
 ║     Includes: Certificate PDF + Performance Report PDF                   ║
 ║                                                                          ║
@@ -1307,7 +1008,7 @@ app.listen(PORT, () => {
 ║     1. Share live demo: https://confide-cbt-platform.onrender.com       ║
 ║     2. Prospects can register & test immediately                         ║
 ║     3. Complete all 3 assessments                                        ║
-║     4. Instructor receives email with PDFs automatically!                ║
+║     4. Instructor receives email with PDFs via SendGrid!                 ║
 ║                                                                          ║
 ║  📊 DATABASE: ${DATABASE_PATH}                                          ║
 ║  🔐 SESSION_SECRET: ${SESSION_SECRET.substring(0, 10)}***               ║
