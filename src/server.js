@@ -53,19 +53,16 @@ const db = new sqlite3.Database(DATABASE_PATH, (err) => {
 });
 
 // Email transporter
-let transporter;
-if (GMAIL_USER && GMAIL_PASSWORD) {
-  transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: GMAIL_USER,
-      pass: GMAIL_PASSWORD
-    }
-  });
-  console.log('✅ Email service ready!');
-  console.log(`📧 Instructor email configured: ${INSTRUCTOR_EMAIL}`);
+// Email transporter
+const sgMail = require('@sendgrid/mail');
+
+// Configure SendGrid
+if (process.env.SENDGRID_API_KEY) {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  console.log('✅ Email service ready (SendGrid)');
+  console.log('📧 Instructor email configured:', process.env.INSTRUCTOR_EMAIL);
 } else {
-  console.log('⚠️ Email service not configured. Add GMAIL_USER and GMAIL_PASSWORD to .env');
+  console.log('⚠️ Email service not configured. Add SENDGRID_API_KEY to .env file');
 }
 
 // Load questions
@@ -218,7 +215,7 @@ function generateCertificatePDF(studentName, assessments) {
          });
 
       doc.fontSize(16).fillColor('#764ba2').font('Helvetica-Bold')
-         .text('Web Development Program', centerX - 200, 315, { 
+         .text('Frontend Web Development Program', centerX - 200, 315, { 
            width: 400, 
            align: 'center' 
          });
@@ -309,7 +306,8 @@ function generateCertificatePDF(studentName, assessments) {
       const sealPath = path.join(__dirname, '../user-data/uploads/academy-seal.png');
       if (fs.existsSync(sealPath)) {
         try {
-          doc.image(sealPath, pageWidth - 205, footerY - 50, {
+          // Position seal to sit ON the line (matching left signature placement)
+          doc.image(sealPath, pageWidth - 205, footerY - 90, {
             width: 90,
             height: 90,
             align: 'center'
@@ -994,16 +992,16 @@ app.post('/api/submit-assessment/:course', (req, res) => {
           if (uniqueCourses.length === 3 && uniqueCourses.includes('html') && uniqueCourses.includes('css') && uniqueCourses.includes('javascript')) {
             console.log('🎉 ALL 3 COURSES COMPLETE! Checking email configuration...');
             
-            if (!transporter) {
+            // ✅ CHECK FOR SENDGRID (not transporter!)
+            if (!process.env.SENDGRID_API_KEY) {
               console.error('❌ EMAIL SERVICE NOT CONFIGURED!');
-              console.error('   Please set GMAIL_USER and GMAIL_PASSWORD in .env file');
-              console.error('   Current GMAIL_USER:', GMAIL_USER || 'NOT SET');
-              console.error('   Current GMAIL_PASSWORD:', GMAIL_PASSWORD ? 'SET (hidden)' : 'NOT SET');
+              console.error('   Please set SENDGRID_API_KEY in .env file');
+              console.error('   Current SENDGRID_API_KEY:', process.env.SENDGRID_API_KEY ? 'SET (hidden)' : 'NOT SET');
             } else {
               console.log('✅ Email service configured. Proceeding to send email...');
               
               // Get student info
-              db.get('SELECT full_name, email FROM users WHERE id = ?', [userId], (err, user) => {
+              db.get('SELECT full_name, email FROM users WHERE id = ?', [userId], async (err, user) => {
                 if (err || !user) {
                   console.error('❌ Error getting user info:', err);
                 } else {
@@ -1020,20 +1018,116 @@ app.post('/api/submit-assessment/:course', (req, res) => {
                   const assessmentArray = Object.values(latestAssessments);
                   
                   console.log('📊 Assessment data to send:', assessmentArray);
-                  console.log(`📧 Sending to instructor: ${INSTRUCTOR_EMAIL}`);
+                  console.log(`📧 Sending to instructor: ${process.env.INSTRUCTOR_EMAIL}`);
                   
-                  // 📧 Send email asynchronously (don't wait for it)
-                  sendInstructorEmail(user.full_name, user.email, assessmentArray)
-                    .then(() => {
-                      console.log('✅✅✅ INSTRUCTOR EMAIL SENT SUCCESSFULLY! ✅✅✅');
-                    })
-                    .catch(error => {
-                      console.error('❌❌❌ INSTRUCTOR EMAIL FAILED! ❌❌❌');
-                      console.error('Error details:', error);
-                      if (error.response) {
-                        console.error('SMTP Response:', error.response);
-                      }
+                  try {
+                    // 📧 Generate PDFs
+                    console.log('📄 Generating certificate PDF...');
+                    const certificatePdf = await new Promise((resolve, reject) => {
+                      generateCertificate(
+                        user.full_name,
+                        user.email,
+                        latestAssessments['html'].score,
+                        latestAssessments['css'].score,
+                        latestAssessments['javascript'].score,
+                        (err, pdfDoc) => {
+                          if (err) return reject(err);
+                          const chunks = [];
+                          pdfDoc.on('data', chunk => chunks.push(chunk));
+                          pdfDoc.on('end', () => resolve(Buffer.concat(chunks)));
+                          pdfDoc.on('error', reject);
+                        }
+                      );
                     });
+                    
+                    console.log('📄 Generating performance report PDF...');
+                    const reportPdf = await new Promise((resolve, reject) => {
+                      generatePerformanceReport(
+                        user.full_name,
+                        user.email,
+                        latestAssessments['html'].score,
+                        latestAssessments['css'].score,
+                        latestAssessments['javascript'].score,
+                        (err, pdfDoc) => {
+                          if (err) return reject(err);
+                          const chunks = [];
+                          pdfDoc.on('data', chunk => chunks.push(chunk));
+                          pdfDoc.on('end', () => resolve(Buffer.concat(chunks)));
+                          pdfDoc.on('error', reject);
+                        }
+                      );
+                    });
+                    
+                    // Convert to base64
+                    const certificatePdfBase64 = certificatePdf.toString('base64');
+                    const reportPdfBase64 = reportPdf.toString('base64');
+                    
+                    console.log('📧 Sending email via SendGrid...');
+                    
+                    // Create email message
+                    const msg = {
+                      to: process.env.INSTRUCTOR_EMAIL,
+                      from: 'idris.alamutu@outlook.com', // Must be verified in SendGrid
+                      subject: `Student Assessment Complete - ${user.full_name}`,
+                      html: `
+                        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                          <h2 style="color: #667eea;">🎓 Student Assessment Completed</h2>
+                          <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                            <p><strong>Student:</strong> ${user.full_name}</p>
+                            <p><strong>Email:</strong> ${user.email}</p>
+                          </div>
+                          <h3 style="color: #667eea;">📊 Final Scores:</h3>
+                          <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 10px; background: #e8f0fe; margin: 5px 0; border-radius: 5px;">
+                              📝 <strong>HTML:</strong> ${latestAssessments['html'].score}% (${latestAssessments['html'].correct_answers}/${latestAssessments['html'].total_questions})
+                            </li>
+                            <li style="padding: 10px; background: #e8f0fe; margin: 5px 0; border-radius: 5px;">
+                              🎨 <strong>CSS:</strong> ${latestAssessments['css'].score}% (${latestAssessments['css'].correct_answers}/${latestAssessments['css'].total_questions})
+                            </li>
+                            <li style="padding: 10px; background: #e8f0fe; margin: 5px 0; border-radius: 5px;">
+                              ⚡ <strong>JavaScript:</strong> ${latestAssessments['javascript'].score}% (${latestAssessments['javascript'].correct_answers}/${latestAssessments['javascript'].total_questions})
+                            </li>
+                          </ul>
+                          <p style="margin-top: 20px; color: #666;">
+                            The student's certificate and detailed performance report are attached to this email.
+                          </p>
+                          <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
+                          <p style="color: #999; font-size: 12px; text-align: center;">
+                            Confide Computer Academy - CBT Platform<br>
+                            📧 ${process.env.INSTRUCTOR_EMAIL}
+                          </p>
+                        </div>
+                      `,
+                      attachments: [
+                        {
+                          content: certificatePdfBase64,
+                          filename: `certificate-${user.full_name.replace(/\s+/g, '_')}.pdf`,
+                          type: 'application/pdf',
+                          disposition: 'attachment'
+                        },
+                        {
+                          content: reportPdfBase64,
+                          filename: `performance-report-${user.full_name.replace(/\s+/g, '_')}.pdf`,
+                          type: 'application/pdf',
+                          disposition: 'attachment'
+                        }
+                      ]
+                    };
+                    
+                    // Send via SendGrid
+                    await sgMail.send(msg);
+                    
+                    console.log('✅✅✅ INSTRUCTOR EMAIL SENT SUCCESSFULLY! ✅✅✅');
+                    console.log('📧 Sent to:', process.env.INSTRUCTOR_EMAIL);
+                    console.log('📎 Attachments: certificate.pdf, performance-report.pdf');
+                    
+                  } catch (error) {
+                    console.error('❌❌❌ INSTRUCTOR EMAIL FAILED! ❌❌❌');
+                    console.error('Error:', error.message);
+                    if (error.response) {
+                      console.error('SendGrid Response:', error.response.body);
+                    }
+                  }
                 }
               });
             }
