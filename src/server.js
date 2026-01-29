@@ -789,7 +789,7 @@ app.post('/api/submit-assessment/:course', (req, res) => {
                       body: JSON.stringify({
                         sender: {
                           name: 'Confide Computer Academy',
-                          email: 'noreply@confideacademy.com'
+                          email: INSTRUCTOR_EMAIL  // ✅ Use verified email from environment variable
                         },
                         to: [
                           {
@@ -812,13 +812,21 @@ app.post('/api/submit-assessment/:course', (req, res) => {
                       })
                     });
                     
+                    const brevoData = await brevoResponse.json();
+                    
                     if (brevoResponse.ok) {
                       console.log('✅✅✅ EMAIL SENT VIA BREVO! ✅✅✅');
                       console.log(`📧 Sent to: ${INSTRUCTOR_EMAIL}`);
                       console.log('📎 Attachments: certificate.pdf, performance-report.pdf');
+                      console.log('📬 Brevo Message ID:', brevoData.messageId);
+                      console.log('🔍 Check delivery status at: https://app.brevo.com/statistics/email');
+                      console.log('💡 If email not received: Check spam folder or verify sender email');
                     } else {
-                      const errorData = await brevoResponse.json();
-                      console.error('❌ Brevo API error:', errorData);
+                      console.error('❌ Brevo API error:', brevoData);
+                      console.error('🔧 Common fixes:');
+                      console.error('   1. Verify sender email at: https://app.brevo.com/senders');
+                      console.error('   2. Check API key is valid');
+                      console.error('   3. Ensure account is activated');
                     }
                     
                   } catch (error) {
