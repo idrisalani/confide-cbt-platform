@@ -207,7 +207,7 @@ function generateCertificatePDF(studentName, assessments) {
          });
 
       doc.fontSize(16).fillColor('#764ba2').font('Helvetica-Bold')
-         .text('Web Development Program', centerX - 200, 315, { 
+         .text('Frontend Web Development Program', centerX - 200, 315, { 
            width: 400, 
            align: 'center' 
          });
@@ -259,19 +259,20 @@ function generateCertificatePDF(studentName, assessments) {
       doc.fontSize(9).fillColor('#666666').font('Helvetica')
          .text('DATE ISSUED', centerX + 90, boxY + 42, { width: 140, align: 'center' });
 
-      // SIGNATURES
-      const footerY = 470;
+      // SIGNATURES - Redesigned to align with URL at bottom
+      const urlY = 530; // URL position
+      const signatureY = urlY - 5; // Signature lines just above URL
       const fullDate = new Date().toLocaleDateString('en-US', {
         year: 'numeric', month: 'long', day: 'numeric'
       });
 
-      // Left Signature Block
+      // Left Signature Block with Electronic Signature
       const signaturePath = path.join(__dirname, '../user-data/uploads/eSignature-27012026.png');
       if (fs.existsSync(signaturePath)) {
         try {
-          doc.image(signaturePath, 105, footerY - 40, {
-            width: 110,
-            height: 35,
+          doc.image(signaturePath, 90, signatureY - 45, {
+            width: 100,
+            height: 32,
             align: 'center'
           });
         } catch (err) {
@@ -279,26 +280,24 @@ function generateCertificatePDF(studentName, assessments) {
         }
       }
       
-      doc.moveTo(90, footerY).lineTo(230, footerY)
+      doc.moveTo(90, signatureY).lineTo(210, signatureY)
          .strokeColor('#667eea').lineWidth(1.5).stroke();
-      doc.fontSize(12).fillColor('#667eea').font('Helvetica-Bold')
-         .text('Idris Alamutu', 90, footerY + 8, { width: 140, align: 'center' });
+      doc.fontSize(10).fillColor('#667eea').font('Helvetica-Bold')
+         .text('Idris Alamutu', 90, signatureY + 4, { width: 120, align: 'center' });
+      doc.fontSize(8).fillColor('#666666').font('Helvetica')
+         .text('Founder & Director', 90, signatureY + 16, { width: 120, align: 'center' });
+
+      // Center - Date display (simplified, same line as URL)
       doc.fontSize(9).fillColor('#666666').font('Helvetica')
-         .text('Founder & Director', 90, footerY + 24, { width: 140, align: 'center' });
+         .text(`Issued: ${fullDate}`, centerX - 100, signatureY + 8, { width: 200, align: 'center' });
 
-      // Center Date Block
-      doc.fontSize(11).fillColor('#666666').font('Helvetica')
-         .text('Issued on', centerX - 70, footerY - 5, { width: 140, align: 'center' });
-      doc.fontSize(10).fillColor('#1a1a1a').font('Helvetica-Bold')
-         .text(fullDate, centerX - 70, footerY + 10, { width: 140, align: 'center' });
-
-      // Right Signature Block with Academy Seal
+      // Right Academy Seal Block
       const sealPath = path.join(__dirname, '../user-data/uploads/academy-seal.png');
       if (fs.existsSync(sealPath)) {
         try {
-          doc.image(sealPath, pageWidth - 205, footerY - 90, {
-            width: 90,
-            height: 90,
+          doc.image(sealPath, pageWidth - 200, signatureY - 70, {
+            width: 70,
+            height: 70,
             align: 'center'
           });
         } catch (err) {
@@ -306,16 +305,16 @@ function generateCertificatePDF(studentName, assessments) {
         }
       }
       
-      doc.moveTo(pageWidth - 230, footerY).lineTo(pageWidth - 90, footerY)
+      doc.moveTo(pageWidth - 210, signatureY).lineTo(pageWidth - 90, signatureY)
          .strokeColor('#667eea').lineWidth(1.5).stroke();
-      doc.fontSize(12).fillColor('#667eea').font('Helvetica-Bold')
-         .text('Academy Seal', pageWidth - 230, footerY + 8, { width: 140, align: 'center' });
-      doc.fontSize(9).fillColor('#666666').font('Helvetica')
-         .text('Confide Academy', pageWidth - 230, footerY + 24, { width: 140, align: 'center' });
+      doc.fontSize(10).fillColor('#667eea').font('Helvetica-Bold')
+         .text('Academy Seal', pageWidth - 210, signatureY + 4, { width: 120, align: 'center' });
+      doc.fontSize(8).fillColor('#666666').font('Helvetica')
+         .text('Confide Academy', pageWidth - 210, signatureY + 16, { width: 120, align: 'center' });
 
-      // Footer URL
+      // Footer URL (at same level as signature text)
       doc.fontSize(7).fillColor('#999999').font('Helvetica')
-         .text('confide-cbt-platform.onrender.com', centerX - 100, footerY + 60, { 
+         .text('confide-cbt-platform.onrender.com', centerX - 100, urlY, { 
            width: 200, 
            align: 'center' 
          });
@@ -348,17 +347,17 @@ function generateReportPDF(studentName, studentEmail, assessments) {
       const startX = 40;
       let y = 40;
 
-      // HEADER
-      doc.fontSize(26).fillColor('#667eea').font('Helvetica-Bold')
+      // HEADER - Larger fonts
+      doc.fontSize(30).fillColor('#667eea').font('Helvetica-Bold')
          .text('Performance Report', startX, y, { width: pageWidth, align: 'center' });
       
-      y += 32;
-      doc.fontSize(10).fillColor('#999999').font('Helvetica')
+      y += 35;
+      doc.fontSize(12).fillColor('#888888').font('Helvetica')
          .text('Confide Computer Academy', startX, y, { width: pageWidth, align: 'center' });
       
-      y += 22;
+      y += 24;
       doc.moveTo(startX, y).lineTo(startX + pageWidth, y).strokeColor('#667eea').lineWidth(2).stroke();
-      y += 18;
+      y += 20;
 
       const avgScore = Math.round(assessments.reduce((sum, a) => sum + a.score, 0) / assessments.length);
       const totalCorrect = assessments.reduce((sum, a) => sum + a.correct_answers, 0);
@@ -371,134 +370,193 @@ function generateReportPDF(studentName, studentEmail, assessments) {
       const col1Width = (pageWidth - 15) / 2;
       const col2X = startX + col1Width + 15;
 
-      doc.roundedRect(startX, y, col1Width, 28, 3)
-         .fillAndStroke('#f7f9fc', '#667eea');
-      doc.fontSize(8).fillColor('#667eea').font('Helvetica-Bold')
-         .text('STUDENT NAME', startX + 10, y + 5, { width: col1Width - 20 });
-      doc.fontSize(11).fillColor('#1a1a1a').font('Helvetica')
-         .text(studentName, startX + 10, y + 16, { width: col1Width - 20 });
+      // Student info boxes - softer colors, larger text
+      doc.roundedRect(startX, y, col1Width, 32, 3)
+         .fillAndStroke('#f9fafb', '#b4c6e7');
+      doc.fontSize(9).fillColor('#667eea').font('Helvetica-Bold')
+         .text('STUDENT NAME', startX + 10, y + 6, { width: col1Width - 20 });
+      doc.fontSize(12).fillColor('#2c3e50').font('Helvetica')
+         .text(studentName, startX + 10, y + 18, { width: col1Width - 20 });
 
-      doc.roundedRect(col2X, y, col1Width, 28, 3)
-         .fillAndStroke('#f7f9fc', '#667eea');
-      doc.fontSize(8).fillColor('#667eea').font('Helvetica-Bold')
-         .text('EMAIL ADDRESS', col2X + 10, y + 5, { width: col1Width - 20 });
-      doc.fontSize(10).fillColor('#1a1a1a').font('Helvetica')
-         .text(studentEmail, col2X + 10, y + 16, { width: col1Width - 20 });
+      doc.roundedRect(col2X, y, col1Width, 32, 3)
+         .fillAndStroke('#f9fafb', '#b4c6e7');
+      doc.fontSize(9).fillColor('#667eea').font('Helvetica-Bold')
+         .text('EMAIL ADDRESS', col2X + 10, y + 6, { width: col1Width - 20 });
+      doc.fontSize(11).fillColor('#2c3e50').font('Helvetica')
+         .text(studentEmail, col2X + 10, y + 18, { width: col1Width - 20 });
 
-      y += 33;
+      y += 37;
 
-      doc.roundedRect(startX, y, pageWidth, 22, 3)
-         .fillAndStroke('#f7f9fc', '#667eea');
-      doc.fontSize(8).fillColor('#667eea').font('Helvetica-Bold')
-         .text('REPORT DATE', startX + 10, y + 4, { width: pageWidth - 20 });
-      doc.fontSize(10).fillColor('#1a1a1a').font('Helvetica')
-         .text(reportDate, startX + 10, y + 14, { width: pageWidth - 20 });
+      doc.roundedRect(startX, y, pageWidth, 26, 3)
+         .fillAndStroke('#f9fafb', '#b4c6e7');
+      doc.fontSize(9).fillColor('#667eea').font('Helvetica-Bold')
+         .text('REPORT DATE', startX + 10, y + 5, { width: pageWidth - 20 });
+      doc.fontSize(11).fillColor('#2c3e50').font('Helvetica')
+         .text(reportDate, startX + 10, y + 16, { width: pageWidth - 20 });
 
-      y += 30;
+      y += 32;
 
+      // Stats boxes - softer colors, larger fonts
       const statBoxWidth = (pageWidth - 15) / 2;
-      const statBoxHeight = 38;
+      const statBoxHeight = 44;
 
       doc.roundedRect(startX, y, statBoxWidth, statBoxHeight, 4)
-         .fillAndStroke('#667eea', '#667eea');
-      doc.fontSize(18).fillColor('#ffffff').font('Helvetica-Bold')
-         .text(`${avgScore}%`, startX + 10, y + 7, { width: statBoxWidth - 20, align: 'center' });
-      doc.fontSize(8).fillColor('#ffffff').font('Helvetica')
-         .text('OVERALL SCORE', startX + 10, y + 27, { width: statBoxWidth - 20, align: 'center' });
+         .fillAndStroke('#8fa3c9', '#8fa3c9');
+      doc.fontSize(22).fillColor('#ffffff').font('Helvetica-Bold')
+         .text(`${avgScore}%`, startX + 10, y + 9, { width: statBoxWidth - 20, align: 'center' });
+      doc.fontSize(9).fillColor('#ffffff').font('Helvetica')
+         .text('OVERALL SCORE', startX + 10, y + 32, { width: statBoxWidth - 20, align: 'center' });
 
       doc.roundedRect(col2X, y, statBoxWidth, statBoxHeight, 4)
-         .fillAndStroke('#764ba2', '#764ba2');
-      doc.fontSize(18).fillColor('#ffffff').font('Helvetica-Bold')
-         .text(`${totalCorrect}/${totalQuestions}`, col2X + 10, y + 7, { width: statBoxWidth - 20, align: 'center' });
-      doc.fontSize(8).fillColor('#ffffff').font('Helvetica')
-         .text('CORRECT ANSWERS', col2X + 10, y + 27, { width: statBoxWidth - 20, align: 'center' });
+         .fillAndStroke('#9b8fc4', '#9b8fc4');
+      doc.fontSize(22).fillColor('#ffffff').font('Helvetica-Bold')
+         .text(`${totalCorrect}/${totalQuestions}`, col2X + 10, y + 9, { width: statBoxWidth - 20, align: 'center' });
+      doc.fontSize(9).fillColor('#ffffff').font('Helvetica')
+         .text('CORRECT ANSWERS', col2X + 10, y + 32, { width: statBoxWidth - 20, align: 'center' });
 
       y += statBoxHeight + 5;
 
       doc.roundedRect(startX, y, statBoxWidth, statBoxHeight, 4)
-         .fillAndStroke('#667eea', '#667eea');
-      doc.fontSize(18).fillColor('#ffffff').font('Helvetica-Bold')
-         .text(`${totalQuestions}`, startX + 10, y + 7, { width: statBoxWidth - 20, align: 'center' });
-      doc.fontSize(8).fillColor('#ffffff').font('Helvetica')
-         .text('TOTAL QUESTIONS', startX + 10, y + 27, { width: statBoxWidth - 20, align: 'center' });
+         .fillAndStroke('#8fa3c9', '#8fa3c9');
+      doc.fontSize(22).fillColor('#ffffff').font('Helvetica-Bold')
+         .text(`${totalQuestions}`, startX + 10, y + 9, { width: statBoxWidth - 20, align: 'center' });
+      doc.fontSize(9).fillColor('#ffffff').font('Helvetica')
+         .text('TOTAL QUESTIONS', startX + 10, y + 32, { width: statBoxWidth - 20, align: 'center' });
 
       doc.roundedRect(col2X, y, statBoxWidth, statBoxHeight, 4)
-         .fillAndStroke('#764ba2', '#764ba2');
-      doc.fontSize(18).fillColor('#ffffff').font('Helvetica-Bold')
-         .text(`${passRate}%`, col2X + 10, y + 7, { width: statBoxWidth - 20, align: 'center' });
-      doc.fontSize(8).fillColor('#ffffff').font('Helvetica')
-         .text('PASS RATE', col2X + 10, y + 27, { width: statBoxWidth - 20, align: 'center' });
+         .fillAndStroke('#9b8fc4', '#9b8fc4');
+      doc.fontSize(22).fillColor('#ffffff').font('Helvetica-Bold')
+         .text(`${passRate}%`, col2X + 10, y + 9, { width: statBoxWidth - 20, align: 'center' });
+      doc.fontSize(9).fillColor('#ffffff').font('Helvetica')
+         .text('PASS RATE', col2X + 10, y + 32, { width: statBoxWidth - 20, align: 'center' });
 
-      y += statBoxHeight + 20;
+      y += statBoxHeight + 22;
 
-      doc.fontSize(11).fillColor('#667eea').font('Helvetica-Bold')
+      // Course results header - larger font
+      doc.fontSize(13).fillColor('#667eea').font('Helvetica-Bold')
          .text('COURSE RESULTS', startX, y, { width: pageWidth });
       
-      y += 18;
+      y += 20;
 
+      // Course boxes - softer colors, larger fonts
       const courseNames = { 'html': 'HTML', 'css': 'CSS', 'javascript': 'JavaScript' };
-      const courseColors = { 'html': '#FFB84D', 'css': '#4A90E2', 'javascript': '#A4D965' };
+      const courseColors = { 
+        'html': '#FFB84D', 
+        'css': '#4A90E2', 
+        'javascript': '#A4D965' 
+      };
+      const softerCourseColors = { 
+        'html': '#ffca7a',  // Softer orange
+        'css': '#6faae6',   // Softer blue  
+        'javascript': '#b5d98a' // Softer green
+      };
       
       const courseBoxWidth = (pageWidth - 30) / 3;
       
       assessments.forEach((assessment, index) => {
         const courseName = courseNames[assessment.course] || assessment.course.toUpperCase();
-        const courseColor = courseColors[assessment.course] || '#667eea';
+        const courseColor = softerCourseColors[assessment.course] || '#8fa3c9';
         const accuracy = ((assessment.correct_answers / assessment.total_questions) * 100).toFixed(1);
         const status = assessment.score >= 60 ? 'PASSED' : 'FAILED';
         
         const courseX = startX + (index * (courseBoxWidth + 15));
-        const courseBoxHeight = 62;
+        const courseBoxHeight = 68;
         
         doc.roundedRect(courseX, y, courseBoxWidth, courseBoxHeight, 4)
-           .fillAndStroke('#f7f9fc', courseColor);
+           .fillAndStroke('#f9fafb', courseColor);
         
-        doc.fontSize(10).fillColor(courseColor).font('Helvetica-Bold')
-           .text(courseName, courseX + 8, y + 7, { width: courseBoxWidth - 16 });
+        doc.fontSize(11).fillColor(courseColor).font('Helvetica-Bold')
+           .text(courseName, courseX + 8, y + 8, { width: courseBoxWidth - 16 });
         
-        doc.fontSize(15).fillColor('#1a1a1a').font('Helvetica-Bold')
-           .text(`${assessment.score}%`, courseX + 8, y + 22, { width: courseBoxWidth - 16 });
+        doc.fontSize(18).fillColor('#2c3e50').font('Helvetica-Bold')
+           .text(`${assessment.score}%`, courseX + 8, y + 25, { width: courseBoxWidth - 16 });
         
-        doc.fontSize(8).fillColor('#666666').font('Helvetica')
-           .text(`${accuracy}% Accuracy`, courseX + 8, y + 41, { width: courseBoxWidth - 16 });
+        doc.fontSize(9).fillColor('#5a5a5a').font('Helvetica')
+           .text(`${accuracy}% Accuracy`, courseX + 8, y + 46, { width: courseBoxWidth - 16 });
         
-        const statusColor = assessment.score >= 60 ? '#28a745' : '#dc3545';
-        doc.fontSize(7).fillColor(statusColor).font('Helvetica-Bold')
-           .text(status, courseX + 8, y + 52, { width: courseBoxWidth - 16 });
+        const statusColor = assessment.score >= 60 ? '#52a852' : '#d35656';
+        doc.fontSize(8).fillColor(statusColor).font('Helvetica-Bold')
+           .text(status, courseX + 8, y + 57, { width: courseBoxWidth - 16 });
       });
 
-      y += 80;
+      y += 86;
 
+      // Congratulations message - softer colors, larger font
       let congratsMessage = '';
-      let congratsColor = '#28a745';
-      let congratsBgColor = '#d4edda';
+      let congratsColor = '#52a852';
+      let congratsBgColor = '#e8f5e8';
       
       if (avgScore >= 85) {
         congratsMessage = `CONGRATULATIONS - EXCELLENT PERFORMANCE!\n\nYour outstanding achievement demonstrates exceptional mastery of Web Development fundamentals. Your ${avgScore}% overall score places you among the top performers. This level of excellence shows both dedication and natural aptitude for programming.\n\nWe encourage you to pursue advanced training in Backend Web Development to complement your frontend skills. Our Backend course covers server-side technologies, databases, and APIs - essential skills for full-stack development.`;
       } else if (avgScore >= 75) {
         congratsMessage = `CONGRATULATIONS - GOOD PERFORMANCE!\n\nYour solid performance shows strong understanding of Web Development concepts. A ${avgScore}% overall score demonstrates you have built a good foundation in HTML, CSS, and JavaScript.\n\nConsider advancing to our Backend Web Development course to expand your skill set. Learning server-side programming will make you a more versatile developer and open up more career opportunities.`;
         congratsColor = '#667eea';
-        congratsBgColor = '#e8f0fe';
+        congratsBgColor = '#eff4fb';
       } else if (avgScore >= 60) {
         congratsMessage = `CONGRATULATIONS - YOU PASSED!\n\nYou have demonstrated competency in Web Development fundamentals with a ${avgScore}% overall score. This is a solid start to your programming journey. Keep practicing and revisit challenging topics to strengthen your skills.\n\nYou can still consider to pursue our Backend Web Development course when you're ready to expand your capabilities. Building on this foundation with backend skills will enhance your career prospects.`;
-        congratsColor = '#f39c12';
-        congratsBgColor = '#fff8e1';
+        congratsColor = '#e89d3a';
+        congratsBgColor = '#fff8e8';
       }
 
       if (congratsMessage) {
-        const boxHeight = 90;
+        const boxHeight = 95;
         doc.roundedRect(startX, y, pageWidth, boxHeight, 5)
            .fillAndStroke(congratsBgColor, congratsColor);
         
-        doc.fontSize(9).fillColor(congratsColor).font('Helvetica')
-           .text(congratsMessage, startX + 15, y + 10, { 
+        doc.fontSize(10).fillColor(congratsColor).font('Helvetica')
+           .text(congratsMessage, startX + 15, y + 12, { 
              width: pageWidth - 30,
-             lineGap: 3
+             lineGap: 4
            });
         
-        y += boxHeight + 15;
+        y += boxHeight + 18;
       }
 
+      // Add signature and seal at bottom
+      const signatureY = y + 10;
+      
+      // Left signature
+      const signaturePath = path.join(__dirname, '../user-data/uploads/eSignature-27012026.png');
+      if (fs.existsSync(signaturePath)) {
+        try {
+          doc.image(signaturePath, startX + 30, signatureY - 35, {
+            width: 90,
+            height: 28
+          });
+        } catch (err) {
+          console.log('Could not load signature:', err);
+        }
+      }
+      
+      doc.moveTo(startX + 20, signatureY).lineTo(startX + 140, signatureY)
+         .strokeColor('#667eea').lineWidth(1.2).stroke();
+      doc.fontSize(10).fillColor('#667eea').font('Helvetica-Bold')
+         .text('Idris Alamutu', startX + 20, signatureY + 4, { width: 120, align: 'center' });
+      doc.fontSize(8).fillColor('#666666').font('Helvetica')
+         .text('Founder & Director', startX + 20, signatureY + 16, { width: 120, align: 'center' });
+
+      // Right seal
+      const sealPath = path.join(__dirname, '../user-data/uploads/academy-seal.png');
+      if (fs.existsSync(sealPath)) {
+        try {
+          doc.image(sealPath, pageWidth - 90, signatureY - 62, {
+            width: 60,
+            height: 60
+          });
+        } catch (err) {
+          console.log('Could not load seal:', err);
+        }
+      }
+      
+      doc.moveTo(pageWidth - 115, signatureY).lineTo(pageWidth + 5, signatureY)
+         .strokeColor('#667eea').lineWidth(1.2).stroke();
+      doc.fontSize(10).fillColor('#667eea').font('Helvetica-Bold')
+         .text('Academy Seal', pageWidth - 115, signatureY + 4, { width: 120, align: 'center' });
+      doc.fontSize(8).fillColor('#666666').font('Helvetica')
+         .text('Confide Academy', pageWidth - 115, signatureY + 16, { width: 120, align: 'center' });
+
+      // Footer text
+      y = signatureY + 32;
       doc.fontSize(8).fillColor('#999999').font('Helvetica')
          .text('This report was generated by Confide Computer Academy CBT Platform', 
                startX, y, { width: pageWidth, align: 'center' });
