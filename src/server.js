@@ -159,68 +159,68 @@ function generateCertificatePDF(studentName, assessments) {
 
       // ORNAMENTAL TOP
       doc.fontSize(14).fillColor('#f39c12').font('Helvetica')
-         .text('* * *', centerX - 30, 60, { width: 60, align: 'center' });
+         .text('* * *', centerX - 30, 55, { width: 60, align: 'center' });
 
       // CERTIFICATE TITLE
-      doc.fontSize(40).fillColor('#667eea').font('Helvetica-Bold')
-         .text('Certificate of Completion', centerX - 280, 100, { 
+      doc.fontSize(38).fillColor('#667eea').font('Helvetica-Bold')
+         .text('Certificate of Completion', centerX - 280, 90, { 
            width: 560, 
            align: 'center' 
          });
 
       // SUBTITLE
       doc.fontSize(11).fillColor('#666666').font('Helvetica')
-         .text('CONFIDE COMPUTER ACADEMY', centerX - 180, 150, { 
+         .text('CONFIDE COMPUTER ACADEMY', centerX - 180, 138, { 
            width: 360, 
            align: 'center' 
          });
 
       // DECORATIVE LINE
-      doc.moveTo(centerX - 100, 170).lineTo(centerX + 100, 170)
+      doc.moveTo(centerX - 100, 156).lineTo(centerX + 100, 156)
          .strokeColor('#f39c12').lineWidth(2).stroke();
 
       // CERTIFICATE BODY
-      doc.fontSize(14).fillColor('#666666').font('Helvetica')
-         .text('This is to certify that', centerX - 150, 195, { 
+      doc.fontSize(13).fillColor('#666666').font('Helvetica')
+         .text('This is to certify that', centerX - 150, 178, { 
            width: 300, 
            align: 'center' 
          });
 
       // STUDENT NAME (large, prominent)
-      doc.fontSize(34).fillColor('#667eea').font('Helvetica-Bold')
-         .text(studentName, centerX - 300, 225, { 
+      doc.fontSize(32).fillColor('#667eea').font('Helvetica-Bold')
+         .text(studentName, centerX - 300, 205, { 
            width: 600, 
            align: 'center' 
          });
 
       // ACCOMPLISHMENT TEXT
-      doc.fontSize(14).fillColor('#666666').font('Helvetica')
-         .text('has successfully completed the', centerX - 200, 270, { 
-           width: 400, 
-           align: 'center' 
-         });
-
-      doc.fontSize(16).fillColor('#1a1a1a').font('Helvetica-Bold')
-         .text('Confide Computer Academy', centerX - 200, 293, { 
-           width: 400, 
-           align: 'center' 
-         });
-
-      doc.fontSize(16).fillColor('#764ba2').font('Helvetica-Bold')
-         .text('Frontend Web Development Program', centerX - 200, 315, { 
-           width: 400, 
-           align: 'center' 
-         });
-
       doc.fontSize(13).fillColor('#666666').font('Helvetica')
-         .text('Comprising HTML, CSS, and JavaScript Courses', centerX - 200, 340, { 
+         .text('has successfully completed the', centerX - 200, 245, { 
            width: 400, 
            align: 'center' 
          });
 
-      // STATISTICS BOX
-      const boxY = 370;
-      const boxHeight = 60;
+      doc.fontSize(15).fillColor('#1a1a1a').font('Helvetica-Bold')
+         .text('Confide Computer Academy', centerX - 200, 265, { 
+           width: 400, 
+           align: 'center' 
+         });
+
+      doc.fontSize(15).fillColor('#764ba2').font('Helvetica-Bold')
+         .text('Frontend Web Development Program', centerX - 200, 285, { 
+           width: 400, 
+           align: 'center' 
+         });
+
+      doc.fontSize(12).fillColor('#666666').font('Helvetica')
+         .text('Comprising HTML, CSS, and JavaScript Courses', centerX - 200, 307, { 
+           width: 400, 
+           align: 'center' 
+         });
+
+      // STATISTICS BOX - moved up
+      const boxY = 333;
+      const boxHeight = 58;
       
       doc.roundedRect(centerX - 280, boxY, 560, boxHeight, 5)
          .fillAndStroke('#f7f9fc', '#667eea');
@@ -234,34 +234,34 @@ function generateCertificatePDF(studentName, assessments) {
       });
 
       // Stat 1: Overall Score
-      doc.fontSize(26).fillColor('#667eea').font('Helvetica-Bold')
+      doc.fontSize(25).fillColor('#667eea').font('Helvetica-Bold')
          .text(`${avgScore}%`, centerX - 230, boxY + 10, { width: 140, align: 'center' });
       doc.fontSize(9).fillColor('#666666').font('Helvetica')
-         .text('OVERALL SCORE', centerX - 230, boxY + 42, { width: 140, align: 'center' });
+         .text('OVERALL SCORE', centerX - 230, boxY + 40, { width: 140, align: 'center' });
 
       // Vertical separator
-      doc.moveTo(centerX - 70, boxY + 10).lineTo(centerX - 70, boxY + 50)
+      doc.moveTo(centerX - 70, boxY + 10).lineTo(centerX - 70, boxY + 48)
          .strokeColor('#e0e0e0').lineWidth(1).stroke();
 
       // Stat 2: Correct Answers
-      doc.fontSize(26).fillColor('#667eea').font('Helvetica-Bold')
+      doc.fontSize(25).fillColor('#667eea').font('Helvetica-Bold')
          .text(`${totalCorrect}/${totalQuestions}`, centerX - 70, boxY + 10, { width: 140, align: 'center' });
       doc.fontSize(9).fillColor('#666666').font('Helvetica')
-         .text('CORRECT ANSWERS', centerX - 70, boxY + 42, { width: 140, align: 'center' });
+         .text('CORRECT ANSWERS', centerX - 70, boxY + 40, { width: 140, align: 'center' });
 
       // Vertical separator
-      doc.moveTo(centerX + 90, boxY + 10).lineTo(centerX + 90, boxY + 50)
+      doc.moveTo(centerX + 90, boxY + 10).lineTo(centerX + 90, boxY + 48)
          .strokeColor('#e0e0e0').lineWidth(1).stroke();
 
       // Stat 3: Date Issued
-      doc.fontSize(22).fillColor('#667eea').font('Helvetica-Bold')
-         .text(completionDate, centerX + 90, boxY + 13, { width: 140, align: 'center' });
+      doc.fontSize(21).fillColor('#667eea').font('Helvetica-Bold')
+         .text(completionDate, centerX + 90, boxY + 12, { width: 140, align: 'center' });
       doc.fontSize(9).fillColor('#666666').font('Helvetica')
-         .text('DATE ISSUED', centerX + 90, boxY + 42, { width: 140, align: 'center' });
+         .text('DATE ISSUED', centerX + 90, boxY + 40, { width: 140, align: 'center' });
 
-      // SIGNATURES - Redesigned to align with URL at bottom
-      const urlY = 530; // URL position
-      const signatureY = urlY - 5; // Signature lines just above URL
+      // SIGNATURES SECTION - Compact layout at bottom
+      const footerStartY = 445;  // Start signatures section here
+      const signatureLineY = footerStartY + 40;  // Line position
       const fullDate = new Date().toLocaleDateString('en-US', {
         year: 'numeric', month: 'long', day: 'numeric'
       });
@@ -270,9 +270,9 @@ function generateCertificatePDF(studentName, assessments) {
       const signaturePath = path.join(__dirname, '../user-data/uploads/eSignature-27012026.png');
       if (fs.existsSync(signaturePath)) {
         try {
-          doc.image(signaturePath, 90, signatureY - 45, {
-            width: 100,
-            height: 32,
+          doc.image(signaturePath, 100, footerStartY, {
+            width: 90,
+            height: 30,
             align: 'center'
           });
         } catch (err) {
@@ -280,24 +280,26 @@ function generateCertificatePDF(studentName, assessments) {
         }
       }
       
-      doc.moveTo(90, signatureY).lineTo(210, signatureY)
-         .strokeColor('#667eea').lineWidth(1.5).stroke();
-      doc.fontSize(10).fillColor('#667eea').font('Helvetica-Bold')
-         .text('Idris Alamutu', 90, signatureY + 4, { width: 120, align: 'center' });
+      doc.moveTo(95, signatureLineY).lineTo(205, signatureLineY)
+         .strokeColor('#667eea').lineWidth(1.3).stroke();
+      doc.fontSize(9).fillColor('#667eea').font('Helvetica-Bold')
+         .text('Idris Alamutu', 95, signatureLineY + 3, { width: 110, align: 'center' });
       doc.fontSize(8).fillColor('#666666').font('Helvetica')
-         .text('Founder & Director', 90, signatureY + 16, { width: 120, align: 'center' });
+         .text('Founder & Director', 95, signatureLineY + 14, { width: 110, align: 'center' });
 
-      // Center - Date display (simplified, same line as URL)
+      // Center - Date Block
       doc.fontSize(9).fillColor('#666666').font('Helvetica')
-         .text(`Issued: ${fullDate}`, centerX - 100, signatureY + 8, { width: 200, align: 'center' });
+         .text('Issued on', centerX - 80, footerStartY + 15, { width: 160, align: 'center' });
+      doc.fontSize(9).fillColor('#1a1a1a').font('Helvetica-Bold')
+         .text(fullDate, centerX - 80, footerStartY + 27, { width: 160, align: 'center' });
 
-      // Right Academy Seal Block
+      // Right Academy Seal Block - positioned carefully to not overlap grades
       const sealPath = path.join(__dirname, '../user-data/uploads/academy-seal.png');
       if (fs.existsSync(sealPath)) {
         try {
-          doc.image(sealPath, pageWidth - 200, signatureY - 70, {
-            width: 70,
-            height: 70,
+          doc.image(sealPath, pageWidth - 190, footerStartY - 5, {
+            width: 60,
+            height: 60,
             align: 'center'
           });
         } catch (err) {
@@ -305,16 +307,16 @@ function generateCertificatePDF(studentName, assessments) {
         }
       }
       
-      doc.moveTo(pageWidth - 210, signatureY).lineTo(pageWidth - 90, signatureY)
-         .strokeColor('#667eea').lineWidth(1.5).stroke();
-      doc.fontSize(10).fillColor('#667eea').font('Helvetica-Bold')
-         .text('Academy Seal', pageWidth - 210, signatureY + 4, { width: 120, align: 'center' });
+      doc.moveTo(pageWidth - 205, signatureLineY).lineTo(pageWidth - 95, signatureLineY)
+         .strokeColor('#667eea').lineWidth(1.3).stroke();
+      doc.fontSize(9).fillColor('#667eea').font('Helvetica-Bold')
+         .text('Academy Seal', pageWidth - 205, signatureLineY + 3, { width: 110, align: 'center' });
       doc.fontSize(8).fillColor('#666666').font('Helvetica')
-         .text('Confide Academy', pageWidth - 210, signatureY + 16, { width: 120, align: 'center' });
+         .text('Confide Academy', pageWidth - 205, signatureLineY + 14, { width: 110, align: 'center' });
 
-      // Footer URL (at same level as signature text)
+      // Footer URL - at very bottom
       doc.fontSize(7).fillColor('#999999').font('Helvetica')
-         .text('confide-cbt-platform.onrender.com', centerX - 100, urlY, { 
+         .text('confide-cbt-platform.onrender.com', centerX - 100, 555, { 
            width: 200, 
            align: 'center' 
          });
@@ -499,65 +501,65 @@ function generateReportPDF(studentName, studentEmail, assessments) {
       }
 
       if (congratsMessage) {
-        const boxHeight = 95;
+        const boxHeight = 82;  // Reduced from 95
         doc.roundedRect(startX, y, pageWidth, boxHeight, 5)
            .fillAndStroke(congratsBgColor, congratsColor);
         
-        doc.fontSize(10).fillColor(congratsColor).font('Helvetica')
-           .text(congratsMessage, startX + 15, y + 12, { 
+        doc.fontSize(9).fillColor(congratsColor).font('Helvetica')
+           .text(congratsMessage, startX + 15, y + 10, { 
              width: pageWidth - 30,
-             lineGap: 4
+             lineGap: 3
            });
         
-        y += boxHeight + 18;
+        y += boxHeight + 15;  // Reduced spacing from 18
       }
 
-      // Add signature and seal at bottom
-      const signatureY = y + 10;
+      // Add signature and seal at bottom - with better spacing
+      const signatureY = y + 15;
       
       // Left signature
       const signaturePath = path.join(__dirname, '../user-data/uploads/eSignature-27012026.png');
       if (fs.existsSync(signaturePath)) {
         try {
-          doc.image(signaturePath, startX + 30, signatureY - 35, {
-            width: 90,
-            height: 28
+          doc.image(signaturePath, startX + 30, signatureY - 32, {
+            width: 85,
+            height: 26
           });
         } catch (err) {
           console.log('Could not load signature:', err);
         }
       }
       
-      doc.moveTo(startX + 20, signatureY).lineTo(startX + 140, signatureY)
-         .strokeColor('#667eea').lineWidth(1.2).stroke();
-      doc.fontSize(10).fillColor('#667eea').font('Helvetica-Bold')
-         .text('Idris Alamutu', startX + 20, signatureY + 4, { width: 120, align: 'center' });
-      doc.fontSize(8).fillColor('#666666').font('Helvetica')
-         .text('Founder & Director', startX + 20, signatureY + 16, { width: 120, align: 'center' });
+      doc.moveTo(startX + 20, signatureY).lineTo(startX + 135, signatureY)
+         .strokeColor('#667eea').lineWidth(1.1).stroke();
+      doc.fontSize(9).fillColor('#667eea').font('Helvetica-Bold')
+         .text('Idris Alamutu', startX + 20, signatureY + 3, { width: 115, align: 'center' });
+      doc.fontSize(7).fillColor('#666666').font('Helvetica')
+         .text('Founder & Director', startX + 20, signatureY + 14, { width: 115, align: 'center' });
 
       // Right seal
       const sealPath = path.join(__dirname, '../user-data/uploads/academy-seal.png');
       if (fs.existsSync(sealPath)) {
         try {
-          doc.image(sealPath, pageWidth - 90, signatureY - 62, {
-            width: 60,
-            height: 60
+          doc.image(sealPath, pageWidth - 85, signatureY - 58, {
+            width: 55,
+            height: 55
           });
         } catch (err) {
           console.log('Could not load seal:', err);
         }
       }
       
-      doc.moveTo(pageWidth - 115, signatureY).lineTo(pageWidth + 5, signatureY)
-         .strokeColor('#667eea').lineWidth(1.2).stroke();
-      doc.fontSize(10).fillColor('#667eea').font('Helvetica-Bold')
-         .text('Academy Seal', pageWidth - 115, signatureY + 4, { width: 120, align: 'center' });
-      doc.fontSize(8).fillColor('#666666').font('Helvetica')
-         .text('Confide Academy', pageWidth - 115, signatureY + 16, { width: 120, align: 'center' });
+      doc.moveTo(pageWidth - 110, signatureY).lineTo(pageWidth + 5, signatureY)
+         .strokeColor('#667eea').lineWidth(1.1).stroke();
+      doc.fontSize(9).fillColor('#667eea').font('Helvetica-Bold')
+         .text('Academy Seal', pageWidth - 110, signatureY + 3, { width: 115, align: 'center' });
+      doc.fontSize(7).fillColor('#666666').font('Helvetica')
+         .text('Confide Academy', pageWidth - 110, signatureY + 14, { width: 115, align: 'center' });
 
       // Footer text
-      y = signatureY + 32;
-      doc.fontSize(8).fillColor('#999999').font('Helvetica')
+      y = signatureY + 28;
+      doc.fontSize(7).fillColor('#999999').font('Helvetica')
          .text('This report was generated by Confide Computer Academy CBT Platform', 
                startX, y, { width: pageWidth, align: 'center' });
 
