@@ -293,11 +293,11 @@ function generateCertificatePDF(studentName, assessments) {
       doc.fontSize(9).fillColor('#1a1a1a').font('Helvetica-Bold')
          .text(fullDate, centerX - 80, footerStartY + 27, { width: 160, align: 'center' });
 
-      // Right Academy Seal Block - positioned carefully to not overlap grades
+      // Right Academy Seal Block - seal centered on the line
       const sealPath = path.join(__dirname, '../user-data/uploads/academy-seal.png');
       if (fs.existsSync(sealPath)) {
         try {
-          doc.image(sealPath, pageWidth - 190, footerStartY - 5, {
+          doc.image(sealPath, pageWidth - 190, signatureLineY - 30, {
             width: 60,
             height: 60,
             align: 'center'
@@ -314,9 +314,9 @@ function generateCertificatePDF(studentName, assessments) {
       doc.fontSize(8).fillColor('#666666').font('Helvetica')
          .text('Confide Academy', pageWidth - 205, signatureLineY + 14, { width: 110, align: 'center' });
 
-      // Footer URL - at very bottom
+      // Footer URL - centered under date
       doc.fontSize(7).fillColor('#999999').font('Helvetica')
-         .text('confide-cbt-platform.onrender.com', centerX - 100, 555, { 
+         .text('confide-cbt-platform.onrender.com', centerX - 100, footerStartY + 55, { 
            width: 200, 
            align: 'center' 
          });
@@ -500,22 +500,38 @@ function generateReportPDF(studentName, studentEmail, assessments) {
         congratsBgColor = '#fff8e8';
       }
 
+      // Congratulations message - NO BORDER, BOLD HEADER
       if (congratsMessage) {
-        const boxHeight = 82;  // Reduced from 95
-        doc.roundedRect(startX, y, pageWidth, boxHeight, 5)
-           .fillAndStroke(congratsBgColor, congratsColor);
+        // Split message into title and body
+        const messageParts = congratsMessage.split('\n\n');
+        const congratsTitle = messageParts[0];  // First line is the title
+        const congratsBody = messageParts.slice(1).join('\n\n');  // Rest is the body
         
+        const boxHeight = 78;
+        
+        // No border - just background color
+        doc.roundedRect(startX, y, pageWidth, boxHeight, 5)
+           .fill(congratsBgColor);
+        
+        // Bold header
+        doc.fontSize(10).fillColor(congratsColor).font('Helvetica-Bold')
+           .text(congratsTitle, startX + 15, y + 8, { 
+             width: pageWidth - 30,
+             align: 'left'
+           });
+        
+        // Regular message text
         doc.fontSize(9).fillColor(congratsColor).font('Helvetica')
-           .text(congratsMessage, startX + 15, y + 10, { 
+           .text(congratsBody, startX + 15, y + 24, { 
              width: pageWidth - 30,
              lineGap: 3
            });
         
-        y += boxHeight + 15;  // Reduced spacing from 18
+        y += boxHeight + 48;  // Even more spacing (was 35, now 48 = +13px more!)
       }
 
-      // Add signature and seal at bottom - with better spacing
-      const signatureY = y + 15;
+      // Add signature and seal at bottom - moved down even further
+      const signatureY = y + 30;  // More spacing (was 25, now 30 = +5px more!)
       
       // Left signature
       const signaturePath = path.join(__dirname, '../user-data/uploads/eSignature-27012026.png');
@@ -537,7 +553,7 @@ function generateReportPDF(studentName, studentEmail, assessments) {
       doc.fontSize(7).fillColor('#666666').font('Helvetica')
          .text('Founder & Director', startX + 20, signatureY + 14, { width: 115, align: 'center' });
 
-      // Right seal
+      // Right seal - moved down even further
       const sealPath = path.join(__dirname, '../user-data/uploads/academy-seal.png');
       if (fs.existsSync(sealPath)) {
         try {
