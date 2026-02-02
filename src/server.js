@@ -293,11 +293,11 @@ function generateCertificatePDF(studentName, assessments) {
       doc.fontSize(9).fillColor('#1a1a1a').font('Helvetica-Bold')
          .text(fullDate, centerX - 80, footerStartY + 27, { width: 160, align: 'center' });
 
-      // Right Academy Seal Block - seal centered on the line
+      // Right Academy Seal Block - seal sits precisely ON the line
       const sealPath = path.join(__dirname, '../user-data/uploads/academy-seal.png');
       if (fs.existsSync(sealPath)) {
         try {
-          doc.image(sealPath, pageWidth - 190, signatureLineY - 30, {
+          doc.image(sealPath, pageWidth - 175, signatureLineY - 60, {
             width: 60,
             height: 60,
             align: 'center'
@@ -500,14 +500,14 @@ function generateReportPDF(studentName, studentEmail, assessments) {
         congratsBgColor = '#fff8e8';
       }
 
-      // Congratulations message - NO BORDER, BOLD HEADER
+      // Congratulations message - NO BORDER, BOLD HEADER, BACKGROUND COVERS ALL TEXT
       if (congratsMessage) {
         // Split message into title and body
         const messageParts = congratsMessage.split('\n\n');
         const congratsTitle = messageParts[0];  // First line is the title
         const congratsBody = messageParts.slice(1).join('\n\n');  // Rest is the body
         
-        const boxHeight = 78;
+        const boxHeight = 88;  // Height to cover all text
         
         // No border - just background color
         doc.roundedRect(startX, y, pageWidth, boxHeight, 5)
@@ -527,11 +527,11 @@ function generateReportPDF(studentName, studentEmail, assessments) {
              lineGap: 3
            });
         
-        y += boxHeight + 48;  // Even more spacing (was 35, now 48 = +13px more!)
+        y += boxHeight + 56;  // More spacing (was 50, now 56 = +6px more!)
       }
 
-      // Add signature and seal at bottom - moved down even further
-      const signatureY = y + 30;  // More spacing (was 25, now 30 = +5px more!)
+      // Add signature and seal at bottom - final professional positioning
+      const signatureY = y + 38;  // More spacing (was 32, now 38 = +6px more!)
       
       // Left signature
       const signaturePath = path.join(__dirname, '../user-data/uploads/eSignature-27012026.png');
@@ -553,7 +553,7 @@ function generateReportPDF(studentName, studentEmail, assessments) {
       doc.fontSize(7).fillColor('#666666').font('Helvetica')
          .text('Founder & Director', startX + 20, signatureY + 14, { width: 115, align: 'center' });
 
-      // Right seal - moved down even further
+      // Right seal - final professional positioning
       const sealPath = path.join(__dirname, '../user-data/uploads/academy-seal.png');
       if (fs.existsSync(sealPath)) {
         try {
