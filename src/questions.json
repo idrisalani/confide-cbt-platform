@@ -1,842 +1,842 @@
 [
   {
-    "id": 103,
+    "id": 223,
     "course": "html",
-    "question": "What is the purpose of the <fieldset> element in HTML forms?",
-    "options": ["To create a field for user input", "To validate form data", "To group related form elements together", "To set field properties"],
+    "question": "What is the purpose of the lang attribute in the <html> tag?",
+    "options": ["To set language", "To specify document language for accessibility and SEO", "To translate content", "To enable languages"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 224,
+    "course": "html",
+    "question": "What does <meta charset='UTF-8'> do?",
+    "options": ["Sets character set", "Defines character encoding supporting all languages", "Creates UTF format", "Encodes text"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 225,
+    "course": "html",
+    "question": "What is the purpose of <meta name='viewport'> tag?",
+    "options": ["To view port", "Essential for responsive design and mobile display control", "To set screen size", "To create viewport"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 226,
+    "course": "html",
+    "question": "What should the <meta name='description'> contain?",
+    "options": ["Page title", "Keywords", "Brief page description for search engines", "Author name"],
     "correct_answer": "C"
   },
   {
-    "id": 104,
+    "id": 227,
     "course": "html",
-    "question": "Which HTML5 input type provides a date picker interface?",
-    "options": ["<input type='datetime'>", "<input type='calendar'>", "<input type='date'>", "<input type='picker'>"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 105,
-    "course": "html",
-    "question": "What does the 'required' attribute do in an HTML form?",
-    "options": ["Makes the field read-only", "Validates email format", "Specifies the field must be filled before submission", "Sets a default value"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 106,
-    "course": "html",
-    "question": "Which element is used to provide autocomplete suggestions in HTML5?",
-    "options": ["<suggestions>", "<autocomplete>", "<datalist>", "<options>"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 107,
-    "course": "html",
-    "question": "What is the purpose of the <legend> element?",
-    "options": ["To create a page legend", "To add a caption to a table", "To provide a caption for a <fieldset>", "To define metadata"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 108,
-    "course": "html",
-    "question": "Which attribute specifies the minimum length for a text input?",
-    "options": ["min", "minlength", "minimum", "length-min"],
+    "question": "Why is semantic HTML important for SEO?",
+    "options": ["Looks better", "Search engines understand content better", "Faster loading", "Better colors"],
     "correct_answer": "B"
   },
   {
-    "id": 109,
+    "id": 228,
     "course": "html",
-    "question": "What does the colspan attribute do in a table?",
-    "options": ["Sets column width", "Merges multiple columns", "Colors a column", "Creates a column"],
+    "question": "What is the purpose of the <main> element?",
+    "options": ["Main styling", "Contains main content of document, only one per page", "Main navigation", "Main header"],
     "correct_answer": "B"
   },
   {
-    "id": 110,
+    "id": 229,
     "course": "html",
-    "question": "Which element is used to define the footer of a table?",
-    "options": ["<footer>", "<table-footer>", "<tfoot>", "<tb-footer>"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 111,
-    "course": "html",
-    "question": "What is the purpose of the <tbody> element?",
-    "options": ["To style the body", "To contain the main table data", "To create table borders", "To define table behavior"],
+    "question": "Can you have multiple <header> elements per page?",
+    "options": ["No, only one", "Yes, multiple headers allowed", "Only two", "Depends on browser"],
     "correct_answer": "B"
   },
   {
-    "id": 112,
+    "id": 230,
     "course": "html",
-    "question": "Which element represents the header section of a table?",
-    "options": ["<header>", "<thead>", "<table-head>", "<th>"],
+    "question": "What is the difference between <article> and <section>?",
+    "options": ["No difference", "Article is self-contained, section is thematic grouping", "Article is newer", "Section is better"],
     "correct_answer": "B"
   },
   {
-    "id": 113,
+    "id": 231,
     "course": "html",
-    "question": "What does the rowspan attribute specify?",
-    "options": ["The width of a row", "How many rows a cell should span", "The spacing between rows", "The height of a row"],
+    "question": "When should you use <aside> element?",
+    "options": ["For main content", "For tangentially related content like sidebars", "For footers", "For headers"],
     "correct_answer": "B"
   },
   {
-    "id": 114,
+    "id": 232,
     "course": "html",
-    "question": "Which HTML5 element is used for vector graphics?",
-    "options": ["<vector>", "<graphic>", "<svg>", "<vg>"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 115,
-    "course": "html",
-    "question": "What is the purpose of the <picture> element?",
-    "options": ["To display pictures", "To provide responsive image solutions", "To edit pictures", "To compress images"],
+    "question": "What makes <nav> different from regular div navigation?",
+    "options": ["Looks different", "Semantically identifies major navigation blocks", "Faster", "Better styling"],
     "correct_answer": "B"
   },
   {
-    "id": 116,
+    "id": 233,
     "course": "html",
-    "question": "Which element is used to define a caption for a <figure> element?",
-    "options": ["<caption>", "<figcaption>", "<fig-caption>", "<label>"],
+    "question": "Why use semantic elements instead of divs?",
+    "options": ["Shorter code", "Better accessibility, SEO, and code maintainability", "Prettier", "Faster"],
     "correct_answer": "B"
   },
   {
-    "id": 117,
+    "id": 234,
     "course": "html",
-    "question": "What is the <canvas> element used for?",
-    "options": ["To display images", "To draw graphics using JavaScript", "To create animations", "To style elements"],
+    "question": "What is the purpose of alt attribute in images?",
+    "options": ["Alternative styling", "Text description for accessibility and SEO", "Alternate image", "Image title"],
     "correct_answer": "B"
   },
   {
-    "id": 118,
+    "id": 235,
     "course": "html",
-    "question": "Which attribute makes an input field read-only?",
-    "options": ["readonly", "disabled", "locked", "fixed"],
-    "correct_answer": "A"
-  },
-  {
-    "id": 119,
-    "course": "html",
-    "question": "What does the pattern attribute do in an input field?",
-    "options": ["Sets input pattern", "Defines a regular expression for validation", "Creates a pattern design", "Repeats input"],
+    "question": "What should link text be for accessibility?",
+    "options": ["Click here", "Descriptive text explaining link purpose", "Link", "More"],
     "correct_answer": "B"
   },
   {
-    "id": 120,
+    "id": 236,
     "course": "html",
-    "question": "Which HTML5 storage persists even after browser is closed?",
-    "options": ["sessionStorage", "localStorage", "cookieStorage", "cacheStorage"],
+    "question": "Why should labels be used with form controls?",
+    "options": ["Better styling", "Screen readers can describe forms accurately", "Required by HTML", "Makes forms work"],
     "correct_answer": "B"
   },
   {
-    "id": 121,
+    "id": 237,
     "course": "html",
-    "question": "What is the <aside> element used for?",
-    "options": ["To hide content", "For content aside from main content", "To create sidebars", "To add notes"],
+    "question": "What does the <figure> element contain?",
+    "options": ["Numbers", "Images, diagrams, code listings with optional caption", "Calculations", "Figures only"],
     "correct_answer": "B"
   },
   {
-    "id": 122,
+    "id": 238,
     "course": "html",
-    "question": "Which element defines navigation links?",
-    "options": ["<navigation>", "<links>", "<nav>", "<menu>"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 123,
-    "course": "html",
-    "question": "What is the <mark> element used for?",
-    "options": ["To mark errors", "To highlight text", "To create bookmarks", "To mark sections"],
+    "question": "What is <figcaption> used for?",
+    "options": ["Figure styling", "Caption for <figure> element", "Figure title", "Image description"],
     "correct_answer": "B"
   },
   {
-    "id": 124,
+    "id": 239,
     "course": "html",
-    "question": "Which attribute makes an element draggable in HTML5?",
-    "options": ["drag", "draggable", "movable", "dragdrop"],
+    "question": "Where should <main> element be placed?",
+    "options": ["Anywhere", "Directly inside <body>, only one per page", "Inside header", "Inside footer"],
     "correct_answer": "B"
   },
   {
-    "id": 125,
+    "id": 240,
     "course": "html",
-    "question": "What does the <time> element represent?",
-    "options": ["Current time", "A specific time or date", "Time zone", "Duration"],
+    "question": "Can <section> elements be nested?",
+    "options": ["Never", "Yes, sections can be nested", "Only two levels", "Only in articles"],
     "correct_answer": "B"
   },
   {
-    "id": 126,
+    "id": 241,
     "course": "html",
-    "question": "Which element is used to display code?",
-    "options": ["<script>", "<pre>", "<code>", "<program>"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 127,
-    "course": "html",
-    "question": "What is the <progress> element used for?",
-    "options": ["To show progress bars", "To track progress", "To display completion status", "All of the above"],
-    "correct_answer": "D"
-  },
-  {
-    "id": 128,
-    "course": "html",
-    "question": "Which element represents a meter gauge?",
-    "options": ["<gauge>", "<meter>", "<measure>", "<scale>"],
+    "question": "What does <!DOCTYPE html> declaration do?",
+    "options": ["Creates document", "Tells browser this is HTML5 document", "Styles document", "Validates HTML"],
     "correct_answer": "B"
   },
   {
-    "id": 129,
+    "id": 242,
     "course": "html",
-    "question": "What does the <details> element provide?",
-    "options": ["Detailed information", "Expandable/collapsible content", "Extra details", "Detail view"],
+    "question": "Why use header tags (h1-h6) appropriately?",
+    "options": ["For styling", "To structure content in logical hierarchy for SEO", "To make bold text", "For decoration"],
     "correct_answer": "B"
   },
   {
-    "id": 130,
+    "id": 243,
     "course": "html",
-    "question": "Which element is used with <details> to provide a visible heading?",
-    "options": ["<heading>", "<title>", "<summary>", "<header>"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 131,
-    "course": "html",
-    "question": "What is the <optgroup> element used for?",
-    "options": ["To group options in a select menu", "To create option groups", "To organize options", "All of the above"],
-    "correct_answer": "D"
-  },
-  {
-    "id": 132,
-    "course": "html",
-    "question": "Which input type is used for email addresses with built-in validation?",
-    "options": ["<input type='text'>", "<input type='mail'>", "<input type='email'>", "<input type='address'>"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 133,
-    "course": "html",
-    "question": "What does the placeholder attribute do?",
-    "options": ["Sets default value", "Shows hint text in input field", "Validates input", "Formats input"],
+    "question": "What makes a URL SEO-friendly?",
+    "options": ["Long URLs", "Descriptive and relevant URLs reflecting content", "Numbers only", "Random strings"],
     "correct_answer": "B"
   },
   {
-    "id": 134,
+    "id": 244,
     "course": "html",
-    "question": "Which attribute specifies that an input field should automatically get focus?",
-    "options": ["focus", "autofocus", "auto-focus", "selected"],
+    "question": "How should images be optimized for web?",
+    "options": ["Maximum size", "Descriptive names, alt text, compressed file size", "Original format", "No optimization"],
     "correct_answer": "B"
   },
   {
-    "id": 135,
+    "id": 245,
     "course": "html",
-    "question": "What is the <iframe> element used for?",
-    "options": ["To create frames", "To embed external content", "To display images", "To create borders"],
+    "question": "What is the purpose of <link rel='icon'>?",
+    "options": ["Link icon", "Specifies favicon for browser tab", "Icon styling", "Link image"],
     "correct_answer": "B"
   },
   {
-    "id": 136,
+    "id": 246,
     "course": "html",
-    "question": "Which element defines a section in a document?",
-    "options": ["<div>", "<section>", "<part>", "<segment>"],
+    "question": "Where should <script> tags typically be placed?",
+    "options": ["In head", "Before closing </body> tag for better performance", "Anywhere", "In header"],
     "correct_answer": "B"
   },
   {
-    "id": 137,
+    "id": 247,
     "course": "html",
-    "question": "What is the <address> element used for?",
-    "options": ["To display addresses", "Contact information for document owner", "To format addresses", "To validate addresses"],
+    "question": "What is the purpose of <meta name='author'>?",
+    "options": ["Author styling", "Specifies document author", "Author bio", "Author link"],
     "correct_answer": "B"
   },
   {
-    "id": 138,
+    "id": 248,
     "course": "html",
-    "question": "Which element represents a keyboard input?",
-    "options": ["<key>", "<keyboard>", "<kbd>", "<input>"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 139,
-    "course": "html",
-    "question": "What does the <samp> element represent?",
-    "options": ["Sample code", "Sample output from program", "Sample text", "Sample data"],
+    "question": "What does <link rel='stylesheet'> do?",
+    "options": ["Creates styles", "Links external CSS file to HTML document", "Styles links", "Creates stylesheet"],
     "correct_answer": "B"
   },
   {
-    "id": 140,
+    "id": 249,
     "course": "html",
-    "question": "Which element defines a variable in programming context?",
-    "options": ["<variable>", "<var>", "<v>", "<value>"],
+    "question": "Why is the <title> element important?",
+    "options": ["For styling", "Shows in browser tab and used by search engines", "For decoration", "Required by browser"],
     "correct_answer": "B"
   },
   {
-    "id": 141,
+    "id": 250,
     "course": "html",
-    "question": "What is the <abbr> element used for?",
-    "options": ["To abbreviate text", "To define an abbreviation or acronym", "To shorten text", "To create shortcuts"],
+    "question": "What HTML5 feature helps with video playback?",
+    "options": ["<movie>", "<video> element with built-in controls", "<play>", "<media>"],
     "correct_answer": "B"
   },
   {
-    "id": 142,
+    "id": 251,
     "course": "html",
-    "question": "Which element represents a date/time that's been deleted?",
-    "options": ["<deleted>", "<remove>", "<del>", "<strike>"],
-    "correct_answer": "C"
+    "question": "What is the <audio> element used for?",
+    "options": ["Audio settings", "Embedding audio clips in webpages", "Sound effects", "Audio styling"],
+    "correct_answer": "B"
   },
   {
-    "id": 143,
+    "id": 252,
+    "course": "html",
+    "question": "What is contenteditable attribute?",
+    "options": ["Content styling", "Enables user to edit content directly", "Content validation", "Content type"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 253,
+    "course": "html",
+    "question": "Why should color not be the only means of conveying information?",
+    "options": ["Colors are boring", "For accessibility - colorblind users need alternatives", "Colors don't work", "Browser support"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 254,
+    "course": "html",
+    "question": "What is keyboard navigation in HTML?",
+    "options": ["Keyboard styling", "Ensuring all interactive elements accessible via keyboard", "Keyboard shortcuts", "Typing features"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 255,
+    "course": "html",
+    "question": "What does mobile-first design mean?",
+    "options": ["Mobile only", "Design for mobile first, then scale up", "Mobile priority", "Mobile styling"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 256,
+    "course": "html",
+    "question": "What is the <header> element best used for?",
+    "options": ["Only page title", "Top of page/section with logo, nav, heading", "First paragraph", "Header styling"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 257,
+    "course": "html",
+    "question": "Can <footer> be used multiple times in a document?",
+    "options": ["No, only once", "Yes, for page/section footers", "Only twice", "Never"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 258,
+    "course": "html",
+    "question": "What is semantic markup?",
+    "options": ["Semantic styling", "Using HTML elements to describe content meaning", "Semantic colors", "Semantic code"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 259,
+    "course": "html",
+    "question": "Why avoid using too many nested divs?",
+    "options": ["Divs are bad", "Reduces maintainability and accessibility", "Too slow", "Browser limits"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 260,
+    "course": "html",
+    "question": "What is the <video> element's controls attribute?",
+    "options": ["Video controls", "Adds play, pause, volume controls", "Control styling", "Controller"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 261,
+    "course": "html",
+    "question": "What is the purpose of <meta name='keywords'>?",
+    "options": ["Required keywords", "Keywords for SEO (less important now)", "Keyword styling", "Keyword search"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 262,
+    "course": "html",
+    "question": "Why should inline styles be avoided?",
+    "options": ["Too slow", "Difficult to maintain and update code", "Not supported", "Bad practice"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 263,
     "course": "css",
-    "question": "What is the box model in CSS?",
-    "options": ["A model for boxes", "A layout system", "Content, padding, border, and margin", "A design pattern"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 144,
-    "course": "css",
-    "question": "Which property is used with Flexbox to align items along the main axis?",
-    "options": ["align-items", "align-content", "justify-content", "flex-align"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 145,
-    "course": "css",
-    "question": "What does 'display: flex' do?",
-    "options": ["Makes element flexible", "Creates a flex container", "Adds flexibility", "Enables flexbox"],
+    "question": "What is a child selector (>) in CSS?",
+    "options": ["All children", "Selects direct children only", "Child elements", "Nested selector"],
     "correct_answer": "B"
   },
   {
-    "id": 146,
+    "id": 264,
     "course": "css",
-    "question": "Which property controls the direction of flex items?",
-    "options": ["direction", "flex-direction", "item-direction", "flow"],
+    "question": "What does the adjacent sibling selector (+) select?",
+    "options": ["All siblings", "Element immediately after another", "Adjacent elements", "Next elements"],
     "correct_answer": "B"
   },
   {
-    "id": 147,
+    "id": 265,
     "course": "css",
-    "question": "What is the default value of flex-direction?",
-    "options": ["column", "column-reverse", "row-reverse", "row"],
-    "correct_answer": "D"
-  },
-  {
-    "id": 148,
-    "course": "css",
-    "question": "Which property aligns items along the cross axis in Flexbox?",
-    "options": ["cross-align", "justify-content", "align-items", "align-cross"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 149,
-    "course": "css",
-    "question": "What does 'box-sizing: border-box' do?",
-    "options": ["Creates border box", "Includes padding and border in width/height", "Sets box size", "Boxes elements"],
+    "question": "What is the general sibling selector (~)?",
+    "options": ["All elements", "Selects all siblings after specified element", "General elements", "Sibling styling"],
     "correct_answer": "B"
   },
   {
-    "id": 150,
+    "id": 266,
     "course": "css",
-    "question": "Which property creates space between flex items?",
-    "options": ["spacing", "margin", "gap", "flex-gap"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 151,
-    "course": "css",
-    "question": "What is CSS Grid used for?",
-    "options": ["Creating grids", "Two-dimensional layouts", "Drawing grids", "Grid patterns"],
+    "question": "What is an attribute selector in CSS?",
+    "options": ["Attribute styling", "Selects elements based on attribute/value", "Attribute creator", "Attribute validator"],
     "correct_answer": "B"
   },
   {
-    "id": 152,
+    "id": 267,
     "course": "css",
-    "question": "Which property defines grid columns?",
-    "options": ["columns", "grid-columns", "grid-template-columns", "template-columns"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 153,
-    "course": "css",
-    "question": "What does 'fr' unit stand for in CSS Grid?",
-    "options": ["Frame", "Fragment", "Fraction", "Free"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 154,
-    "course": "css",
-    "question": "Which property is used to create responsive layouts with CSS?",
-    "options": ["responsive", "screen", "@media", "breakpoint"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 155,
-    "course": "css",
-    "question": "What is a media query used for?",
-    "options": ["To query media", "To apply styles based on device characteristics", "To load media", "To check media"],
+    "question": "What does [href^='https'] select?",
+    "options": ["All href", "Elements with href starting with https", "HTTPS only", "Secure links"],
     "correct_answer": "B"
   },
   {
-    "id": 156,
+    "id": 268,
     "course": "css",
-    "question": "Which pseudo-class selects the first child element?",
-    "options": [":first", ":first-child", ":child-first", ":first-of-type"],
+    "question": "What is the :nth-child(odd) pseudo-class?",
+    "options": ["Odd numbers", "Selects 1st, 3rd, 5th, etc. child elements", "Odd styling", "Odd elements"],
     "correct_answer": "B"
   },
   {
-    "id": 157,
+    "id": 269,
     "course": "css",
-    "question": "What does the :hover pseudo-class do?",
-    "options": ["Hovers element", "Applies styles when mouse is over element", "Creates hover effect", "Detects hover"],
+    "question": "What does :nth-child(even) select?",
+    "options": ["Even numbers", "Selects 2nd, 4th, 6th, etc. child elements", "Even styling", "Even elements"],
     "correct_answer": "B"
   },
   {
-    "id": 158,
+    "id": 270,
     "course": "css",
-    "question": "Which property creates a CSS transition?",
-    "options": ["animation", "transition", "transform", "change"],
+    "question": "What is :first-of-type pseudo-class?",
+    "options": ["First element", "First element of its type within parent", "Type selector", "First type"],
     "correct_answer": "B"
   },
   {
-    "id": 159,
+    "id": 271,
     "course": "css",
-    "question": "What is @keyframes used for?",
-    "options": ["To define animation steps", "To create frames", "To set keys", "To animate keys"],
-    "correct_answer": "A"
-  },
-  {
-    "id": 160,
-    "course": "css",
-    "question": "Which property rotates an element?",
-    "options": ["rotate", "transform: rotate()", "rotation", "turn"],
+    "question": "What does :not() pseudo-class do?",
+    "options": ["Negation", "Selects elements that don't match selector", "Not selector", "Exclude elements"],
     "correct_answer": "B"
   },
   {
-    "id": 161,
+    "id": 272,
     "course": "css",
-    "question": "What does position: absolute do?",
-    "options": ["Positions absolutely", "Positions relative to nearest positioned ancestor", "Fixes position", "Absolute positioning"],
+    "question": "What is :required pseudo-class for?",
+    "options": ["Required styling", "Styles required form inputs", "Required fields", "Form validation"],
     "correct_answer": "B"
   },
   {
-    "id": 162,
+    "id": 273,
     "course": "css",
-    "question": "Which property controls the order of flex items?",
-    "options": ["flex-order", "order", "item-order", "sequence"],
+    "question": "What is :optional pseudo-class?",
+    "options": ["Optional styling", "Styles optional form inputs", "Optional fields", "Form optional"],
     "correct_answer": "B"
   },
   {
-    "id": 163,
+    "id": 274,
     "course": "css",
-    "question": "What is z-index used for?",
-    "options": ["Z-axis positioning", "Controlling stacking order", "Zoom index", "Z position"],
+    "question": "What is the universal selector (*)?",
+    "options": ["Star selector", "Selects all elements", "Universal styling", "All selector"],
     "correct_answer": "B"
   },
   {
-    "id": 164,
+    "id": 275,
     "course": "css",
-    "question": "Which combinator selects direct children?",
-    "options": ["element element", "element + element", "element > element", "element ~ element"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 165,
-    "course": "css",
-    "question": "What does overflow: hidden do?",
-    "options": ["Hides element", "Clips content that overflows", "Hides overflow", "Makes invisible"],
+    "question": "What does display: inline do?",
+    "options": ["Lines elements", "No line break, cannot set width/height", "Inline styling", "Inline display"],
     "correct_answer": "B"
   },
   {
-    "id": 166,
+    "id": 276,
     "course": "css",
-    "question": "Which property creates a CSS variable?",
-    "options": ["var", "--variable-name", "$variable", "@variable"],
+    "question": "What is display: inline-block?",
+    "options": ["Inline and block", "Flows inline but can set width/height", "Block inline", "Inline box"],
     "correct_answer": "B"
   },
   {
-    "id": 167,
+    "id": 277,
     "course": "css",
-    "question": "How do you use a CSS variable?",
-    "options": ["use(--var)", "$var", "var(--var)", "@var"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 168,
-    "course": "css",
-    "question": "What is specificity in CSS?",
-    "options": ["Being specific", "How specific selectors are applied", "Specific styles", "Style priority"],
+    "question": "What does display: table do?",
+    "options": ["Creates table", "Element behaves like table element", "Table styling", "Table display"],
     "correct_answer": "B"
   },
   {
-    "id": 169,
-    "course": "css",
-    "question": "Which has the highest specificity?",
-    "options": ["Element selector", "Class selector", "ID selector", "Inline styles"],
-    "correct_answer": "D"
-  },
-  {
-    "id": 170,
-    "course": "css",
-    "question": "What does !important do?",
-    "options": ["Marks important", "Overrides other declarations", "Makes important", "Priority flag"],
-    "correct_answer": "B"
-  },
-  {
-    "id": 171,
-    "course": "css",
-    "question": "Which property creates rounded corners?",
-    "options": ["corner-radius", "border-radius", "round", "border-round"],
-    "correct_answer": "B"
-  },
-  {
-    "id": 172,
+    "id": 278,
     "course": "css",
     "question": "What is the cascade in CSS?",
-    "options": ["Style cascading", "How styles are applied when multiple rules apply", "CSS waterfall", "Style flow"],
+    "options": ["Style waterfall", "How styles are applied when multiple rules apply", "Style flow", "Cascading styles"],
     "correct_answer": "B"
   },
   {
-    "id": 173,
+    "id": 279,
     "course": "css",
-    "question": "Which property controls text transformation?",
-    "options": ["text-style", "text-transform", "transform-text", "text-change"],
+    "question": "Which has higher specificity: class or ID?",
+    "options": ["Class", "ID", "Same", "Depends"],
     "correct_answer": "B"
   },
   {
-    "id": 174,
+    "id": 280,
     "course": "css",
-    "question": "What does line-height property control?",
-    "options": ["Line width", "Vertical spacing between lines", "Line length", "Line position"],
+    "question": "What is CSS inheritance?",
+    "options": ["Style copying", "Properties passed from parent to child elements", "Inheriting styles", "Parent styles"],
     "correct_answer": "B"
   },
   {
-    "id": 175,
+    "id": 281,
     "course": "css",
-    "question": "Which property adds shadow to elements?",
-    "options": ["shadow", "element-shadow", "box-shadow", "drop-shadow"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 176,
-    "course": "css",
-    "question": "What is a gradient in CSS?",
-    "options": ["Color grade", "Smooth transition between colors", "Gradient effect", "Color blend"],
+    "question": "What does visibility: hidden do compared to display: none?",
+    "options": ["Same thing", "Hidden preserves space, none removes from flow", "Hidden is better", "No difference"],
     "correct_answer": "B"
   },
   {
-    "id": 177,
+    "id": 282,
     "course": "css",
-    "question": "Which property creates a linear gradient?",
-    "options": ["gradient: linear", "background: linear-gradient()", "linear-gradient", "gradient-linear"],
+    "question": "What is the rem unit?",
+    "options": ["Remainder", "Relative to root element font size", "Rem styling", "Root em"],
     "correct_answer": "B"
   },
   {
-    "id": 178,
+    "id": 283,
     "course": "css",
-    "question": "What does filter property do?",
-    "options": ["Filters content", "Applies visual effects like blur", "Filters styles", "CSS filter"],
+    "question": "What is the em unit?",
+    "options": ["Element measurement", "Relative to parent element font size", "Em styling", "Element size"],
     "correct_answer": "B"
   },
   {
-    "id": 179,
+    "id": 284,
     "course": "css",
-    "question": "Which property controls element visibility while preserving space?",
-    "options": ["display: none", "hidden", "visibility: hidden", "invisible"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 180,
-    "course": "css",
-    "question": "What is the difference between relative and absolute positioning?",
-    "options": ["No difference", "Relative to normal position vs positioned ancestor", "Speed", "Browser support"],
+    "question": "What are viewport units (vw, vh)?",
+    "options": ["View units", "Relative to viewport width/height", "View styling", "Viewport size"],
     "correct_answer": "B"
   },
   {
-    "id": 181,
+    "id": 285,
     "course": "css",
-    "question": "Which property makes position fixed relative to viewport?",
-    "options": ["position: viewport", "position: fixed", "position: sticky", "position: absolute"],
+    "question": "Why use box-sizing: border-box?",
+    "options": ["Border box", "Includes padding/border in width/height", "Box sizing", "Better box"],
     "correct_answer": "B"
   },
   {
-    "id": 182,
+    "id": 286,
+    "course": "css",
+    "question": "What is CSS specificity calculation?",
+    "options": ["Specificity math", "Priority based on selector types (inline>ID>class>element)", "Specific styles", "Style priority"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 287,
+    "course": "css",
+    "question": "Why minimize use of !important?",
+    "options": ["Not important", "Makes it difficult to override styles later", "Bad practice", "Too powerful"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 288,
+    "course": "css",
+    "question": "What is a descendant selector (space)?",
+    "options": ["Space selector", "Selects all descendants at any level", "Descendant styling", "Nested selector"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 289,
+    "course": "css",
+    "question": "What does ::selection pseudo-element style?",
+    "options": ["Selection tool", "Text selected/highlighted by user", "Selection box", "Selected items"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 290,
+    "course": "css",
+    "question": "What is ::placeholder pseudo-element?",
+    "options": ["Placeholder text", "Styles placeholder text in inputs", "Placeholder box", "Input placeholder"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 291,
+    "course": "css",
+    "question": "Why use shorthand properties?",
+    "options": ["Shorter", "More concise code, reduces file size", "Faster", "Better"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 292,
+    "course": "css",
+    "question": "What is a CSS preprocessor?",
+    "options": ["CSS processor", "Tool like Sass/Less for more efficient CSS", "CSS compiler", "Style processor"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 293,
+    "course": "css",
+    "question": "Why avoid excessive specificity?",
+    "options": ["Too specific", "Difficult to override, leads to specificity wars", "Bad code", "Too complex"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 294,
+    "course": "css",
+    "question": "What is a CSS reset?",
+    "options": ["Reset styles", "Normalizes default browser styles for consistency", "Clear styles", "Default reset"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 295,
+    "course": "css",
+    "question": "Why group related CSS properties?",
+    "options": ["Organization", "Improves code readability and maintainability", "Grouping", "Better structure"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 296,
+    "course": "css",
+    "question": "What does text-transform property do?",
+    "options": ["Transforms text", "Controls text capitalization (uppercase/lowercase)", "Text styling", "Transform text"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 297,
+    "course": "css",
+    "question": "What is line-height for?",
+    "options": ["Line width", "Vertical spacing between text lines", "Line size", "Line spacing"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 298,
     "course": "css",
     "question": "What does clip-path do?",
-    "options": ["Clips paths", "Creates clipping regions", "Clips elements", "Path clipping"],
+    "options": ["Clips paths", "Creates clipping regions to show/hide parts", "Path clipping", "Clip elements"],
     "correct_answer": "B"
   },
   {
-    "id": 183,
-    "course": "javascript",
-    "question": "What is a closure in JavaScript?",
-    "options": ["Closed function", "Function with access to outer function's variables", "Closing code", "Function closure"],
+    "id": 299,
+    "course": "css",
+    "question": "What is the filter property for?",
+    "options": ["Filters content", "Applies visual effects like blur, grayscale", "Filter styles", "CSS filter"],
     "correct_answer": "B"
   },
   {
-    "id": 184,
-    "course": "javascript",
-    "question": "Which keyword declares a block-scoped variable?",
-    "options": ["var", "let", "const", "block"],
+    "id": 300,
+    "course": "css",
+    "question": "Why test CSS in multiple browsers?",
+    "options": ["Browser testing", "Ensures cross-browser compatibility", "Testing requirement", "Browser support"],
     "correct_answer": "B"
   },
   {
-    "id": 185,
-    "course": "javascript",
-    "question": "What is the difference between let and const?",
-    "options": ["No difference", "let can be reassigned, const cannot", "Scope", "Type"],
+    "id": 301,
+    "course": "css",
+    "question": "What is position: sticky?",
+    "options": ["Sticky position", "Toggles between relative and fixed based on scroll", "Sticky styling", "Fixed sticky"],
     "correct_answer": "B"
   },
   {
-    "id": 186,
-    "course": "javascript",
-    "question": "What is an arrow function?",
-    "options": ["Function with arrow", "Shorter function syntax using =>", "Arrow operator", "Special function"],
+    "id": 302,
+    "course": "css",
+    "question": "What does [class*='btn'] attribute selector match?",
+    "options": ["Button class", "Any element with 'btn' anywhere in class", "Button elements", "Class buttons"],
     "correct_answer": "B"
   },
   {
-    "id": 187,
+    "id": 303,
     "course": "javascript",
-    "question": "What is the correct arrow function syntax?",
-    "options": ["function => {}", "=> {}", "(params) => {}", "arrow => {}"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 188,
-    "course": "javascript",
-    "question": "What are template literals?",
-    "options": ["String templates", "Strings using backticks with ${}", "Literal strings", "Template strings"],
+    "question": "What is the map() array method?",
+    "options": ["Maps array", "Transforms array, returns new array", "Array mapper", "Map function"],
     "correct_answer": "B"
   },
   {
-    "id": 189,
+    "id": 304,
     "course": "javascript",
-    "question": "How do you use template literals?",
-    "options": ["'${variable}'", "\"${variable}\"", "`${variable}`", "${variable}"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 190,
-    "course": "javascript",
-    "question": "What is destructuring?",
-    "options": ["Destroying objects", "Extracting values from arrays/objects", "Breaking code", "Array destruction"],
+    "question": "What does filter() method do?",
+    "options": ["Filters data", "Creates new array with elements passing test", "Array filter", "Filter function"],
     "correct_answer": "B"
   },
   {
-    "id": 191,
+    "id": 305,
     "course": "javascript",
-    "question": "What is the spread operator?",
-    "options": ["Spreads code", "Expands arrays/objects using ...", "Spreading values", "Array spreader"],
+    "question": "What is the reduce() method for?",
+    "options": ["Reduces array", "Reduces array to single value", "Reducer function", "Array reduction"],
     "correct_answer": "B"
   },
   {
-    "id": 192,
+    "id": 306,
     "course": "javascript",
-    "question": "How do you use the spread operator?",
-    "options": ["spread(array)", "...array", "array...", "array.spread()"],
+    "question": "What does find() method return?",
+    "options": ["All matches", "First element that passes test", "Find all", "Array find"],
     "correct_answer": "B"
   },
   {
-    "id": 193,
+    "id": 307,
     "course": "javascript",
-    "question": "What is a Promise?",
-    "options": ["Future value", "Object representing eventual completion of async operation", "Promise to execute", "Async promise"],
+    "question": "What is includes() method?",
+    "options": ["Includes function", "Checks if array includes value, returns boolean", "Array includes", "Include checker"],
     "correct_answer": "B"
   },
   {
-    "id": 194,
+    "id": 308,
     "course": "javascript",
-    "question": "What are the three states of a Promise?",
-    "options": ["Start, middle, end", "Pending, fulfilled, rejected", "New, running, done", "Wait, success, fail"],
+    "question": "What does indexOf() return?",
+    "options": ["Index", "First index of element, or -1 if not found", "Element index", "Index finder"],
     "correct_answer": "B"
   },
   {
-    "id": 195,
+    "id": 309,
     "course": "javascript",
-    "question": "How do you handle Promise results?",
-    "options": ["then()", "get()", "result()", "handle()"],
-    "correct_answer": "A"
-  },
-  {
-    "id": 196,
-    "course": "javascript",
-    "question": "How do you handle Promise errors?",
-    "options": ["error()", "catch()", "fail()", "onerror()"],
+    "question": "What is slice() method?",
+    "options": ["Slices array", "Returns shallow copy of portion of array", "Array slicer", "Slice function"],
     "correct_answer": "B"
   },
   {
-    "id": 197,
+    "id": 310,
     "course": "javascript",
-    "question": "What does async keyword do?",
-    "options": ["Makes asynchronous", "Declares function that returns a Promise", "Async function", "Enable async"],
+    "question": "What is the difference between slice() and splice()?",
+    "options": ["Same thing", "slice() copies, splice() modifies original", "Speed", "Syntax"],
     "correct_answer": "B"
   },
   {
-    "id": 198,
+    "id": 311,
     "course": "javascript",
-    "question": "What does await keyword do?",
-    "options": ["Waits", "Pauses execution until Promise resolves", "Awaits result", "Delays code"],
+    "question": "What is a prototype in JavaScript?",
+    "options": ["Prototype pattern", "Object from which other objects inherit properties", "First type", "Type prototype"],
     "correct_answer": "B"
   },
   {
-    "id": 199,
+    "id": 312,
     "course": "javascript",
-    "question": "Where can await be used?",
-    "options": ["Anywhere", "Only in async functions", "In promises", "In callbacks"],
+    "question": "What is prototypal inheritance?",
+    "options": ["Prototype copy", "Objects inherit directly from other objects", "Inheritance pattern", "Prototype chain"],
     "correct_answer": "B"
   },
   {
-    "id": 200,
+    "id": 313,
     "course": "javascript",
-    "question": "What is the DOM?",
-    "options": ["Document Object Model", "Data Object Model", "Dynamic Object Model", "Display Object Model"],
-    "correct_answer": "A"
-  },
-  {
-    "id": 201,
-    "course": "javascript",
-    "question": "Which method selects element by ID?",
-    "options": ["selectById()", "getElementById()", "getElement()", "selectId()"],
+    "question": "What is a constructor function?",
+    "options": ["Constructs code", "Function used to create new objects with 'new' keyword", "Object constructor", "Constructor pattern"],
     "correct_answer": "B"
   },
   {
-    "id": 202,
+    "id": 314,
     "course": "javascript",
-    "question": "Which method selects elements by class name?",
-    "options": ["selectByClass()", "getClass()", "getElementsByClassName()", "selectClass()"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 203,
-    "course": "javascript",
-    "question": "What is querySelector used for?",
-    "options": ["To query", "To select first element matching CSS selector", "To search", "To find elements"],
+    "question": "What does the 'new' keyword do?",
+    "options": ["Creates new", "Creates instance of constructor function", "New object", "New function"],
     "correct_answer": "B"
   },
   {
-    "id": 204,
+    "id": 315,
     "course": "javascript",
-    "question": "What does addEventListener do?",
-    "options": ["Adds listeners", "Attaches event handler to element", "Listens to events", "Creates events"],
+    "question": "What is a class in JavaScript?",
+    "options": ["Class type", "Template for creating objects with shared properties", "Object class", "Class pattern"],
     "correct_answer": "B"
   },
   {
-    "id": 205,
+    "id": 316,
     "course": "javascript",
-    "question": "What is event delegation?",
-    "options": ["Delegating events", "Attaching event listener to parent", "Event transfer", "Delegation pattern"],
+    "question": "What does 'extends' keyword do?",
+    "options": ["Extends code", "Creates subclass inheriting from parent class", "Class extension", "Extend pattern"],
     "correct_answer": "B"
   },
   {
-    "id": 206,
+    "id": 317,
     "course": "javascript",
-    "question": "What is localStorage?",
-    "options": ["Local storage", "Browser storage that persists", "Storage API", "Local data"],
+    "question": "What is the 'super' keyword?",
+    "options": ["Superior", "Calls parent class constructor/methods", "Super function", "Parent caller"],
     "correct_answer": "B"
   },
   {
-    "id": 207,
+    "id": 318,
     "course": "javascript",
-    "question": "How do you store data in localStorage?",
-    "options": ["localStorage.store()", "localStorage.set()", "localStorage.setItem()", "localStorage.save()"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 208,
-    "course": "javascript",
-    "question": "What is the difference between localStorage and sessionStorage?",
-    "options": ["No difference", "localStorage persists, sessionStorage doesn't", "Size", "Speed"],
+    "question": "What is encapsulation in OOP?",
+    "options": ["Capsule code", "Hiding implementation details, exposing necessary methods", "Encapsulate data", "Data hiding"],
     "correct_answer": "B"
   },
   {
-    "id": 209,
+    "id": 319,
     "course": "javascript",
-    "question": "What is JSON?",
-    "options": ["JavaScript Object Notation", "Java Source Object Notation", "JSON format", "Object notation"],
-    "correct_answer": "A"
-  },
-  {
-    "id": 210,
-    "course": "javascript",
-    "question": "How do you convert object to JSON?",
-    "options": ["JSON.convert()", "JSON.stringify()", "JSON.toJSON()", "JSON.parse()"],
+    "question": "What is polymorphism?",
+    "options": ["Multiple forms", "Objects of different types treated as same type", "Poly pattern", "Type polymorphism"],
     "correct_answer": "B"
   },
   {
-    "id": 211,
+    "id": 320,
     "course": "javascript",
-    "question": "How do you parse JSON to object?",
-    "options": ["JSON.toObject()", "JSON.convert()", "JSON.parse()", "JSON.stringify()"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 212,
-    "course": "javascript",
-    "question": "What is fetch API used for?",
-    "options": ["Fetching data", "Making HTTP requests", "Getting data", "API calls"],
+    "question": "What is abstraction in OOP?",
+    "options": ["Abstract code", "Hiding complex implementation, showing essentials only", "Abstract pattern", "Code abstraction"],
     "correct_answer": "B"
   },
   {
-    "id": 213,
+    "id": 321,
     "course": "javascript",
-    "question": "What does fetch() return?",
-    "options": ["Data", "Promise", "Response", "Result"],
+    "question": "What is local scope?",
+    "options": ["Local variables", "Variables declared inside function, accessible only there", "Scope local", "Function scope"],
     "correct_answer": "B"
   },
   {
-    "id": 214,
+    "id": 322,
     "course": "javascript",
-    "question": "What is a module in JavaScript?",
-    "options": ["Module pattern", "Reusable block of code in separate file", "Code module", "Function module"],
+    "question": "What is global scope?",
+    "options": ["Global variables", "Variables accessible from anywhere in code", "Scope global", "Global access"],
     "correct_answer": "B"
   },
   {
-    "id": 215,
+    "id": 323,
     "course": "javascript",
-    "question": "How do you export from a module?",
-    "options": ["export value", "module.export", "export { value }", "exports.value"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 216,
-    "course": "javascript",
-    "question": "How do you import from a module?",
-    "options": ["require()", "include()", "import { value } from 'module'", "load()"],
-    "correct_answer": "C"
-  },
-  {
-    "id": 217,
-    "course": "javascript",
-    "question": "What is a callback function?",
-    "options": ["Function that calls back", "Function passed as argument", "Return function", "Callback pattern"],
+    "question": "What is a while loop?",
+    "options": ["While statement", "Executes while condition is true", "Loop while", "While function"],
     "correct_answer": "B"
   },
   {
-    "id": 218,
+    "id": 324,
     "course": "javascript",
-    "question": "What is event bubbling?",
-    "options": ["Bubbles events", "Events propagate from target to ancestors", "Event effect", "Bubble pattern"],
+    "question": "What is a do-while loop?",
+    "options": ["Do while statement", "Executes at least once, then checks condition", "While do", "Do loop"],
     "correct_answer": "B"
   },
   {
-    "id": 219,
+    "id": 325,
     "course": "javascript",
-    "question": "What is the 'this' keyword?",
-    "options": ["Current object", "Reference to current execution context", "This value", "Self reference"],
+    "question": "What is for...in loop used for?",
+    "options": ["For in statement", "Iterating over object properties", "Loop for", "In loop"],
     "correct_answer": "B"
   },
   {
-    "id": 220,
+    "id": 326,
     "course": "javascript",
-    "question": "What does 'use strict' do?",
-    "options": ["Strict mode", "Enforces stricter JavaScript parsing", "Makes strict", "Strict JavaScript"],
+    "question": "What is for...of loop for?",
+    "options": ["For of statement", "Iterating over iterable objects like arrays", "Loop of", "Of loop"],
     "correct_answer": "B"
   },
   {
-    "id": 221,
+    "id": 327,
     "course": "javascript",
-    "question": "What is hoisting?",
-    "options": ["Lifting code", "Variable/function declarations moved to top", "Hoist variables", "Code lifting"],
+    "question": "What is functional programming?",
+    "options": ["Function coding", "Programming paradigm using pure functions", "Function pattern", "Functional code"],
     "correct_answer": "B"
   },
   {
-    "id": 222,
+    "id": 328,
     "course": "javascript",
-    "question": "What is the difference between == and ===?",
-    "options": ["No difference", "== type coercion, === strict equality", "Speed", "Syntax"],
+    "question": "What is a pure function?",
+    "options": ["Pure code", "Function with same output for same input, no side effects", "Function pure", "Pure pattern"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 329,
+    "course": "javascript",
+    "question": "What are side effects in functions?",
+    "options": ["Function effects", "Modifications to external state or interactions", "Effects side", "Function side"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 330,
+    "course": "javascript",
+    "question": "What is Object.keys() for?",
+    "options": ["Object keys", "Returns array of object's property names", "Keys object", "Get keys"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 331,
+    "course": "javascript",
+    "question": "What does Object.values() return?",
+    "options": ["Object values", "Array of object's property values", "Values object", "Get values"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 332,
+    "course": "javascript",
+    "question": "What is Object.entries()?",
+    "options": ["Object entries", "Returns array of [key, value] pairs", "Entries object", "Get entries"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 333,
+    "course": "javascript",
+    "question": "What does hasOwnProperty() check?",
+    "options": ["Property check", "If object has specified property (not inherited)", "Own property", "Property checker"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 334,
+    "course": "javascript",
+    "question": "What is Object.assign() used for?",
+    "options": ["Assign object", "Copying/merging objects", "Object assigner", "Assign function"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 335,
+    "course": "javascript",
+    "question": "What is the event loop?",
+    "options": ["Loop events", "Mechanism handling asynchronous operations", "Event handler", "Loop event"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 336,
+    "course": "javascript",
+    "question": "What is the call stack?",
+    "options": ["Stack calls", "Tracks function execution context", "Call tracking", "Function stack"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 337,
+    "course": "javascript",
+    "question": "What is dynamic typing?",
+    "options": ["Type dynamics", "Variable types determined at runtime", "Dynamic types", "Type dynamic"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 338,
+    "course": "javascript",
+    "question": "What is type coercion?",
+    "options": ["Type force", "Automatic type conversion by JavaScript", "Coerce types", "Type conversion"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 339,
+    "course": "javascript",
+    "question": "Why is === preferred over ==?",
+    "options": ["Faster", "=== checks type and value, == does type coercion", "Better syntax", "More strict"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 340,
+    "course": "javascript",
+    "question": "What is NaN in JavaScript?",
+    "options": ["No number", "Not a Number - result of invalid math operation", "Number error", "Not number"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 341,
+    "course": "javascript",
+    "question": "What does isNaN() check?",
+    "options": ["Is number", "If value is NaN or not a number", "Number checker", "NaN check"],
+    "correct_answer": "B"
+  },
+  {
+    "id": 342,
+    "course": "javascript",
+    "question": "What is the difference between null and undefined?",
+    "options": ["Same thing", "null is intentional absence, undefined is uninitialized", "Speed", "Syntax"],
     "correct_answer": "B"
   }
 ]
